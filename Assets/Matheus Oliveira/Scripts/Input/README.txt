@@ -1,0 +1,1 @@
+Use "InputManager", não o ControllerInput.
