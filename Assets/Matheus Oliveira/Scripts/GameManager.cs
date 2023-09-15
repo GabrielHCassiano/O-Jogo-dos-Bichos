@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [Space]
     public GameObject[] controllers;
     public GameObject[] inputManagers;
+    public int playerCount = 0;
 
     PlayerInputManager playerInputManager;
 

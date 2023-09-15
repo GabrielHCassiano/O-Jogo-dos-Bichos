@@ -18,38 +18,30 @@ public class InputManager : MonoBehaviour
     public bool trianglePressed = false;
     public bool circlePressed = false;
     public bool xPressed = false;
-    [Space]
-    public GameObject[] inputManagers;
 
-    private void Start()
+    public void Start()
     {
-
-        inputManagers = GameObject.FindGameObjectsWithTag("-PlayerInput-");
-
-        if (inputManagers.Length <=1)
-            this.playerID = 1;
-        else
+        switch (GameManager.instance.playerCount)
         {
-            foreach (var player in inputManagers)
-            {
-                var id = player.GetComponent<InputManager>().playerID;
-
-                switch(id)
-                {
-                    case 1:
-                        this.playerID = 2;
-                        break;
-                    case 2:
-                        this.playerID = 3;
-                        break;
-                    case 3:
-                        this.playerID = 4;
-                        break;
-                }
-            }
+            case 0:
+                playerID = 1;
+                GameManager.instance.playerCount++;
+                break;
+            case 1:
+                playerID = 2;
+                GameManager.instance.playerCount++;
+                break;
+            case 2:
+                playerID = 3;
+                GameManager.instance.playerCount++;
+                break;
+            case 3:
+                playerID = 4;
+                GameManager.instance.playerCount++;
+                break;
+            default:
+                return;
         }
-
-
     }
 
     //----------------------Input----------------------//
