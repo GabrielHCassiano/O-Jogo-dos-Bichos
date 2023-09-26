@@ -19,8 +19,15 @@ public class InputManager : MonoBehaviour
     public bool circlePressed = false;
     public bool xPressed = false;
 
+    PlayerInput playerInput;
+
     public void Start()
     {
+        playerInput = GetComponent<PlayerInput>();
+        // oops
+        playerID = playerInput.playerIndex + 1;
+
+        /*
         switch (GameManager.instance.playerCount)
         {
             case 0:
@@ -42,6 +49,12 @@ public class InputManager : MonoBehaviour
             default:
                 return;
         }
+        */
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.instance.playerCount--;
     }
 
     //----------------------Input----------------------//

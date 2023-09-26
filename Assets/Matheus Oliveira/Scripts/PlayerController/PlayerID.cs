@@ -13,6 +13,7 @@ public class PlayerID : MonoBehaviour
 
     private void Start()
     {
+        /*
         controllers = GameObject.FindGameObjectsWithTag("Player");
 
         if (controllers.Length <= 1)
@@ -37,6 +38,7 @@ public class PlayerID : MonoBehaviour
                 }
             }
         }
+        */
     }
 
     public void GetInputManager()

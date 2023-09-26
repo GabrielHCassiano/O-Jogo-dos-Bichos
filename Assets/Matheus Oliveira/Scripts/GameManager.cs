@@ -34,11 +34,19 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         playerInputManager = GetComponent<PlayerInputManager>();
+
+        var RoomManager = GameObject.FindWithTag("RoomManager").GetComponent<RoomManager>();
+        for(int i = 1; i <= 4; i++)
+        {
+            var player = Instantiate(RoomManager.playerControllerPrefab);
+            player.GetComponent<PlayerID>().ID = i;
+        }
     }
 
     private void Update()
     {
         // Caso não tenha exatamente 4 players (o playerInputManager já limita em 4), o jogo terá um pause forçado.
+        // (fazer isso apenas em gameplay, não no menu)
         if(playerInputManager.playerCount < 4)
             forcedGamePause = true;
         else

@@ -7,6 +7,9 @@ public class TopDownController : MonoBehaviour
     [Header("Options")]
     public float moveSpeed = 2.5f;
     [Space]
+    public float dashCooldown = 1f;
+    public float currentDashCooldown;
+    [Space]
     public float dashSpeed = 4f;
     public float dashDuration = 1f;
     bool doDash = false;
@@ -14,15 +17,19 @@ public class TopDownController : MonoBehaviour
     [Header("Debug")]
     public bool canInput = true;
     public bool canMove = true;
+    public bool canDash = true;
     [Space]
     [SerializeField] Vector2 moveDir = Vector2.zero;
 
     Rigidbody2D rb;
     InputManager inputManager;
+    Transform sprite;
+    int spriteDir = 1;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        sprite = GetComponentInChildren<SpriteRenderer>().transform;
     }
 
     private void Update()
@@ -52,6 +59,14 @@ public class TopDownController : MonoBehaviour
         {
             moveDir = inputManager.moveDir;
             rb.velocity = (moveDir * moveSpeed * 100) * Time.deltaTime;
+
+            // Dando flip no sprite
+            if (moveDir.x > 0)
+                spriteDir = 1;
+            else if (moveDir.x < 0)
+                spriteDir = -1;
+
+            sprite.localScale = new Vector2(spriteDir, sprite.localScale.y);
         }
     }
 
@@ -65,7 +80,17 @@ public class TopDownController : MonoBehaviour
 
     void Dash()
     {
-        if (doDash)
+        if (!canDash)
+        {
+            currentDashCooldown -= Time.deltaTime;
+            if(currentDashCooldown <= 0)
+            {
+                currentDashCooldown = dashCooldown;
+                canDash = true;
+            }
+        }
+
+        if (doDash && canDash)
         {
             StartCoroutine(DashRoutine());
         }
@@ -79,7 +104,12 @@ public class TopDownController : MonoBehaviour
         yield return new WaitForSeconds(dashDuration);
 
         doDash = false;
+
         canMove = true;
+
+        canDash = false;
+        currentDashCooldown = dashCooldown;
+
     }
 
     //----------------------------------Pegar os inputs, o GameManager vai usar essa função ao uma cena iniciar----------------------------------//

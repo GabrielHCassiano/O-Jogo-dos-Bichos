@@ -77,87 +77,37 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3803025952945305702}
-        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
-        m_MethodName: OnMove
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 5c579aed-ce49-4ded-a78f-d15c08ccd88b
-    m_ActionName: TopDownPlayer/Movement
+    m_ActionName: TopDownPlayer/Movement[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/dpad/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/dpad/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/dpad/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/dpad/right,/Microntek             
+      USB Joystick          /stick/up,/Microntek              USB Joystick         
+      /hat/up,/Microntek              USB Joystick          /stick/down,/Microntek             
+      USB Joystick          /hat/down,/Microntek              USB Joystick         
+      /stick/left,/Microntek              USB Joystick          /hat/left,/Microntek             
+      USB Joystick          /stick/right,/Microntek              USB Joystick         
+      /hat/right]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3803025952945305702}
-        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
-        m_MethodName: OnSquare
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: d65af345-1c73-4bdb-94c7-7d266440f361
-    m_ActionName: TopDownPlayer/Quadrado
+    m_ActionName: TopDownPlayer/Quadrado[/XInputControllerWindows/buttonWest,/Microntek             
+      USB Joystick          /button4]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3803025952945305702}
-        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
-        m_MethodName: OnTriangle
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 7a280a89-eb43-48b2-9eac-79d9a568f83d
-    m_ActionName: TopDownPlayer/Triangulo
+    m_ActionName: TopDownPlayer/Triangulo[/XInputControllerWindows/buttonNorth,/Microntek             
+      USB Joystick          /trigger]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3803025952945305702}
-        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
-        m_MethodName: OnX
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: dec9077b-64ca-43e0-a580-049125fcccaa
-    m_ActionName: TopDownPlayer/Xis
+    m_ActionName: TopDownPlayer/Xis[/XInputControllerWindows/buttonSouth,/Microntek             
+      USB Joystick          /button3]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3803025952945305702}
-        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
-        m_MethodName: OnCircle
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 358b928c-4118-456a-a3c1-b3a5317b3c88
-    m_ActionName: TopDownPlayer/Bola
+    m_ActionName: TopDownPlayer/Bola[/XInputControllerWindows/buttonEast,/Microntek             
+      USB Joystick          /button2]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Controle
+  m_DefaultControlScheme: 
   m_DefaultActionMap: TopDownPlayer
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
