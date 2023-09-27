@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -35,10 +36,12 @@ public class GameManager : MonoBehaviour
     {
         playerInputManager = GetComponent<PlayerInputManager>();
 
-        var RoomManager = GameObject.FindWithTag("RoomManager").GetComponent<RoomManager>();
-        for(int i = 1; i <= 4; i++)
+        // No futuro, fazer um check para cer se não estamos no Menu
+        // if (SceneManager.GetActiveScene().name != "Menu")
+
+        for (int i = 1; i <= 4; i++)
         {
-            var player = Instantiate(RoomManager.playerControllerPrefab);
+            var player = Instantiate(RoomManager.instance.playerControllerPrefab);
             player.GetComponent<PlayerID>().ID = i;
         }
     }
@@ -52,7 +55,8 @@ public class GameManager : MonoBehaviour
         else
             forcedGamePause = false;
 
-        //DEBUG
+        // DEBUG, Como o normal é testar o controle direto nos jogos e não começar do Menu, os controles não são atribuidos automaticamente,
+        // pois eles não foram conectados ainda.
         if (Input.GetKeyDown(KeyCode.Space))
         {
             SetControllerParents();
@@ -64,6 +68,7 @@ public class GameManager : MonoBehaviour
         inputManagers = GameObject.FindGameObjectsWithTag("-PlayerInput-");
         controllers = GameObject.FindGameObjectsWithTag("Player");
 
+        // Conectando os controles e os players de mesmo ID
         foreach (var inputManager in inputManagers)
         {
             foreach (var controller in controllers)
@@ -75,7 +80,5 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-
-        playerInputManager = GetComponent<PlayerInputManager>();
     }
 }

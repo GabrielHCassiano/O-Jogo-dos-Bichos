@@ -12,19 +12,19 @@ public class TopDownController : MonoBehaviour
     [Space]
     public float dashSpeed = 4f;
     public float dashDuration = 1f;
-    bool doDash = false;
 
     [Header("Debug")]
     public bool canInput = true;
     public bool canMove = true;
     public bool canDash = true;
+    public bool doDash = false;
     [Space]
     [SerializeField] Vector2 moveDir = Vector2.zero;
+    [SerializeField] int spriteDir = 1;
 
     Rigidbody2D rb;
     InputManager inputManager;
     Transform sprite;
-    int spriteDir = 1;
 
     private void Start()
     {
@@ -57,6 +57,8 @@ public class TopDownController : MonoBehaviour
     {
         if (canMove)
         {
+            // pegando a informação de direção do inputManager
+            // e movendo com ela
             moveDir = inputManager.moveDir;
             rb.velocity = (moveDir * moveSpeed * 100) * Time.deltaTime;
 
@@ -72,6 +74,8 @@ public class TopDownController : MonoBehaviour
 
     void DashInput()
     {
+        // pegando a informação do botão sul (X do PlayStation) do inputManager
+        // pra iniciar a sequencia do dash
         if(inputManager.xPressed && moveDir != Vector2.zero)
         {
             doDash = true;
@@ -80,6 +84,8 @@ public class TopDownController : MonoBehaviour
 
     void Dash()
     {
+        // Cooldown simples, o jogo tira 1 de um valor a cada segundo, e se esse valor
+        // ultrapassar -0 o cooldown acaba
         if (!canDash)
         {
             currentDashCooldown -= Time.deltaTime;
@@ -111,6 +117,4 @@ public class TopDownController : MonoBehaviour
         currentDashCooldown = dashCooldown;
 
     }
-
-    //----------------------------------Pegar os inputs, o GameManager vai usar essa função ao uma cena iniciar----------------------------------//
 }

@@ -23,33 +23,10 @@ public class InputManager : MonoBehaviour
 
     public void Start()
     {
+        // Definindo o ID do controle pra ser utilizado no GameManager
         playerInput = GetComponent<PlayerInput>();
-        // oops
         playerID = playerInput.playerIndex + 1;
-
-        /*
-        switch (GameManager.instance.playerCount)
-        {
-            case 0:
-                playerID = 1;
-                GameManager.instance.playerCount++;
-                break;
-            case 1:
-                playerID = 2;
-                GameManager.instance.playerCount++;
-                break;
-            case 2:
-                playerID = 3;
-                GameManager.instance.playerCount++;
-                break;
-            case 3:
-                playerID = 4;
-                GameManager.instance.playerCount++;
-                break;
-            default:
-                return;
-        }
-        */
+        GameManager.instance.playerCount++;
     }
 
     private void OnDestroy()
