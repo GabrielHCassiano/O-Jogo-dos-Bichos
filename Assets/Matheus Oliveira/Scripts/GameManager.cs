@@ -14,8 +14,10 @@ public class GameManager : MonoBehaviour
     [Tooltip("Esse bool é APENAS para forçar um pause, em caso de erros.")]
     public bool forcedGamePause = false;
     [Space]
-    public GameObject[] controllers;
-    public GameObject[] inputManagers;
+    public List<GameObject> controllers;
+    public List<GameObject> inputManagers;
+    [Space]
+    public bool playerOneExists = false;
     public int playerCount = 0;
 
     PlayerInputManager playerInputManager;
@@ -37,13 +39,16 @@ public class GameManager : MonoBehaviour
         playerInputManager = GetComponent<PlayerInputManager>();
 
         // No futuro, fazer um check para cer se não estamos no Menu
-        // if (SceneManager.GetActiveScene().name != "Menu")
+        if (SceneManager.GetActiveScene().name == "Menu")
+            return;
 
         for (int i = 1; i <= 4; i++)
         {
             var player = Instantiate(RoomManager.instance.playerControllerPrefab);
             player.GetComponent<PlayerID>().ID = i;
         }
+        
+        SetControllerParents();
     }
 
     private void Update()
@@ -65,8 +70,13 @@ public class GameManager : MonoBehaviour
 
     public void SetControllerParents()
     {
-        inputManagers = GameObject.FindGameObjectsWithTag("-PlayerInput-");
-        controllers = GameObject.FindGameObjectsWithTag("Player");
+        if (SceneManager.GetActiveScene().name == "Menu")
+            return;
+
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            controllers.Add(player);
+        }
 
         // Conectando os controles e os players de mesmo ID
         foreach (var inputManager in inputManagers)

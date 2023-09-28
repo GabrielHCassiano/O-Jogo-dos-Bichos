@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEditor.Experimental.GraphView.GraphView;
@@ -18,6 +19,8 @@ public class InputManager : MonoBehaviour
     public bool trianglePressed = false;
     public bool circlePressed = false;
     public bool xPressed = false;
+    [Space]
+    public PlayerData playerData;
 
     PlayerInput playerInput;
 
@@ -26,12 +29,13 @@ public class InputManager : MonoBehaviour
         // Definindo o ID do controle pra ser utilizado no GameManager
         playerInput = GetComponent<PlayerInput>();
         playerID = playerInput.playerIndex + 1;
-        GameManager.instance.playerCount++;
-    }
 
-    private void OnDestroy()
-    {
-        GameManager.instance.playerCount--;
+        if (playerID == 1)
+            GameManager.instance.playerOneExists = true;
+        GameManager.instance.playerCount++;
+        GameManager.instance.inputManagers.Add(this.gameObject);
+
+        CreatePlayerData();
     }
 
     //----------------------Input----------------------//
@@ -58,5 +62,20 @@ public class InputManager : MonoBehaviour
     public void OnCircle(InputAction.CallbackContext context)
     {
         circlePressed = context.action.triggered;
+    }
+    public void OnLost()
+    {
+        if (playerID == 1)
+        {
+            GameManager.instance.playerOneExists = false;
+        }
+        GameManager.instance.playerCount--;
+        GameManager.instance.inputManagers.Remove(this.gameObject);
+    }
+    //--------------------------Data-------------------------//
+    void CreatePlayerData()
+    {
+        playerData = ScriptableObject.CreateInstance<PlayerData>();
+        playerData.playerName = "Player " + playerID;
     }
 }

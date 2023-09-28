@@ -76,7 +76,7 @@ public class TopDownController : MonoBehaviour
     {
         // pegando a informação do botão sul (X do PlayStation) do inputManager
         // pra iniciar a sequencia do dash
-        if(inputManager.xPressed && moveDir != Vector2.zero)
+        if(inputManager.xPressed && moveDir != Vector2.zero && canDash)
         {
             doDash = true;
         }

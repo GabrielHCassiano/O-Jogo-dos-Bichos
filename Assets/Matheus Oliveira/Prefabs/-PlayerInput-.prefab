@@ -68,7 +68,19 @@ MonoBehaviour:
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3803025952945305702}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: OnLost
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_DeviceRegainedEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -166,6 +178,18 @@ MonoBehaviour:
     m_ActionId: 358b928c-4118-456a-a3c1-b3a5317b3c88
     m_ActionName: TopDownPlayer/Bola[/XInputControllerWindows/buttonEast,/Microntek             
       USB Joystick          /button2]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 840c0602-7f18-412b-b0da-0557b61e3633
+    m_ActionName: UI/Navigate
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8739a354-01da-438a-8764-cac8d24b356a
+    m_ActionName: UI/Submit[/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 223b0a2b-a44e-4ad9-b600-5fc3afc8c388
+    m_ActionName: UI/Cancel[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: TopDownPlayer
