@@ -63,6 +63,13 @@ public class InputManager : MonoBehaviour
     {
         circlePressed = context.action.triggered;
     }
+    public void OnRegained()
+    {
+        if (playerID == 1)
+            GameManager.instance.playerOneExists = true;
+        GameManager.instance.playerCount++;
+        GameManager.instance.inputManagers.Add(this.gameObject);
+    }
     public void OnLost()
     {
         if (playerID == 1)

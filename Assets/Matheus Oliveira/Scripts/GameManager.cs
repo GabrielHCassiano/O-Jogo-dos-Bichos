@@ -87,6 +87,7 @@ public class GameManager : MonoBehaviour
                 {
                     inputManager.transform.parent = controller.transform;
                     controller.GetComponent<PlayerID>().inputManager = inputManager.GetComponent<InputManager>();
+                    controller.GetComponentInChildren<SpriteRenderer>().sprite = inputManager.GetComponent<InputManager>().playerData.playerSprite;
                 }
             }
         }

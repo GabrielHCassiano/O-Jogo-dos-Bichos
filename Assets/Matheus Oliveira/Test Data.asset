@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b2a3f301d3dd334bba201a76a8c9d49, type: 3}
+  m_Name: Test Data
+  m_EditorClassIdentifier: 
+  playerName: Player X
+  playerSprite: {fileID: 21300000, guid: 0a1c14417d6c07648990d061062707c3, type: 3}
+  playerScore: 0
