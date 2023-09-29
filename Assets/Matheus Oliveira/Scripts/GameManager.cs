@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -38,7 +39,6 @@ public class GameManager : MonoBehaviour
     {
         playerInputManager = GetComponent<PlayerInputManager>();
 
-        // No futuro, fazer um check para cer se não estamos no Menu
         if (SceneManager.GetActiveScene().name == "Menu")
             return;
 
@@ -73,9 +73,12 @@ public class GameManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Menu")
             return;
 
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        if(controllers.Count == 0)
         {
-            controllers.Add(player);
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                controllers.Add(player);
+            }
         }
 
         // Conectando os controles e os players de mesmo ID
@@ -87,7 +90,7 @@ public class GameManager : MonoBehaviour
                 {
                     inputManager.transform.parent = controller.transform;
                     controller.GetComponent<PlayerID>().inputManager = inputManager.GetComponent<InputManager>();
-                    controller.GetComponentInChildren<SpriteRenderer>().sprite = inputManager.GetComponent<InputManager>().playerData.playerSprite;
+                    // controller.GetComponentInChildren<SpriteRenderer>().sprite = inputManager.GetComponent<InputManager>().playerData.playerSprite;
                 }
             }
         }

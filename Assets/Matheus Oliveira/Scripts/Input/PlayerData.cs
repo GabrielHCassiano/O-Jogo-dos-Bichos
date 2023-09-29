@@ -8,6 +8,6 @@ using UnityEngine;
 public class PlayerData : ScriptableObject
 {
     public string playerName;
-    public Sprite playerSprite; // mudar pra ser um animator com todas as animações do bicho
+    // public Sprite playerSprite; // mudar pra ser um animator com todas as animações do bicho
     public int playerScore = 0;
 }

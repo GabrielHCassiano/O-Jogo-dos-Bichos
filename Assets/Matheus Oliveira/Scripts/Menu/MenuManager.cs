@@ -12,9 +12,11 @@ public class MenuManager : MonoBehaviour
     [Header("Declarations")]
     [SerializeField] GameObject StartPanel;
     [SerializeField] List<GameObject> Menus;
+    [SerializeField] List<GameObject> StartButtons;
 
     void Update()
     {
+        // pegar o inputmanager uma vez
         if (GameManager.instance.playerOneExists && inputManager == null)
         {
             foreach (GameObject input in GameManager.instance.inputManagers)
@@ -23,26 +25,31 @@ public class MenuManager : MonoBehaviour
                     inputManager = input.GetComponent<InputManager>();
             }
         }
-
+        
+        // se o controle desconectar, remover ele do controle
         if (!GameManager.instance.playerOneExists)
-        {
             inputManager = null;
-            started = false;
+
+        if (!started && inputManager != null)
+        {
+            if (inputManager.xPressed)
+            {
+                SwitchToMenu();
+                started = true;
+            }
         }
-
-        if (inputManager != null)
-            started = true;
-
-        if (started)
-            SwitchToMenu();
-        else
+        else if (inputManager == null)
+        {
+            started = false;
             SwitchToStart();
+        }
     }
 
     void SwitchToMenu()
     {
         StartPanel.SetActive(false);
         Menus[0].SetActive(true);
+        StartButtons[0].GetComponent<Button>().Select();
     }
 
     void SwitchToStart()
@@ -58,6 +65,7 @@ public class MenuManager : MonoBehaviour
     {
         Menus[0].SetActive(false);
         Menus[1].SetActive(true);
+        StartButtons[1].GetComponent<Button>().Select();
     }
 
     public void Quit()

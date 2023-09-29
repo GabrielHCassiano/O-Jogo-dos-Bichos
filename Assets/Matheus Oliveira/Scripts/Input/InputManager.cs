@@ -68,7 +68,6 @@ public class InputManager : MonoBehaviour
         if (playerID == 1)
             GameManager.instance.playerOneExists = true;
         GameManager.instance.playerCount++;
-        GameManager.instance.inputManagers.Add(this.gameObject);
     }
     public void OnLost()
     {
@@ -77,7 +76,6 @@ public class InputManager : MonoBehaviour
             GameManager.instance.playerOneExists = false;
         }
         GameManager.instance.playerCount--;
-        GameManager.instance.inputManagers.Remove(this.gameObject);
     }
     //--------------------------Data-------------------------//
     void CreatePlayerData()
