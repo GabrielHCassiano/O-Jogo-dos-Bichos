@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
+    public static MenuManager instance;
+
     [Header("Options")]
     public InputManager inputManager;
     bool started = false;
@@ -12,9 +14,20 @@ public class MenuManager : MonoBehaviour
     [Header("Declarations")]
     [SerializeField] GameObject StartPanel;
     [SerializeField] List<GameObject> Menus;
-    [SerializeField] List<GameObject> StartButtons;
+
+    public int currentMenu = 0;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     void Update()
+    {
+        InputManager();
+    }
+
+    void InputManager()
     {
         // pegar o inputmanager uma vez
         if (GameManager.instance.playerOneExists && inputManager == null)
@@ -25,47 +38,53 @@ public class MenuManager : MonoBehaviour
                     inputManager = input.GetComponent<InputManager>();
             }
         }
-        
+
         // se o controle desconectar, remover ele do controle
         if (!GameManager.instance.playerOneExists)
             inputManager = null;
 
+        // se o controle apertar qualquer botão cardinal, ir para o menu principal,
+        // caso contrário voltar para o menu principal
         if (!started && inputManager != null)
         {
-            if (inputManager.xPressed)
+            if (inputManager.xPressed || inputManager.circlePressed || inputManager.squarePressed || inputManager.trianglePressed) // queria deixar isso mais bonito, mas fazer o que né
             {
-                SwitchToMenu();
+                SwitchToMenu(1);
                 started = true;
             }
         }
         else if (inputManager == null)
         {
             started = false;
-            SwitchToStart();
+            SwitchToMenu(0);
+        }
+
+        if (inputManager != null && currentMenu > 1)
+        {
+            if (inputManager.circlePressed)
+                SwitchToMenu(currentMenu - 1);
         }
     }
 
-    void SwitchToMenu()
+    void SwitchToMenu(int menuIndex)
     {
-        StartPanel.SetActive(false);
-        Menus[0].SetActive(true);
-        StartButtons[0].GetComponent<Button>().Select();
-    }
+        foreach(GameObject menu in Menus)
+        {
+            menu.SetActive(false);
+        }
+        Menus[menuIndex].SetActive(true);
 
-    void SwitchToStart()
-    {
-        StartPanel.SetActive(true);
-        foreach (GameObject panel in Menus)
-            panel.SetActive(false);
+        if (Menus[menuIndex].GetComponentInChildren<Button>() != null)
+            Menus[menuIndex].GetComponentInChildren<Button>().Select();
+
+        currentMenu = menuIndex;
     }
 
     //-------------------------------Buttons Functions-------------------------------//
 
     public void Play()
     {
-        Menus[0].SetActive(false);
-        Menus[1].SetActive(true);
-        StartButtons[1].GetComponent<Button>().Select();
+        SwitchToMenu(2);
     }
 
     public void Quit()
