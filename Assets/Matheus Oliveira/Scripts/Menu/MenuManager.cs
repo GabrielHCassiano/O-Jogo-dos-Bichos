@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
@@ -9,13 +10,17 @@ public class MenuManager : MonoBehaviour
 
     [Header("Options")]
     public InputManager inputManager;
-    bool started = false;
+    [SerializeField] bool started = false;
+    [Space]
+    [SerializeField] List<MenuPlayerUImanager> players;
 
     [Header("Declarations")]
     [SerializeField] GameObject StartPanel;
     [SerializeField] List<GameObject> Menus;
 
     public int currentMenu = 0;
+
+    bool play;
 
     private void Awake()
     {
@@ -25,6 +30,26 @@ public class MenuManager : MonoBehaviour
     void Update()
     {
         InputManager();
+
+        play = true;
+
+        foreach (MenuPlayerUImanager player in players)
+        {
+            if (!player.confirmed)
+            {
+                play = false;
+                break;
+            }
+        }
+
+        if(play)
+        {
+            foreach (GameObject inputs in GameManager.instance.inputManagers)
+            {
+                inputs.transform.parent = GameManager.instance.transform;
+            }
+            SceneManager.LoadScene("CenaTeste"); // trocar pela lógica de random
+        }
     }
 
     void InputManager()
@@ -47,7 +72,7 @@ public class MenuManager : MonoBehaviour
         // caso contrário voltar para o menu principal
         if (!started && inputManager != null)
         {
-            if (inputManager.xPressed || inputManager.circlePressed || inputManager.squarePressed || inputManager.trianglePressed) // queria deixar isso mais bonito, mas fazer o que né
+            if (inputManager.anyPressed)
             {
                 SwitchToMenu(1);
                 started = true;

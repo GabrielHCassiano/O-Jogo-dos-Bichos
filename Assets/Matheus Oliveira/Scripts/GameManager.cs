@@ -35,27 +35,26 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     private void Start()
     {
         playerInputManager = GetComponent<PlayerInputManager>();
-
-        if (SceneManager.GetActiveScene().name == "Menu")
-            return;
-
-        for (int i = 1; i <= 4; i++)
-        {
-            var player = Instantiate(RoomManager.instance.playerControllerPrefab);
-            player.GetComponent<PlayerID>().ID = i;
-        }
-        
-        SetControllerParents();
     }
 
     private void Update()
     {
         // Caso não tenha exatamente 4 players (o playerInputManager já limita em 4), o jogo terá um pause forçado.
         // (fazer isso apenas em gameplay, não no menu)
-        if(playerInputManager.playerCount < 4)
+        if (playerInputManager.playerCount < 4)
             forcedGamePause = true;
         else
             forcedGamePause = false;
@@ -66,6 +65,20 @@ public class GameManager : MonoBehaviour
         {
             SetControllerParents();
         }
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (SceneManager.GetActiveScene().name == "Menu")
+            return;
+
+        for (int i = 1; i <= 4; i++)
+        {
+            var player = Instantiate(RoomManager.instance.playerControllerPrefab);
+            player.GetComponent<PlayerID>().ID = i;
+        }
+
+        SetControllerParents();
     }
 
     public void SetControllerParents()

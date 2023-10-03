@@ -16,6 +16,8 @@ public class TopDownController : MonoBehaviour
     [Header("Debug")]
     public bool canInput = true;
     public bool canMove = true;
+    [Space]
+    public bool lastFramePressedDash;
     public bool canDash = true;
     public bool doDash = false;
     [Space]
@@ -25,6 +27,8 @@ public class TopDownController : MonoBehaviour
     Rigidbody2D rb;
     InputManager inputManager;
     Transform sprite;
+
+    bool hasSprite = false;
 
     private void Start()
     {
@@ -43,6 +47,7 @@ public class TopDownController : MonoBehaviour
             return;
 
         DashInput();
+        GetSprite();
     }
 
     private void FixedUpdate()
@@ -76,10 +81,12 @@ public class TopDownController : MonoBehaviour
     {
         // pegando a informação do botão sul (X do PlayStation) do inputManager
         // pra iniciar a sequencia do dash
-        if(inputManager.xPressed && moveDir != Vector2.zero && canDash)
+        if(inputManager.xPressed && moveDir != Vector2.zero && canDash && inputManager.xPressed != lastFramePressedDash)
         {
             doDash = true;
         }
+
+        lastFramePressedDash = inputManager.xPressed;
     }
 
     void Dash()
@@ -116,5 +123,14 @@ public class TopDownController : MonoBehaviour
         canDash = false;
         currentDashCooldown = dashCooldown;
 
+    }
+
+    void GetSprite()
+    {
+        if (inputManager.playerData.playerSprite != null && hasSprite == false)
+        {
+            sprite.GetComponent<SpriteRenderer>().sprite = inputManager.playerData.playerSprite;
+            hasSprite = true;
+        }
     }
 }

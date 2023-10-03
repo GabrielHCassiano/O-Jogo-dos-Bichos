@@ -12,6 +12,7 @@ public class InputManager : MonoBehaviour
     // Caso queiram testar se algum botão está pressionado, é com esses valores.
     [Header("Valores Debug")]
     public int playerID = 0;
+    public bool controllerConnected = false;
     [Space]
     public Vector2 moveDir = Vector2.zero;
     [Space]
@@ -19,6 +20,8 @@ public class InputManager : MonoBehaviour
     public bool trianglePressed = false;
     public bool circlePressed = false;
     public bool xPressed = false;
+    [Space]
+    public bool anyPressed = false;
     [Space]
     public PlayerData playerData;
 
@@ -38,6 +41,14 @@ public class InputManager : MonoBehaviour
         CreatePlayerData();
     }
 
+
+    public void Update()
+    {
+        if(xPressed || squarePressed || trianglePressed || circlePressed)
+            anyPressed = true;
+        else
+            anyPressed = false;
+    }
     //----------------------Input----------------------//
 
     // Analógico
@@ -68,6 +79,7 @@ public class InputManager : MonoBehaviour
         if (playerID == 1)
             GameManager.instance.playerOneExists = true;
         GameManager.instance.playerCount++;
+        controllerConnected = true;
     }
     public void OnLost()
     {
@@ -76,6 +88,7 @@ public class InputManager : MonoBehaviour
             GameManager.instance.playerOneExists = false;
         }
         GameManager.instance.playerCount--;
+        controllerConnected = false;
     }
     //--------------------------Data-------------------------//
     void CreatePlayerData()

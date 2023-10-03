@@ -76,6 +76,17 @@
                 },
                 {
                     "name": "",
+                    "id": "9b468291-6914-44c6-b1e8-34d2a960216b",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Quadrado",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "8ba53b3b-1b22-4ae0-8e70-f028b22fcf23",
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
@@ -92,6 +103,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick",
+                    "action": "Triangulo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dd425333-6436-44cd-8171-135db28b40ad",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
                     "action": "Triangulo",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -120,6 +142,17 @@
                 },
                 {
                     "name": "",
+                    "id": "a2baf9f5-6f9f-460c-9a16-0093924396f7",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Xis",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "761ee574-1f9c-4493-84e1-e7fa8de8989f",
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
@@ -136,6 +169,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick",
+                    "action": "Bola",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5d4cc6a5-9dc2-44b2-9536-d6f3c4c9c114",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
                     "action": "Bola",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -334,6 +378,61 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "6f91334b-4aba-4436-a4c5-e289c2d503c2",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "NormalizeVector2",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "b8c72b6a-a6b2-407a-ab2e-30417463f02f",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "58929008-cfd2-4c07-b3e8-99109139e0a9",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "6342838a-1309-427e-bf91-53a4c4a5781e",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "2fa433e8-e558-4328-bc14-7926bccf9d60",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -539,6 +638,61 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "2D Vector",
+                    "id": "775af95e-5271-48a0-bca8-d07be5e76443",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "38baaafc-7d61-46b0-b107-9fd70634431c",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "eaf8ab17-f450-4caa-be1d-1c18a1f33a9d",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "c8cc7e7d-1c6a-4599-8531-1a16477684de",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "1394a681-c54a-48cf-8cc9-6d11f9661818",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "a0348c9b-2c51-4b2a-94a7-7b598afff145",
                     "path": "*/{Submit}",
@@ -551,11 +705,33 @@
                 },
                 {
                     "name": "",
+                    "id": "11f992eb-8434-494c-9993-62846cb2b2de",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "1d117855-ab8d-4314-9ac4-5f5c053aa9c6",
                     "path": "*/{Cancel}",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR;Controle",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3707fb2d-011d-4235-a188-6cda65414eb5",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
                     "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -581,6 +757,17 @@
             "devices": [
                 {
                     "devicePath": "<HID::Microntek              USB Joystick          >",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Keyboard",
+            "bindingGroup": "Keyboard",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
                     "isOptional": false,
                     "isOR": false
                 }
