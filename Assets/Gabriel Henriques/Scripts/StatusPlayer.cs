@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StatusPlayer : MonoBehaviour
 {
-    private int life;
+    [SerializeField] private int life;
     private int damage;
     private int force;
     private bool lose;
