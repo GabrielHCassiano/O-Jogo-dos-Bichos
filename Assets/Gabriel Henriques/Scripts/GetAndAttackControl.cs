@@ -25,6 +25,7 @@ public class GetAndAttackControl : MonoBehaviour
     private bool inArrow;
 
     private Knockback knockback;
+    private bool knock;
 
     // Start is called before the first frame update
     void Start()
@@ -54,7 +55,6 @@ public class GetAndAttackControl : MonoBehaviour
         }
         else
         {
-            print("oi");
             knockback.KnockLogic();
             GetComponent<TopDownController>().enabled = false;
         }
@@ -64,6 +64,24 @@ public class GetAndAttackControl : MonoBehaviour
     {
         get { return arrow; }
         set { arrow = value; }
+    }
+
+    public bool getBallValue
+    {
+        get { return getBall; }
+        set { getBall = value; }
+    }
+
+    public bool knockValue
+    {
+        get { return knock; }
+        set { knock = value; }
+    }
+
+    public float contValue
+    {
+        get { return cont; }
+        set { cont = value; }
     }
 
     public float forceValue
@@ -116,13 +134,11 @@ public class GetAndAttackControl : MonoBehaviour
         ball.transform.parent = null;
         time = true;
         cont = force/2;
-        if(force >= 95)
+        if (force >= 95)
         {
             ball.GetComponent<BallControl>().damageValue = 3;
             ball.GetComponent<SpriteRenderer>().color = Color.red;
         }
-        //ball.tag = "Ball";
-        //ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
     }
 
     public void AttackTime()
@@ -143,7 +159,6 @@ public class GetAndAttackControl : MonoBehaviour
     {
         if (force < 100 && isLow == true)
         {
-            print(force);
             force += 200f * Time.deltaTime;
         }
         if(force >= 100)
@@ -152,7 +167,6 @@ public class GetAndAttackControl : MonoBehaviour
         }
         if (force > 0 && isLow == false)
         {
-            print(force);
             force -= 200f * Time.deltaTime;
         }
         if (force <= 0)
@@ -163,14 +177,12 @@ public class GetAndAttackControl : MonoBehaviour
 
     public void ContLogic()
     {
-        if (ball != null && cont <= 0 && time == false)
+        /*if (ball != null && cont <= 0 && time == false)
         {
             //cont = 35;
-        }
+        }*/
         if (time == true)
         {
-            print(ballDirection);
-            print(cont);
             cont -= 50 * Time.deltaTime;
         }
         if (time == true && cont <= 0)
@@ -189,11 +201,15 @@ public class GetAndAttackControl : MonoBehaviour
             getBall = true;
         }
 
-        if (collider.CompareTag("AttackBall") )
+        if (collider.CompareTag("AttackBall"))
         {
+            knock = true;
+            collider.GetComponent<BallControl>().playerValue.GetComponent<GetAndAttackControl>().contValue = 0;
+            collider.GetComponent<Knockback>().Knocking(GetComponent<Collider2D>());
             knockback.Knocking(collider);
             GetComponent<StatusPlayer>().lifeValue -= collider.GetComponentInParent<BallControl>().damageValue;
             collider.GetComponentInParent<BallControl>().damageValue = 0;
+            collider.GetComponent<BallControl>().playerValue = null;
         }
         if (collider.CompareTag("GetBall") && inputManager.circlePressed == true)
         {

@@ -61,4 +61,22 @@ public class Knockback : MonoBehaviour
 
     }
 
+    public void KnockingForce(Collider2D collider, float force)
+    {
+        kBForce = force;
+        kBCount = kBTime;
+
+        if (collider != null)
+        {
+            difference = rb.transform.position - collider.transform.position;
+            difference = difference.normalized * kBForce;
+            isKnockRightPlayer = true;
+        }
+        else
+        {
+            isKnockRightPlayer = false;
+        }
+
+    }
+
 }

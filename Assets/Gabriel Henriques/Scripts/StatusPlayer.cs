@@ -53,6 +53,16 @@ public class StatusPlayer : MonoBehaviour
         {
             lose = true;
         }
+        if (lose == true)
+        {
+            StartCoroutine(LoseCooldown());
+        }
+    }
+
+    IEnumerator LoseCooldown()
+    {
+        yield return new WaitForSeconds(0.1f);
+        gameObject.SetActive(false);
     }
 
     public void DamageLogic(int force)
