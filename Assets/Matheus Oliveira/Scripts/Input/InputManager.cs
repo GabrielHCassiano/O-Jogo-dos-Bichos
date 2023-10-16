@@ -5,6 +5,8 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.DualShock;
+using UnityEngine.InputSystem.XInput;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class InputManager : MonoBehaviour
@@ -24,6 +26,18 @@ public class InputManager : MonoBehaviour
     public bool anyPressed = false;
     [Space]
     public PlayerData playerData;
+    public string inputName;
+
+    [Header("Buttons IDs Declarations")]
+    public List<string> keyboardIDs;
+    public List<string> playstationIDs;
+    public List<string> xboxIDs;
+    public List<string> nintendoIDs;
+    [Space]
+    [HideInInspector] public string squareId;
+    [HideInInspector] public string triangleId;
+    [HideInInspector] public string circleId;
+    [HideInInspector] public string xId;
 
     PlayerInput playerInput;
 
@@ -32,6 +46,63 @@ public class InputManager : MonoBehaviour
         // Definindo o ID do controle pra ser utilizado no GameManager
         playerInput = GetComponent<PlayerInput>();
         playerID = playerInput.playerIndex + 1;
+
+        controllerConnected = true;
+
+        if (playerInput.devices[0] is Keyboard)
+        {
+            inputName = "Keyboard";
+            squareId = keyboardIDs[0];
+            triangleId = keyboardIDs[1];
+            circleId = keyboardIDs[2];
+            xId = keyboardIDs[3];
+        }
+        else if (playerInput.devices[0].description.manufacturer != "")
+        {
+            switch (playerInput.devices[0].description.manufacturer)
+            {
+                case "Sony Interactive Entertainment":
+                    inputName = "Playstation";
+                    squareId = playstationIDs[0];
+                    triangleId = playstationIDs[1];
+                    circleId = playstationIDs[2];
+                    xId = playstationIDs[3];
+                    break;
+                case "Nintendo":
+                    inputName = "Nintendo";
+                    squareId = nintendoIDs[0];
+                    triangleId = nintendoIDs[1];
+                    circleId = nintendoIDs[2];
+                    xId = nintendoIDs[3];
+                    break;
+                default:
+                    inputName = "Generic";
+                    squareId = keyboardIDs[0];
+                    triangleId = keyboardIDs[1];
+                    circleId = keyboardIDs[2];
+                    xId = keyboardIDs[3];
+                    break;
+            }
+        }
+        else // os controles do xbox n tem a empresa que fez eles, KKKKKKKKKKKKKKKKKKKKKKK
+        {
+            if (playerInput.devices[0] is XInputController)
+            {
+                inputName = "Xbox";
+                squareId = xboxIDs[0];
+                triangleId = xboxIDs[1];
+                circleId = xboxIDs[2];
+                xId = xboxIDs[3];
+            }
+            else
+            {
+                inputName = "Generic";
+                squareId = playstationIDs[0];
+                triangleId = playstationIDs[1];
+                circleId = playstationIDs[2];
+                xId = playstationIDs[3];
+            }
+        }
 
         if (playerID == 1)
             GameManager.instance.playerOneExists = true;
@@ -74,14 +145,15 @@ public class InputManager : MonoBehaviour
     {
         circlePressed = context.action.triggered;
     }
-    public void OnRegained()
+
+    public void OnRegained(PlayerInput input)
     {
         if (playerID == 1)
             GameManager.instance.playerOneExists = true;
         GameManager.instance.playerCount++;
         controllerConnected = true;
     }
-    public void OnLost()
+    public void OnLost(PlayerInput input)
     {
         if (playerID == 1)
         {
@@ -90,6 +162,7 @@ public class InputManager : MonoBehaviour
         GameManager.instance.playerCount--;
         controllerConnected = false;
     }
+
     //--------------------------Data-------------------------//
     void CreatePlayerData()
     {

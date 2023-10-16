@@ -21,6 +21,12 @@ public class GameManager : MonoBehaviour
     public bool playerOneExists = false;
     public int playerCount = 0;
 
+    [Header("Game Variables")]
+    [HideInInspector] public InputManager firstPlace;
+    [HideInInspector] public InputManager secondPlace;
+    [HideInInspector] public InputManager thirdPlace;
+    [HideInInspector] public InputManager fourthPlace;
+
     PlayerInputManager playerInputManager;
 
     private void Awake()

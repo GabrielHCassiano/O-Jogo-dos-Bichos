@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,10 +18,13 @@ public class MenuManager : MonoBehaviour
     [Header("Declarations")]
     [SerializeField] GameObject StartPanel;
     [SerializeField] List<GameObject> Menus;
+    [Space]
+    [SerializeField] TMP_Text returnText;
 
     public int currentMenu = 0;
-
     bool play;
+
+    float returnConfirmTime = 0;
 
     private void Awake()
     {
@@ -49,6 +53,11 @@ public class MenuManager : MonoBehaviour
                 inputs.transform.parent = GameManager.instance.transform;
             }
             SceneManager.LoadScene("CenaTeste"); // trocar pela lógica de random
+        }
+
+        if(inputManager != null)
+        {
+            returnText.text = "Segure <size=60><sprite=" + inputManager.circleId + "></size> para sair";
         }
     }
 
@@ -84,10 +93,20 @@ public class MenuManager : MonoBehaviour
             SwitchToMenu(0);
         }
 
-        if (inputManager != null && currentMenu > 1)
+        if (inputManager != null && currentMenu == 2)
         {
             if (inputManager.circlePressed)
-                SwitchToMenu(currentMenu - 1);
+            {
+                returnConfirmTime += Time.deltaTime;
+                if(returnConfirmTime >= 1)
+                {
+                    SwitchToMenu(1);
+                }
+            }
+            else
+            {
+                returnConfirmTime = 0;
+            }
         }
     }
 
@@ -110,6 +129,21 @@ public class MenuManager : MonoBehaviour
     public void Play()
     {
         SwitchToMenu(2);
+    }
+
+    public void Options()
+    {
+        SwitchToMenu(3);
+    }
+
+    public void Credits()
+    {
+        SwitchToMenu(4);
+    }
+
+    public void Return()
+    {
+        SwitchToMenu(1);
     }
 
     public void Quit()

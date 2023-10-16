@@ -27,13 +27,17 @@ public class TopDownController : MonoBehaviour
     Rigidbody2D rb;
     InputManager inputManager;
     Transform sprite;
+    ParticleSystem dustParticle;
+    Animator animator;
 
     bool hasSprite = false;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>().transform;
+        dustParticle = GetComponentInChildren<ParticleSystem>();
     }
 
     private void Update()
@@ -47,7 +51,7 @@ public class TopDownController : MonoBehaviour
             return;
 
         DashInput();
-        GetSprite();
+        Animations();
     }
 
     private void FixedUpdate()
@@ -125,12 +129,18 @@ public class TopDownController : MonoBehaviour
 
     }
 
-    void GetSprite()
+    //------------------------------Visual-----------------------------//
+
+    void Animations()
     {
-        if (inputManager.playerData.playerSprite != null && hasSprite == false)
-        {
-            sprite.GetComponent<SpriteRenderer>().sprite = inputManager.playerData.playerSprite;
-            hasSprite = true;
-        }
+        if (animator == null)
+            return;
+
+        animator.SetBool("isWalking", rb.velocity.magnitude != 0);
+    }
+
+    public void PlayDustParticle()
+    {
+        dustParticle.Play();
     }
 }

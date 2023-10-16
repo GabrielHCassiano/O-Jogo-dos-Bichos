@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEditor.Animations;
 
 public class MenuPlayerUImanager : MonoBehaviour
 {
@@ -17,7 +18,8 @@ public class MenuPlayerUImanager : MonoBehaviour
     [SerializeField] int playerID = 0;
     [Space]
     [SerializeField] Image playerSprite;
-    [SerializeField] List<Sprite> playerSprites;
+    [SerializeField] List<Sprite> playerSprites; 
+    [SerializeField] List<AnimatorController> animatorControllers;
     [SerializeField] int playerSpriteIndex = 0;
     float lastXinput = 0;
     [Space]
@@ -51,7 +53,7 @@ public class MenuPlayerUImanager : MonoBehaviour
 
     void StartUp()
     {
-   
+        
         if (inputManager == null)
         {
             foreach (GameObject input in GameManager.instance.inputManagers)
@@ -64,12 +66,22 @@ public class MenuPlayerUImanager : MonoBehaviour
             }
 
             noPlayer.gameObject.SetActive(true);
+            noPlayer.GetComponentInChildren<TMP_Text>().text = "Aperte qualquer botão\npara entrar";
             hasPlayer.gameObject.SetActive(false);
         }
         else
         {
-            noPlayer.gameObject.SetActive(false);
-            hasPlayer.gameObject.SetActive(true);
+            if(inputManager.controllerConnected)
+            {
+                noPlayer.gameObject.SetActive(false);
+                hasPlayer.gameObject.SetActive(true);
+            }
+            else
+            {
+                noPlayer.gameObject.SetActive(true);
+                noPlayer.GetComponentInChildren<TMP_Text>().text = "Reconecte seu controle";
+                hasPlayer.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -96,7 +108,7 @@ public class MenuPlayerUImanager : MonoBehaviour
         playerSprite.sprite = playerSprites[playerSpriteIndex];
         lastXinput = inputManager.moveDir.x;
 
-        if (inputManager.anyPressed && !confirmed)
+        if (inputManager.xPressed && !confirmed)
         {
             confirmationTime += Time.deltaTime;
             if (confirmationTime > 1)
@@ -108,17 +120,17 @@ public class MenuPlayerUImanager : MonoBehaviour
         {
             confirmationTime = 0;
         }
-        if(confirmed && inputManager.trianglePressed)
+        if(confirmed && inputManager.circlePressed)
             confirmed = false;
 
         if (confirmed)
         {
-            inputManager.playerData.playerSprite = playerSprites[playerSpriteIndex];
-            confirmationText.text = "Pronto!";
+            inputManager.playerData.animatorController = animatorControllers[playerSpriteIndex];
+            confirmationText.text = "Confirmado!\nAperte <size=60><sprite=" + inputManager.circleId + "></size> para desconfirmar";
         }
         else
         {
-            confirmationText.text = "Segure qualquer botão para confirmar";
+            confirmationText.text = "Segure <size=60><sprite=" + inputManager.xId + "></size> para confirmar";
         }
     }
 }
