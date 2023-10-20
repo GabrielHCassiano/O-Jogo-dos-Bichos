@@ -77,10 +77,10 @@ public class InputManager : MonoBehaviour
                     break;
                 default:
                     inputName = "Generic";
-                    squareId = keyboardIDs[0];
-                    triangleId = keyboardIDs[1];
-                    circleId = keyboardIDs[2];
-                    xId = keyboardIDs[3];
+                    squareId = playstationIDs[0];
+                    triangleId = playstationIDs[1];
+                    circleId = playstationIDs[2];
+                    xId = playstationIDs[3];
                     break;
             }
         }

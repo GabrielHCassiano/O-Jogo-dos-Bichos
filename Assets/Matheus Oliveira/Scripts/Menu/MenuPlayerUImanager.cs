@@ -126,6 +126,8 @@ public class MenuPlayerUImanager : MonoBehaviour
         if (confirmed)
         {
             inputManager.playerData.animatorController = animatorControllers[playerSpriteIndex];
+            inputManager.playerData.playerSprite = playerSprites[playerSpriteIndex];
+
             confirmationText.text = "Confirmado!\nAperte <size=60><sprite=" + inputManager.circleId + "></size> para desconfirmar";
         }
         else

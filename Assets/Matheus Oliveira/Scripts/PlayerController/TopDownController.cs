@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TopDownController : MonoBehaviour
 {
@@ -23,14 +24,13 @@ public class TopDownController : MonoBehaviour
     [Space]
     [SerializeField] Vector2 moveDir = Vector2.zero;
     [SerializeField] int spriteDir = 1;
+    [Space]
 
     Rigidbody2D rb;
     InputManager inputManager;
     Transform sprite;
     ParticleSystem dustParticle;
     Animator animator;
-
-    bool hasSprite = false;
 
     private void Start()
     {
@@ -136,6 +136,7 @@ public class TopDownController : MonoBehaviour
         if (animator == null)
             return;
 
+        animator.runtimeAnimatorController = inputManager.playerData.animatorController;
         animator.SetBool("isWalking", rb.velocity.magnitude != 0);
     }
 

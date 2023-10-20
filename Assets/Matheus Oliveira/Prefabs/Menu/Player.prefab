@@ -535,17 +535,29 @@ MonoBehaviour:
   playerID: 0
   playerSprite: {fileID: 5856629660773188553}
   playerSprites:
-  - {fileID: 21300000, guid: 0117a62a2a4ce3146a9c97be6d92b6d8, type: 3}
-  - {fileID: 21300000, guid: 32fb2131ebde93f4fb5f8275e573fa87, type: 3}
-  - {fileID: 21300000, guid: acd499c1676b86345ace06ff39b763ca, type: 3}
-  - {fileID: 21300000, guid: 2a537f1731e7f5e4392ea4796f4267c8, type: 3}
-  - {fileID: 21300000, guid: d4bbce48744315e48b31daea79bd3d67, type: 3}
-  - {fileID: 21300000, guid: a1a90a8b4f3fa5e46b4fc1f415eb6f06, type: 3}
-  - {fileID: 21300000, guid: 298da64d118866944b12647f229f7b08, type: 3}
-  - {fileID: 21300000, guid: 764f92c84462be545be3b66cf9fd6f1c, type: 3}
-  - {fileID: 21300000, guid: c94eadb7f386db24da514211f50f6d3c, type: 3}
-  - {fileID: 21300000, guid: 93f34f9daebf33d49b35205d77481d46, type: 3}
-  - {fileID: 21300000, guid: b16426eea79ecf240aa78c7c1099cce8, type: 3}
+  - {fileID: 21300000, guid: 0cb135708cbb8634c8c2b4f6c9da6272, type: 3}
+  - {fileID: 21300000, guid: 271dfcd22a020e541a65fed5c76fb58b, type: 3}
+  - {fileID: 21300000, guid: 7d75e29a82b241d4d94db8d0f0fd4707, type: 3}
+  - {fileID: 21300000, guid: f18db84af8ae0624997c35eab9fe8219, type: 3}
+  - {fileID: 21300000, guid: 266f3489904f0534fb5721f7edd17bf9, type: 3}
+  - {fileID: 21300000, guid: eaec11625c091d143a83aef0ebf37432, type: 3}
+  - {fileID: 21300000, guid: 47172a52bcdc4d2459d76d343be9ed2a, type: 3}
+  - {fileID: 21300000, guid: c81cf1c98e4bf7b4ba3fef73ef43f2dc, type: 3}
+  - {fileID: 21300000, guid: 20abbc01c3b570b45a9a8fa9b5f37720, type: 3}
+  - {fileID: 21300000, guid: 82b8145eb68457644b94f0891ae4c539, type: 3}
+  - {fileID: 21300000, guid: 844185d5b1d4da2418fc4d1c77c55e6f, type: 3}
+  animatorControllers:
+  - {fileID: 9100000, guid: a2795c364042bcc41b9b5e7968dfc4aa, type: 2}
+  - {fileID: 9100000, guid: 394ec59d58eb8224ba032638a8e5efb8, type: 2}
+  - {fileID: 9100000, guid: def0da6f17ed0934eb32cae71a3fbf94, type: 2}
+  - {fileID: 9100000, guid: cc70a4a907ed5074990f963df1ebfb4e, type: 2}
+  - {fileID: 9100000, guid: 81bf3f8f596d45e449c67a7e9b5a74ba, type: 2}
+  - {fileID: 9100000, guid: 82c0524911ebcb7419847dd29de2ac96, type: 2}
+  - {fileID: 9100000, guid: 9f40d3b74ca80ff4d9281a4fd57a75fd, type: 2}
+  - {fileID: 9100000, guid: c83da76b3f4f48843a0264d6b137e042, type: 2}
+  - {fileID: 9100000, guid: 9b058c5b7d08c8e4d97c4964a190537b, type: 2}
+  - {fileID: 9100000, guid: ab791549cc299a94f91944888e89021b, type: 2}
+  - {fileID: 9100000, guid: 39354dee71718ef4d8e831d5f33e8f74, type: 2}
   playerSpriteIndex: 0
   confirmationTime: 0
   confirmed: 0
@@ -652,7 +664,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0117a62a2a4ce3146a9c97be6d92b6d8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0cb135708cbb8634c8c2b4f6c9da6272, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

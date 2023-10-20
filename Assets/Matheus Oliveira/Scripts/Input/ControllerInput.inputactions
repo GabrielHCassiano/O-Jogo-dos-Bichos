@@ -605,9 +605,31 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "up",
+                    "id": "123496f5-b092-42c9-a065-880bad0c17bf",
+                    "path": "<HID::Microntek              USB Joystick          >/hat/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "down",
                     "id": "f380ffcb-901e-445f-9703-1b3d787a9297",
                     "path": "<Joystick>/stick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "473a92df-8475-4630-b6d4-399fb0ab6e64",
+                    "path": "<HID::Microntek              USB Joystick          >/hat/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick",
@@ -627,9 +649,31 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "left",
+                    "id": "6df88e57-a879-4908-a0da-2e6bd3dbe64b",
+                    "path": "<HID::Microntek              USB Joystick          >/hat/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "right",
                     "id": "4dd38511-fd2b-4200-841c-16dd57f10304",
                     "path": "<Joystick>/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "d6a39544-fc00-455f-bb06-302b663fe9a3",
+                    "path": "<HID::Microntek              USB Joystick          >/hat/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick",
@@ -695,10 +739,10 @@
                 {
                     "name": "",
                     "id": "a0348c9b-2c51-4b2a-94a7-7b598afff145",
-                    "path": "*/{Submit}",
+                    "path": "<HID::Microntek              USB Joystick          >/button3",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR;Controle",
+                    "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR",
                     "action": "Submit",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -716,11 +760,22 @@
                 },
                 {
                     "name": "",
-                    "id": "1d117855-ab8d-4314-9ac4-5f5c053aa9c6",
-                    "path": "*/{Cancel}",
+                    "id": "c68847a6-f89b-47a8-a8cd-5e3811ff0ca6",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR;Controle",
+                    "groups": "Controle",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1d117855-ab8d-4314-9ac4-5f5c053aa9c6",
+                    "path": "<HID::Microntek              USB Joystick          >/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR",
                     "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -732,6 +787,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5a5e235d-a5da-4156-bbe0-4293ffc331e8",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controle",
                     "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false

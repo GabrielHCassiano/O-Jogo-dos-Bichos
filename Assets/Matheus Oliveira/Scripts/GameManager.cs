@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using TMPro;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,11 +23,12 @@ public class GameManager : MonoBehaviour
     public bool playerOneExists = false;
     public int playerCount = 0;
 
-    [Header("Game Variables")]
-    [HideInInspector] public InputManager firstPlace;
-    [HideInInspector] public InputManager secondPlace;
-    [HideInInspector] public InputManager thirdPlace;
-    [HideInInspector] public InputManager fourthPlace;
+    [Header("Game Stuff")]
+    public bool minigameEnded = false; // os minigames tem que usar isso para determinar o fim do minigame;
+    [Space]
+    public GameObject scoreboardPanel;
+    public List<GameObject> UiPlayers;
+    List<GameObject> scoreboard;
 
     PlayerInputManager playerInputManager;
 
@@ -59,7 +62,8 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         // Caso não tenha exatamente 4 players (o playerInputManager já limita em 4), o jogo terá um pause forçado.
-        // (fazer isso apenas em gameplay, não no menu)
+        if (SceneManager.GetActiveScene().name == "Menu")
+            return;
         if (playerInputManager.playerCount < 4)
             forcedGamePause = true;
         else
@@ -71,6 +75,8 @@ public class GameManager : MonoBehaviour
         {
             SetControllerParents();
         }
+
+        CheckScores();
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -84,7 +90,28 @@ public class GameManager : MonoBehaviour
             player.GetComponent<PlayerID>().ID = i;
         }
 
+        scoreboardPanel.SetActive(false);
+
         SetControllerParents();
+    }
+
+    void CheckScores()
+    {
+        if (minigameEnded)
+        {
+            scoreboardPanel.SetActive(true);
+            scoreboard = inputManagers;
+
+            // achar um jeito melhor de fazer isso, pois no momenti, após comparar 2 valores iguais, eles trocam de lugar
+            scoreboard.Sort((p1, p2) => p1.GetComponent<InputManager>().playerData.playerScore.CompareTo(p2.GetComponent<InputManager>().playerData.playerScore));
+            scoreboard.Reverse();
+            for (int i = 0; i < scoreboard.Count; i++)
+            {
+                UiPlayers[i].GetComponentInChildren<TMP_Text>().text = "Player " + scoreboard[i].GetComponent<InputManager>().playerID + " Score: " + scoreboard[i].GetComponent<InputManager>().playerData.playerScore;
+                UiPlayers[i].GetComponentInChildren<Image>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
+            }
+            minigameEnded = false;
+        }
     }
 
     public void SetControllerParents()
@@ -109,7 +136,6 @@ public class GameManager : MonoBehaviour
                 {
                     inputManager.transform.parent = controller.transform;
                     controller.GetComponent<PlayerID>().inputManager = inputManager.GetComponent<InputManager>();
-                    // controller.GetComponentInChildren<SpriteRenderer>().sprite = inputManager.GetComponent<InputManager>().playerData.playerSprite;
                 }
             }
         }

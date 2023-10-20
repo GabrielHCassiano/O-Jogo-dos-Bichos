@@ -9,6 +9,7 @@ using UnityEngine;
 public class PlayerData : ScriptableObject
 {
     public string playerName;
+    public Sprite playerSprite;
     public AnimatorController animatorController;
     public int playerScore = 0;
 }
