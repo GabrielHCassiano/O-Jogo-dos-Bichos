@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,13 +14,19 @@ public class QueimadaManager : MonoBehaviour
     private GameObject[] player;
     private PlayerID playerID;
 
-    [SerializeField] private GameObject[] areas;
-    [SerializeField] private GameObject[] areas2;
+    [SerializeField] private Animator[] areas;
+    [SerializeField] private Animator area1;
+
 
     [SerializeField] private GameObject arrow;
 
     [SerializeField] private TextMeshProUGUI[] life;
     [SerializeField] private Slider[] force;
+    [SerializeField] private bool[] lossPlayer;
+    private bool[] contLoss = new bool[5];
+
+    [SerializeField] private int lossGame = 0;
+    [SerializeField] private bool winGame;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,88 +42,54 @@ public class QueimadaManager : MonoBehaviour
 
     public void AreasPlayer()
     {
-        if(player[0].GetComponent<StatusPlayer>().loseValue == true && player[1].GetComponent<StatusPlayer>().loseValue == false &&
-           player[2].GetComponent<StatusPlayer>().loseValue == false && player[3].GetComponent<StatusPlayer>().loseValue == false)
+        for (int i = 0; i < 4; i++)
         {
-            areas[0].SetActive(false);
-            areas[2].SetActive(false);
-            areas2[0].SetActive(true);
+            areas[i].SetBool("Player1", lossPlayer[0]);
+            areas[i].SetBool("Player2", lossPlayer[1]);
+            areas[i].SetBool("Player3", lossPlayer[2]);
+            areas[i].SetBool("Player4", lossPlayer[3]);
         }
-        else if(player[0].GetComponent<StatusPlayer>().loseValue == false && player[1].GetComponent<StatusPlayer>().loseValue == true &&
-                player[2].GetComponent<StatusPlayer>().loseValue == false && player[3].GetComponent<StatusPlayer>().loseValue == false)
-        {
-            areas[1].SetActive(false);
-            areas[0].SetActive(false);
-            areas2[1].SetActive(true);
-        }
-        else if (player[0].GetComponent<StatusPlayer>().loseValue == false && player[1].GetComponent<StatusPlayer>().loseValue == false &&
-                 player[2].GetComponent<StatusPlayer>().loseValue == true && player[3].GetComponent<StatusPlayer>().loseValue == false)
-        {
-            areas[2].SetActive(false);
-            areas[3].SetActive(false);
-            areas2[2].SetActive(true);
-        }
-        else if (player[0].GetComponent<StatusPlayer>().loseValue == false && player[1].GetComponent<StatusPlayer>().loseValue == false &&
-                 player[2].GetComponent<StatusPlayer>().loseValue == false && player[3].GetComponent<StatusPlayer>().loseValue == true)
-        {
-            areas[3].SetActive(false);
-            areas[1].SetActive(false);
-            areas2[3].SetActive(true);
-        }
+    }
 
-
-        if (player[0].GetComponent<StatusPlayer>().loseValue == true && player[1].GetComponent<StatusPlayer>().loseValue == true)
+    public void WinLogic(int i)
+    {
+        if (lossPlayer[i] == true && contLoss[i] == false)
         {
-            areas[0].SetActive(true);
-            areas[1].SetActive(false);
-            areas2[0].SetActive(false);
-            areas2[1].SetActive(false);
-
-        }
-        else if (player[0].GetComponent<StatusPlayer>().loseValue == true && player[2].GetComponent<StatusPlayer>().loseValue == true)
+            contLoss[i] = true;
+            lossGame += 1;
+            if (lossGame == 3)
+                player[i].GetComponent<GetAndAttackControl>().ScoreValue = 50;
+            
+        } 
+        else if (lossGame == 3 && lossPlayer[i] == false)
         {
-            areas[2].SetActive(true);
-            areas[0].SetActive(false);
-            areas2[0].SetActive(false);
-            areas2[2].SetActive(false);
+            player[i].GetComponent<GetAndAttackControl>().ScoreValue = 100;
+            FindObjectOfType<GameManager>().minigameEnded = true;
         }
-        else if (player[1].GetComponent<StatusPlayer>().loseValue == true && player[3].GetComponent<StatusPlayer>().loseValue == true)
-        {
-            areas[1].SetActive(true);
-            areas[3].SetActive(false);
-            areas2[1].SetActive(false);
-            areas2[3].SetActive(false);
-        }
-        else if (player[2].GetComponent<StatusPlayer>().loseValue == true && player[3].GetComponent<StatusPlayer>().loseValue == true)
-        {
-            areas[3].SetActive(true);
-            areas[2].SetActive(false);
-            areas2[2].SetActive(false);
-            areas2[3].SetActive(false);
-        }
-
     }
 
     public void ManagerUI()
     {
-        for (int i = 0; i < 4; i++)
+        if (player != null)
         {
-            life[i].text = player[i].GetComponent<StatusPlayer>().lifeValue.ToString();
-            force[i].value = player[i].GetComponent<GetAndAttackControl>().forceValue/100;
+            for (int i = 0; i < 4; i++)
+            {
+                life[i].text = player[i].GetComponent<StatusPlayer>().lifeValue.ToString();
+                force[i].value = player[i].GetComponent<GetAndAttackControl>().forceValue / 100;
+                lossPlayer[i] = player[i].GetComponent<StatusPlayer>().loseValue;
+                WinLogic(i);
+            }
         }
     }
-
     IEnumerator StarCooldown()
     {
         yield return new WaitForSeconds(0.01f);
         player = GameObject.FindGameObjectsWithTag("Player");
-            if (player != null)
+        if (player != null)
         {
             for (int i = 0; i < 4; i++)
             {
-                player[i].AddComponent<StatusPlayer>();
-                player[i].AddComponent<GetAndAttackControl>();
-                player[i].AddComponent<Knockback>();
+                player[i].AddComponent<PlayerQueimadaControl>();
                 playerID = player[i].GetComponent<PlayerID>();
                 player[i].transform.position = spawnPos[playerID.ID - 1].position;
                 player[i].GetComponent<GetAndAttackControl>().ArrowValue = Instantiate(arrow);

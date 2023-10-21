@@ -21,6 +21,8 @@ public class GetAndAttackControl : MonoBehaviour
     private float cont = 0;
     private bool time = false;
     private Vector2 ballDirection;
+    private Vector2 AttackDirection;
+
     [SerializeField] private GameObject arrow;
     private bool inArrow;
 
@@ -59,6 +61,13 @@ public class GetAndAttackControl : MonoBehaviour
             GetComponent<TopDownController>().enabled = false;
         }
     }
+
+    public int ScoreValue
+    {
+        get { return inputManager.playerData.playerScore; }
+        set { inputManager.playerData.playerScore = value; }
+    }
+
 
     public GameObject ArrowValue
     {
@@ -132,6 +141,7 @@ public class GetAndAttackControl : MonoBehaviour
         ball.GetComponentInParent<BallControl>().damageValue = 1;
         getBall = false;
         ball.transform.parent = null;
+        AttackDirection = ballDirection;
         time = true;
         cont = force/2;
         if (force >= 95)
@@ -145,7 +155,7 @@ public class GetAndAttackControl : MonoBehaviour
     {
         if (ball != null && ball.tag == "AttackBall")
         {
-            ball.GetComponent<Rigidbody2D>().velocity = new Vector2(ballDirection.x * cont, ballDirection.y * cont);
+            ball.GetComponent<Rigidbody2D>().velocity = new Vector2(AttackDirection.x * cont, AttackDirection.y * cont);
         }
         if (ball != null && ball.tag == "AttackBall" && ball.GetComponent<Rigidbody2D>().velocity == Vector2.zero)
         {
@@ -206,12 +216,13 @@ public class GetAndAttackControl : MonoBehaviour
             knock = true;
             collider.GetComponent<BallControl>().playerValue.GetComponent<GetAndAttackControl>().contValue = 0;
             collider.GetComponent<Knockback>().Knocking(GetComponent<Collider2D>());
-            knockback.Knocking(collider);
+            if (inputManager != null)    //Apenas correção de error  
+                knockback.Knocking(collider);
             GetComponent<StatusPlayer>().lifeValue -= collider.GetComponentInParent<BallControl>().damageValue;
             collider.GetComponentInParent<BallControl>().damageValue = 0;
             collider.GetComponent<BallControl>().playerValue = null;
         }
-        if (collider.CompareTag("GetBall") && inputManager.circlePressed == true)
+        if (collider.CompareTag("GetBall") && inputManager != null && inputManager.circlePressed == true)
         {
             collider.GetComponentInParent<BallControl>().tag = "Ball";
         }

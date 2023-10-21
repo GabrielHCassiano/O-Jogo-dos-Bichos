@@ -1,10 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using Unity.VisualScripting;
 using UnityEngine;
-using static Unity.Collections.AllocatorManager;
-
 public class BallControl : MonoBehaviour
 {
     private int damage = 0;
@@ -14,12 +11,17 @@ public class BallControl : MonoBehaviour
     private bool knock = false;
     private bool colliderPlayer;
     [SerializeField] private GameObject player;
- 
+
+    private Vector3 spawnPos;
+    [SerializeField] private bool inStop;
+    [SerializeField] private bool fora;
+
     // Start is called before the first frame update
     void Start()
     {
         knockback = GetComponent<Knockback>();
-        GetComponent<SpriteRenderer>().color = Color.yellow;
+        GetComponent<SpriteRenderer>().color = Color.cyan;
+        spawnPos = transform.position;
     }
 
     // Update is called once per frame
@@ -27,6 +29,7 @@ public class BallControl : MonoBehaviour
     {
         GetBallLogic();
         SpecialBall();
+        StopBall();
     }
 
     public void FixedUpdate()
@@ -44,6 +47,7 @@ public class BallControl : MonoBehaviour
             knock = true;
             knockback.KnockLogic();
         }
+
     }
 
     public int damageValue
@@ -85,7 +89,7 @@ public class BallControl : MonoBehaviour
         if (GetComponent<Rigidbody2D>().velocity == Vector2.zero && player == null)
         {
             GetComponent<CircleCollider2D>().isTrigger = false;
-            GetComponent<SpriteRenderer>().color = Color.yellow;
+            GetComponent<SpriteRenderer>().color = Color.cyan;
             damage = 0;
         }
         else if(GetComponent<Rigidbody2D>().velocity == Vector2.zero && player != null && player.GetComponent<GetAndAttackControl>().getBallValue == false)
@@ -108,8 +112,9 @@ public class BallControl : MonoBehaviour
     {
         if (collider.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
-            player.GetComponent<GetAndAttackControl>().contValue = 0;
-            knockback.Knocking(collider);
+            knockback.KnockingForce(collider, player.GetComponent<GetAndAttackControl>().contValue);
+            //player.GetComponent<GetAndAttackControl>().contValue = 0;
+            //knockback.Knocking(collider);
             //StartCoroutine(WallTime());
         }
         if (collider.gameObject.layer == LayerMask.NameToLayer("Wall2"))
@@ -127,7 +132,34 @@ public class BallControl : MonoBehaviour
             knockback.Knocking(collider);
             collider.GetComponent<Knockback>().Knocking(GetComponent<Collider2D>());
         }
+
+        if (collider.gameObject.layer == LayerMask.NameToLayer("Area") && inStop == false)
+        {
+            fora = true;
+        }
     }
+
+    private void StopBall()
+    {
+        if (fora == true && inStop == false)
+        {
+            StartCoroutine(StopBallCont());
+        }
+    }
+
+    IEnumerator StopBallCont()
+    {
+        inStop = true;
+        if(player != null)
+            player.GetComponent<GetAndAttackControl>().contValue = 0;
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        yield return new WaitForSeconds(0.5f);
+        transform.position = spawnPos;
+        //yield return new WaitForSeconds(0.1f);
+        inStop = false;
+        fora = false;
+    }
+
 
     IEnumerator WallTime()
     {
