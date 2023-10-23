@@ -52,7 +52,8 @@ public class MenuManager : MonoBehaviour
             {
                 inputs.transform.parent = GameManager.instance.transform;
             }
-            SceneManager.LoadScene("CenaTeste"); // trocar pela lógica de random
+            GameManager.instance.rounds = 0;
+            SceneManager.LoadScene("Queimada"); // trocar pela lógica de random
         }
 
         if(inputManager != null)
