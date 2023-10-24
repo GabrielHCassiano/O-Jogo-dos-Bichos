@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -20,7 +19,12 @@ public class QueimadaManager : MonoBehaviour
 
     [SerializeField] private GameObject arrow;
 
-    [SerializeField] private TextMeshProUGUI[] life;
+    [SerializeField] private Image[] life1;
+    [SerializeField] private Image[] life2;
+    [SerializeField] private Image[] life3;
+
+    [SerializeField] private Sprite[] spriteLife;
+
     [SerializeField] private Slider[] force;
     [SerializeField] private bool[] lossPlayer;
     private bool[] contLoss = new bool[5];
@@ -74,13 +78,33 @@ public class QueimadaManager : MonoBehaviour
         {
             for (int i = 0; i < 4; i++)
             {
-                life[i].text = player[i].GetComponent<StatusPlayer>().lifeValue.ToString();
+                LifeUI(i);
                 force[i].value = player[i].GetComponent<GetAndAttackControl>().forceValue / 100;
                 lossPlayer[i] = player[i].GetComponent<StatusPlayer>().loseValue;
                 WinLogic(i);
             }
         }
     }
+
+    public void LifeUI(int i)
+    {
+        switch (player[i].GetComponent<StatusPlayer>().lifeValue)
+        {
+            case 0:
+                life1[i].gameObject.SetActive(false);
+                life2[i].gameObject.SetActive(false);
+                life3[i].gameObject.SetActive(false);
+                break;
+            case 1:
+                life1[i].gameObject.SetActive(false);
+                life2[i].gameObject.SetActive(false);
+                break;
+            case 2:
+                life1[i].gameObject.SetActive(false);
+                break;
+        }
+    }
+
     IEnumerator StarCooldown()
     {
         yield return new WaitForSeconds(0.01f);
@@ -93,6 +117,9 @@ public class QueimadaManager : MonoBehaviour
                 playerID = player[i].GetComponent<PlayerID>();
                 player[i].transform.position = spawnPos[playerID.ID - 1].position;
                 player[i].GetComponent<GetAndAttackControl>().ArrowValue = Instantiate(arrow);
+                life1[i].sprite = spriteLife[i+2];
+                life2[i].sprite = spriteLife[i+2];
+                life3[i].sprite = spriteLife[i+2];
             }
         }
     }

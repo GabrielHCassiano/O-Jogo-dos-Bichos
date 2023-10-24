@@ -9,9 +9,6 @@ public class GetAndAttackControl : MonoBehaviour
     private Rigidbody2D rb;
 
     private bool getBall = false;
-    private bool canAttack;
-    private bool attack;
-
 
     [SerializeField] private GameObject ball;
 
@@ -81,6 +78,12 @@ public class GetAndAttackControl : MonoBehaviour
         set { getBall = value; }
     }
 
+    public Vector2 AttackDirectionValue
+    {
+        get { return AttackDirection; }
+        set { AttackDirection = value; }
+    }
+
     public bool knockValue
     {
         get { return knock; }
@@ -144,10 +147,10 @@ public class GetAndAttackControl : MonoBehaviour
         AttackDirection = ballDirection;
         time = true;
         cont = force/2;
-        if (force >= 95)
+        if (force >= 80)
         {
             ball.GetComponent<BallControl>().damageValue = 3;
-            ball.GetComponent<SpriteRenderer>().color = Color.red;
+            ball.GetComponent<BallControl>().fireBallValue = true;
         }
     }
 
