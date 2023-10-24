@@ -18,7 +18,8 @@ public class MenuPlayerUImanager : MonoBehaviour
     [SerializeField] int playerID = 0;
     [Space]
     [SerializeField] Image playerSprite;
-    [SerializeField] List<Sprite> playerSprites; 
+    [SerializeField] List<Sprite> playerSprites;
+    [SerializeField] List<Sprite> playerUiIcons;
     [SerializeField] List<AnimatorController> animatorControllers;
     [SerializeField] int playerSpriteIndex = 0;
     float lastXinput = 0;
@@ -126,7 +127,7 @@ public class MenuPlayerUImanager : MonoBehaviour
         if (confirmed)
         {
             inputManager.playerData.animatorController = animatorControllers[playerSpriteIndex];
-            inputManager.playerData.playerSprite = playerSprites[playerSpriteIndex];
+            inputManager.playerData.playerSprite = playerUiIcons[playerSpriteIndex];
 
             confirmationText.text = "Confirmado!\nAperte <size=60><sprite=" + inputManager.circleId + "></size> para desconfirmar";
         }

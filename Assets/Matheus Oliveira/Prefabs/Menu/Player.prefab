@@ -546,6 +546,18 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 20abbc01c3b570b45a9a8fa9b5f37720, type: 3}
   - {fileID: 21300000, guid: 82b8145eb68457644b94f0891ae4c539, type: 3}
   - {fileID: 21300000, guid: 844185d5b1d4da2418fc4d1c77c55e6f, type: 3}
+  playerUiIcons:
+  - {fileID: 21300000, guid: 4b39b09fb2d156a42aa5b168de42d668, type: 3}
+  - {fileID: 21300000, guid: d8ddf32af2d07de4082ec231c80c18d1, type: 3}
+  - {fileID: 21300000, guid: 58c5a4c7f490cfa4bbb5ac94b0803552, type: 3}
+  - {fileID: 21300000, guid: e79f44a243b4bc94fba4f028b7918f84, type: 3}
+  - {fileID: 21300000, guid: 812f1223a45f64c42a06f28ff42e7c54, type: 3}
+  - {fileID: 21300000, guid: 2365d0b30f8efe44cb88b0689a128f80, type: 3}
+  - {fileID: 21300000, guid: 96cacd44bc18b6e40adbcbbc9be9b9f0, type: 3}
+  - {fileID: 21300000, guid: 87935cb3bb0541b429fd88e84906950a, type: 3}
+  - {fileID: 21300000, guid: 04b8f4f41bffe384fb0fe99bc5e9fb3b, type: 3}
+  - {fileID: 21300000, guid: 12d9c8e6dde0de942b5c69cc51fe9496, type: 3}
+  - {fileID: 21300000, guid: 87697b4d7f722174eb54c7224783df22, type: 3}
   animatorControllers:
   - {fileID: 9100000, guid: a2795c364042bcc41b9b5e7968dfc4aa, type: 2}
   - {fileID: 9100000, guid: 394ec59d58eb8224ba032638a8e5efb8, type: 2}

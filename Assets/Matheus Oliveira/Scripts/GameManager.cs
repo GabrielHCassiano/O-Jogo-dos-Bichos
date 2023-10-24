@@ -24,6 +24,10 @@ public class GameManager : MonoBehaviour
     public int playerCount = 0;
 
     [Header("Game Stuff")]
+    public int total_rounds = 3;
+    public int rounds;
+    public bool gameFinished = false;
+    [Space]
     public bool minigameEnded = false; // os minigames tem que usar isso para determinar o fim do minigame;
     [Space]
     public GameObject scoreboardPanel;
@@ -93,26 +97,80 @@ public class GameManager : MonoBehaviour
         scoreboardPanel.SetActive(false);
 
         SetControllerParents();
+
+        if (SceneManager.GetActiveScene().name == "FinishScene")
+        {
+            for (int i = 0; i < controllers.Count; i++)
+            {
+                if (controllers[i].GetComponentInChildren<InputManager>() == null)
+                    return;
+                print(controllers[i].GetComponentInChildren<InputManager>().playerData.playerScoreIndex);
+                switch (controllers[i].GetComponentInChildren<InputManager>().playerData.playerScoreIndex)
+                {
+                    case 1:
+                        controllers[i].transform.position = RoomManager.instance.transform.Find("1").position;
+                        break;
+                    case 2:
+                        controllers[i].transform.position = RoomManager.instance.transform.Find("2").position;
+                        break;
+                    case 3:
+                        controllers[i].transform.position = RoomManager.instance.transform.Find("3").position;
+                        break;
+                    case 4:
+                        controllers[i].transform.position = RoomManager.instance.transform.Find("4").position;
+                        break;
+                    default:
+                        Debug.Log("ISSO É PRA SER IMPOSSIVEL");
+                        break;
+                }
+            }
+        }
     }
 
     void CheckScores()
     {
         if (minigameEnded)
         {
-            scoreboardPanel.SetActive(true);
-            scoreboard = inputManagers;
-
-            // achar um jeito melhor de fazer isso, pois no momenti, após comparar 2 valores iguais, eles trocam de lugar
-            scoreboard.Sort((p1, p2) => p1.GetComponent<InputManager>().playerData.playerScore.CompareTo(p2.GetComponent<InputManager>().playerData.playerScore));
-            scoreboard.Reverse();
-            for (int i = 0; i < scoreboard.Count; i++)
-            {
-                UiPlayers[i].GetComponentInChildren<TMP_Text>().text = "Player " + scoreboard[i].GetComponent<InputManager>().playerID + " Score: " + scoreboard[i].GetComponent<InputManager>().playerData.playerScore;
-                UiPlayers[i].GetComponentInChildren<Image>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
-            }
-            minigameEnded = false;
+            StartCoroutine(MinigameEndSequence());
         }
     }
+
+    IEnumerator MinigameEndSequence()
+    {
+        scoreboardPanel.SetActive(true);
+        scoreboard = inputManagers;
+
+        // achar um jeito melhor de fazer isso, pois no momento, após comparar 2 valores iguais, eles trocam de lugar
+        scoreboard.Sort((p1, p2) => p1.GetComponent<InputManager>().playerData.playerScore.CompareTo(p2.GetComponent<InputManager>().playerData.playerScore));
+        scoreboard.Reverse();
+        for (int i = 0; i < scoreboard.Count; i++)
+        {
+            scoreboard[i].GetComponent<InputManager>().playerData.playerScoreIndex = scoreboard.IndexOf(scoreboard[i]) + 1;
+            UiPlayers[i].GetComponentInChildren<TMP_Text>().text = "Player " + scoreboard[i].GetComponent<InputManager>().playerID + " Score: " + scoreboard[i].GetComponent<InputManager>().playerData.playerScore;
+            UiPlayers[i].GetComponentInChildren<Image>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
+        }
+
+        controllers.Clear();
+        foreach (GameObject inputs in GameManager.instance.inputManagers)
+        {
+            inputs.transform.parent = GameManager.instance.transform;
+        }
+
+        yield return new WaitForSeconds(5f);
+
+        if(rounds < total_rounds)
+        {
+            rounds++;
+            minigameEnded = false;
+            // carregar próximo minigame
+        }
+        else if(!gameFinished)
+        {
+            // terminar o jogo
+            SceneManager.LoadScene("FinishScene");
+            gameFinished = true;
+        }
+    } 
 
     public void SetControllerParents()
     {

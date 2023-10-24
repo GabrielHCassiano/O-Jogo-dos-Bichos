@@ -12,4 +12,5 @@ public class PlayerData : ScriptableObject
     public Sprite playerSprite;
     public AnimatorController animatorController;
     public int playerScore = 0;
+    public int playerScoreIndex = 0; // posição no placar
 }
