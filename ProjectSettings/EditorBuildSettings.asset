@@ -6,13 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Matheus Oliveira/Scenes/CenaTeste.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: Assets/Matheus Oliveira/Scenes/FinishScene.unity
-    guid: c88650f7dfe97ef4f8313b90d61afbf6
+    path: Assets/Matheus Oliveira/Scenes/Menu.unity
+    guid: 4fef386f0e42b764e801241e6a58834d
   - enabled: 1
     path: Assets/Gabriel Henriques/Queimada.unity
     guid: a486da3376fd4ad4daeda8041546c9b5
+  - enabled: 1
+    path: Assets/Matheus Oliveira/Scenes/FinishScene.unity
+    guid: c88650f7dfe97ef4f8313b90d61afbf6
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 004ea93b0657df647b20f880c4bc277c, type: 2}

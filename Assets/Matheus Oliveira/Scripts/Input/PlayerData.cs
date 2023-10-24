@@ -1,16 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 
-// Esse script é um template para criar em cada input a informação do player, como seu bicho e seu nome. (talvez pontuação?)
+// Esse script ï¿½ um template para criar em cada input a informaï¿½ï¿½o do player, como seu bicho e seu nome. (talvez pontuaï¿½ï¿½o?)
 
-[CreateAssetMenu(fileName = "New Player Data", menuName = "Player Data")] // Só para debug
+[CreateAssetMenu(fileName = "New Player Data", menuName = "Player Data")] // Sï¿½ para debug
 public class PlayerData : ScriptableObject
 {
     public string playerName;
     public Sprite playerSprite;
-    public AnimatorController animatorController;
+    public RuntimeAnimatorController animatorController;
     public int playerScore = 0;
-    public int playerScoreIndex = 0; // posição no placar
+    public int playerScoreIndex = 0; // posiï¿½ï¿½o no placar
 }

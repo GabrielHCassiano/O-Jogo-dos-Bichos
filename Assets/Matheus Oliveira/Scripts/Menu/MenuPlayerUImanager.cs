@@ -5,7 +5,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using UnityEditor.Animations;
 
 public class MenuPlayerUImanager : MonoBehaviour
 {
@@ -20,7 +19,7 @@ public class MenuPlayerUImanager : MonoBehaviour
     [SerializeField] Image playerSprite;
     [SerializeField] List<Sprite> playerSprites;
     [SerializeField] List<Sprite> playerUiIcons;
-    [SerializeField] List<AnimatorController> animatorControllers;
+    [SerializeField] List<RuntimeAnimatorController> animatorControllers;
     [SerializeField] int playerSpriteIndex = 0;
     float lastXinput = 0;
     [Space]
@@ -67,7 +66,7 @@ public class MenuPlayerUImanager : MonoBehaviour
             }
 
             noPlayer.gameObject.SetActive(true);
-            noPlayer.GetComponentInChildren<TMP_Text>().text = "Aperte qualquer botão\npara entrar";
+            noPlayer.GetComponentInChildren<TMP_Text>().text = "Aperte qualquer botï¿½o\npara entrar";
             hasPlayer.gameObject.SetActive(false);
         }
         else

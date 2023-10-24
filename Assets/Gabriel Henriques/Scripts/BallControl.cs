@@ -27,7 +27,7 @@ public class BallControl : MonoBehaviour
     void Start()
     {
         knockback = GetComponent<Knockback>();
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
         spawnPos = transform.position;
     }
 
@@ -107,6 +107,8 @@ public class BallControl : MonoBehaviour
     {
         anim.SetBool("FireBall", fBall);
         anim.SetBool("AttackBall", attackBall);
+        anim.SetFloat("Horizontal", GetComponent<Rigidbody2D>().velocity.x);
+        anim.SetFloat("Vertical", GetComponent<Rigidbody2D>().velocity.y);
     }
 
     public void SpecialBall()
@@ -115,7 +117,7 @@ public class BallControl : MonoBehaviour
         {
             fireBall.gameObject.SetActive(true);
         }
-        else
+        else if (fBall == false)
             fireBall.gameObject.SetActive(false);
 
 
@@ -139,22 +141,18 @@ public class BallControl : MonoBehaviour
         {
             if (player.GetComponent<GetAndAttackControl>().AttackDirectionValue.x > 0)
             {
-                GetComponent<SpriteRenderer>().flipX = false;
                 fireBall.flipX = false;
             }
             if (player.GetComponent<GetAndAttackControl>().AttackDirectionValue.x < 0)
             {
-                GetComponent<SpriteRenderer>().flipX = true;
                 fireBall.flipX = true;
             }
             if (player.GetComponent<GetAndAttackControl>().AttackDirectionValue.y > 0)
             {
-                GetComponent<SpriteRenderer>().flipY = false;
                 fireBall.flipY = false;
             }
             if (player.GetComponent<GetAndAttackControl>().AttackDirectionValue.y < 0)
             {
-                GetComponent<SpriteRenderer>().flipY = true;
                 fireBall.flipY = true;
             }
         }

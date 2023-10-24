@@ -32,6 +32,10 @@ public class QueimadaManager : MonoBehaviour
     [SerializeField] private int lossGame = 0;
     [SerializeField] private bool winGame;
     // Start is called before the first frame update
+
+
+    private bool[] lifeUI = new bool[5];
+
     void Start()
     {
         StartCoroutine(StarCooldown());
@@ -61,13 +65,15 @@ public class QueimadaManager : MonoBehaviour
         {
             contLoss[i] = true;
             lossGame += 1;
+            if (lossGame == 2)
+                player[i].GetComponent<GetAndAttackControl>().ScoreValue += 25;
             if (lossGame == 3)
-                player[i].GetComponent<GetAndAttackControl>().ScoreValue = 50;
-            
+                player[i].GetComponent<GetAndAttackControl>().ScoreValue += 50;
         } 
-        else if (lossGame == 3 && lossPlayer[i] == false)
+        else if (lossGame == 3 && lossPlayer[i] == false && contLoss[i] == false)
         {
-            player[i].GetComponent<GetAndAttackControl>().ScoreValue = 100;
+            player[i].GetComponent<GetAndAttackControl>().ScoreValue += 100;
+            contLoss[i] = true;
             FindObjectOfType<GameManager>().minigameEnded = true;
         }
     }
@@ -88,6 +94,14 @@ public class QueimadaManager : MonoBehaviour
 
     public void LifeUI(int i)
     {
+        if (lifeUI[i] == false)
+        {
+            life1[i].sprite = player[i].GetComponent<GetAndAttackControl>().SpriteUIValue;
+            life2[i].sprite = player[i].GetComponent<GetAndAttackControl>().SpriteUIValue;
+            life3[i].sprite = player[i].GetComponent<GetAndAttackControl>().SpriteUIValue;
+            lifeUI[i] = true;
+        }
+        
         switch (player[i].GetComponent<StatusPlayer>().lifeValue)
         {
             case 0:
@@ -117,9 +131,6 @@ public class QueimadaManager : MonoBehaviour
                 playerID = player[i].GetComponent<PlayerID>();
                 player[i].transform.position = spawnPos[playerID.ID - 1].position;
                 player[i].GetComponent<GetAndAttackControl>().ArrowValue = Instantiate(arrow);
-                life1[i].sprite = spriteLife[i+2];
-                life2[i].sprite = spriteLife[i+2];
-                life3[i].sprite = spriteLife[i+2];
             }
         }
     }

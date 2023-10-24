@@ -7,11 +7,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.DualShock;
 using UnityEngine.InputSystem.XInput;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class InputManager : MonoBehaviour
 {
-    // Caso queiram testar se algum botão está pressionado, é com esses valores.
+    // Caso queiram testar se algum botï¿½o estï¿½ pressionado, ï¿½ com esses valores.
     [Header("Valores Debug")]
     public int playerID = 0;
     public bool controllerConnected = false;
@@ -122,13 +121,13 @@ public class InputManager : MonoBehaviour
     }
     //----------------------Input----------------------//
 
-    // Analógico
+    // Analï¿½gico
     public void OnMove(InputAction.CallbackContext context )
     {
         moveDir = context.ReadValue<Vector2>();
     }
 
-    // Botões pressionados no frame;
+    // Botï¿½es pressionados no frame;
     public void OnSquare(InputAction.CallbackContext context)
     {
         squarePressed = context.action.triggered;
