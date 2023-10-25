@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 687720ec2bdde8843ae1fe10fcebf9d3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 20abbc01c3b570b45a9a8fa9b5f37720, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4937,9 +4937,9 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 2006652891
-  m_SortingLayer: -1
-  m_SortingOrder: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -5
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -4979,7 +4979,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6327687198557166668}
-  - component: {fileID: 6319492948448389408}
+  - component: {fileID: 6749675703435557439}
   m_Layer: 0
   m_Name: Hitbox
   m_TagString: Untagged
@@ -5002,8 +5002,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3564936394294548044}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &6319492948448389408
-CircleCollider2D:
+--- !u!70 &6749675703435557439
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5034,9 +5034,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.5}
-  serializedVersion: 2
-  m_Radius: 0.5
+  m_Offset: {x: 0, y: 1}
+  m_Size: {x: 1, y: 2}
+  m_Direction: 0
 --- !u!1 &3617645149592965802
 GameObject:
   m_ObjectHideFlags: 0
@@ -5174,7 +5174,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.05}
-  m_Size: {x: 0.5, y: 0.1}
+  m_Size: {x: 1, y: 0.1}
   m_Direction: 1
 --- !u!95 &3544887403203870030
 Animator:
@@ -5186,7 +5186,7 @@ Animator:
   m_GameObject: {fileID: 3617645149592965802}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 21a307cf689fa104581f9f88d3c9a338, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9b058c5b7d08c8e4d97c4964a190537b, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

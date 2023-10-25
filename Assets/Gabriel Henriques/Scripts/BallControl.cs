@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -16,11 +17,17 @@ public class BallControl : MonoBehaviour
     [SerializeField] private bool inStop;
     [SerializeField] private bool fora;
 
+    [SerializeField] private SpriteRenderer fireBall;
+    [SerializeField] private bool fBall;
+    [SerializeField] private bool attackBall;
+
+    [SerializeField] private Animator anim;
+
     // Start is called before the first frame update
     void Start()
     {
         knockback = GetComponent<Knockback>();
-        GetComponent<SpriteRenderer>().color = Color.cyan;
+        anim = GetComponentInChildren<Animator>();
         spawnPos = transform.position;
     }
 
@@ -30,6 +37,8 @@ public class BallControl : MonoBehaviour
         GetBallLogic();
         SpecialBall();
         StopBall();
+        BallSprite();
+        AnimLogic();
     }
 
     public void FixedUpdate()
@@ -62,6 +71,12 @@ public class BallControl : MonoBehaviour
         set {  colliderPlayer = value; } 
     }
 
+    public bool fireBallValue
+    {
+        get { return fBall; }
+        set { fBall = value; }
+    }
+
     public GameObject playerValue
     {
         get { return player; }
@@ -76,20 +91,40 @@ public class BallControl : MonoBehaviour
 
     public void GetBallLogic()
     {
-        if(tag == "AttackBall")
+        if (tag == "AttackBall")
         {
+            attackBall = true;
             getball.SetActive(true);
         }
         else
+        {
+            attackBall = false;
             getball.SetActive(false);
+        }
+    }
+
+    public void AnimLogic()
+    {
+        anim.SetBool("FireBall", fBall);
+        anim.SetBool("AttackBall", attackBall);
+        anim.SetFloat("Horizontal", GetComponent<Rigidbody2D>().velocity.x);
+        anim.SetFloat("Vertical", GetComponent<Rigidbody2D>().velocity.y);
     }
 
     public void SpecialBall()
     {
+        if (fBall == true)
+        {
+            fireBall.gameObject.SetActive(true);
+        }
+        else if (fBall == false)
+            fireBall.gameObject.SetActive(false);
+
+
         if (GetComponent<Rigidbody2D>().velocity == Vector2.zero && player == null)
         {
             GetComponent<CircleCollider2D>().isTrigger = false;
-            GetComponent<SpriteRenderer>().color = Color.cyan;
+            fBall = false;
             damage = 0;
         }
         else if(GetComponent<Rigidbody2D>().velocity == Vector2.zero && player != null && player.GetComponent<GetAndAttackControl>().getBallValue == false)
@@ -98,6 +133,29 @@ public class BallControl : MonoBehaviour
         }
         else
             GetComponent<CircleCollider2D>().isTrigger = true;
+    }
+
+    public void BallSprite()
+    {
+        if (player != null)
+        {
+            if (player.GetComponent<GetAndAttackControl>().AttackDirectionValue.x > 0)
+            {
+                fireBall.flipX = false;
+            }
+            if (player.GetComponent<GetAndAttackControl>().AttackDirectionValue.x < 0)
+            {
+                fireBall.flipX = true;
+            }
+            if (player.GetComponent<GetAndAttackControl>().AttackDirectionValue.y > 0)
+            {
+                fireBall.flipY = false;
+            }
+            if (player.GetComponent<GetAndAttackControl>().AttackDirectionValue.y < 0)
+            {
+                fireBall.flipY = true;
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -112,9 +170,9 @@ public class BallControl : MonoBehaviour
     {
         if (collider.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
-            knockback.KnockingForce(collider, player.GetComponent<GetAndAttackControl>().contValue);
-            //player.GetComponent<GetAndAttackControl>().contValue = 0;
             //knockback.Knocking(collider);
+            //player.GetComponent<GetAndAttackControl>().contValue = 0;
+            knockback.KnockingForce(collider, player.GetComponent<GetAndAttackControl>().contValue);
             //StartCoroutine(WallTime());
         }
         if (collider.gameObject.layer == LayerMask.NameToLayer("Wall2"))

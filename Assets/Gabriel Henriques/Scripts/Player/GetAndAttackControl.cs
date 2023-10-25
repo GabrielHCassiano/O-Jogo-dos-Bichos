@@ -9,9 +9,6 @@ public class GetAndAttackControl : MonoBehaviour
     private Rigidbody2D rb;
 
     private bool getBall = false;
-    private bool canAttack;
-    private bool attack;
-
 
     [SerializeField] private GameObject ball;
 
@@ -68,6 +65,12 @@ public class GetAndAttackControl : MonoBehaviour
         set { inputManager.playerData.playerScore = value; }
     }
 
+    public Sprite SpriteUIValue
+    {
+        get { return inputManager.playerData.playerSprite; }
+        set { inputManager.playerData.playerSprite = value; }
+    }
+
 
     public GameObject ArrowValue
     {
@@ -79,6 +82,12 @@ public class GetAndAttackControl : MonoBehaviour
     {
         get { return getBall; }
         set { getBall = value; }
+    }
+
+    public Vector2 AttackDirectionValue
+    {
+        get { return AttackDirection; }
+        set { AttackDirection = value; }
     }
 
     public bool knockValue
@@ -147,7 +156,7 @@ public class GetAndAttackControl : MonoBehaviour
         if (force >= 95)
         {
             ball.GetComponent<BallControl>().damageValue = 3;
-            ball.GetComponent<SpriteRenderer>().color = Color.red;
+            ball.GetComponent<BallControl>().fireBallValue = true;
         }
     }
 
@@ -216,7 +225,7 @@ public class GetAndAttackControl : MonoBehaviour
             knock = true;
             collider.GetComponent<BallControl>().playerValue.GetComponent<GetAndAttackControl>().contValue = 0;
             collider.GetComponent<Knockback>().Knocking(GetComponent<Collider2D>());
-            if (inputManager != null)    //Apenas correção de error  
+            if (inputManager != null)    //Apenas correï¿½ï¿½o de error  
                 knockback.Knocking(collider);
             GetComponent<StatusPlayer>().lifeValue -= collider.GetComponentInParent<BallControl>().damageValue;
             collider.GetComponentInParent<BallControl>().damageValue = 0;

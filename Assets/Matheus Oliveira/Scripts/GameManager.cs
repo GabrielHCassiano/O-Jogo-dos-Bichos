@@ -10,11 +10,11 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    // Criando uma instância do GameManager.
+    // Criando uma instï¿½ncia do GameManager.
     public static GameManager instance;
 
     [Header("Debug Options")]
-    [Tooltip("Esse bool é APENAS para forçar um pause, em caso de erros.")]
+    [Tooltip("Esse bool ï¿½ APENAS para forï¿½ar um pause, em caso de erros.")]
     public bool forcedGamePause = false;
     [Space]
     public List<GameObject> controllers;
@@ -24,6 +24,10 @@ public class GameManager : MonoBehaviour
     public int playerCount = 0;
 
     [Header("Game Stuff")]
+    public int total_rounds = 3;
+    public int rounds;
+    public bool gameFinished = false;
+    [Space]
     public bool minigameEnded = false; // os minigames tem que usar isso para determinar o fim do minigame;
     [Space]
     public GameObject scoreboardPanel;
@@ -34,8 +38,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // Garantindo que o GameManager não será deletado em transição de cena
-        // e que se tiver 2 GameManagers, um será deletado.
+        // Garantindo que o GameManager nï¿½o serï¿½ deletado em transiï¿½ï¿½o de cena
+        // e que se tiver 2 GameManagers, um serï¿½ deletado.
         if (instance == null)
             instance = this;
         else
@@ -61,7 +65,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        // Caso não tenha exatamente 4 players (o playerInputManager já limita em 4), o jogo terá um pause forçado.
+        // Caso nï¿½o tenha exatamente 4 players (o playerInputManager jï¿½ limita em 4), o jogo terï¿½ um pause forï¿½ado.
         if (SceneManager.GetActiveScene().name == "Menu")
             return;
         if (playerInputManager.playerCount < 4)
@@ -69,8 +73,8 @@ public class GameManager : MonoBehaviour
         else
             forcedGamePause = false;
 
-        // DEBUG, Como o normal é testar o controle direto nos jogos e não começar do Menu, os controles não são atribuidos automaticamente,
-        // pois eles não foram conectados ainda.
+        // DEBUG, Como o normal ï¿½ testar o controle direto nos jogos e nï¿½o comeï¿½ar do Menu, os controles nï¿½o sï¿½o atribuidos automaticamente,
+        // pois eles nï¿½o foram conectados ainda.
         if (Input.GetKeyDown(KeyCode.Space))
         {
             SetControllerParents();
@@ -93,26 +97,81 @@ public class GameManager : MonoBehaviour
         scoreboardPanel.SetActive(false);
 
         SetControllerParents();
+
+        if (SceneManager.GetActiveScene().name == "FinishScene")
+        {
+            for (int i = 0; i < controllers.Count; i++)
+            {
+                if (controllers[i].GetComponentInChildren<InputManager>() == null)
+                    return;
+                print(controllers[i].GetComponentInChildren<InputManager>().playerData.playerScoreIndex);
+                switch (controllers[i].GetComponentInChildren<InputManager>().playerData.playerScoreIndex)
+                {
+                    case 1:
+                        controllers[i].transform.position = RoomManager.instance.transform.Find("1").position;
+                        break;
+                    case 2:
+                        controllers[i].transform.position = RoomManager.instance.transform.Find("2").position;
+                        break;
+                    case 3:
+                        controllers[i].transform.position = RoomManager.instance.transform.Find("3").position;
+                        break;
+                    case 4:
+                        controllers[i].transform.position = RoomManager.instance.transform.Find("4").position;
+                        break;
+                    default:
+                        Debug.Log("ISSO ï¿½ PRA SER IMPOSSIVEL");
+                        break;
+                }
+            }
+        }
     }
 
     void CheckScores()
     {
         if (minigameEnded)
         {
-            scoreboardPanel.SetActive(true);
-            scoreboard = inputManagers;
-
-            // achar um jeito melhor de fazer isso, pois no momenti, após comparar 2 valores iguais, eles trocam de lugar
-            scoreboard.Sort((p1, p2) => p1.GetComponent<InputManager>().playerData.playerScore.CompareTo(p2.GetComponent<InputManager>().playerData.playerScore));
-            scoreboard.Reverse();
-            for (int i = 0; i < scoreboard.Count; i++)
-            {
-                UiPlayers[i].GetComponentInChildren<TMP_Text>().text = "Player " + scoreboard[i].GetComponent<InputManager>().playerID + " Score: " + scoreboard[i].GetComponent<InputManager>().playerData.playerScore;
-                UiPlayers[i].GetComponentInChildren<Image>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
-            }
-            minigameEnded = false;
+            StartCoroutine(MinigameEndSequence());
         }
     }
+
+    IEnumerator MinigameEndSequence()
+    {
+        scoreboardPanel.SetActive(true);
+        scoreboard = inputManagers;
+
+        // achar um jeito melhor de fazer isso, pois no momento, apï¿½s comparar 2 valores iguais, eles trocam de lugar
+        scoreboard.Sort((p1, p2) => p1.GetComponent<InputManager>().playerData.playerScore.CompareTo(p2.GetComponent<InputManager>().playerData.playerScore));
+        scoreboard.Reverse();
+        for (int i = 0; i < scoreboard.Count; i++)
+        {
+            scoreboard[i].GetComponent<InputManager>().playerData.playerScoreIndex = scoreboard.IndexOf(scoreboard[i]) + 1;
+            UiPlayers[i].GetComponentInChildren<TMP_Text>().text = "Player " + scoreboard[i].GetComponent<InputManager>().playerID + " Score: " + scoreboard[i].GetComponent<InputManager>().playerData.playerScore;
+            UiPlayers[i].GetComponentInChildren<Image>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
+        }
+
+        controllers.Clear();
+        foreach (GameObject inputs in GameManager.instance.inputManagers)
+        {
+            inputs.transform.parent = GameManager.instance.transform;
+        }
+
+        minigameEnded = false;
+
+        yield return new WaitForSeconds(5f);
+
+        if(rounds < total_rounds)
+        {
+            rounds++;
+            // carregar prï¿½ximo minigame
+        }
+        else if(!gameFinished)
+        {
+            // terminar o jogo
+            SceneManager.LoadScene("FinishScene");
+            gameFinished = true;
+        }
+    } 
 
     public void SetControllerParents()
     {

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -20,7 +19,12 @@ public class QueimadaManager : MonoBehaviour
 
     [SerializeField] private GameObject arrow;
 
-    [SerializeField] private TextMeshProUGUI[] life;
+    [SerializeField] private Image[] life1;
+    [SerializeField] private Image[] life2;
+    [SerializeField] private Image[] life3;
+
+    [SerializeField] private Sprite[] spriteLife;
+
     [SerializeField] private Slider[] force;
     [SerializeField] private bool[] lossPlayer;
     private bool[] contLoss = new bool[5];
@@ -28,6 +32,10 @@ public class QueimadaManager : MonoBehaviour
     [SerializeField] private int lossGame = 0;
     [SerializeField] private bool winGame;
     // Start is called before the first frame update
+
+
+    private bool[] lifeUI = new bool[5];
+
     void Start()
     {
         StartCoroutine(StarCooldown());
@@ -57,13 +65,15 @@ public class QueimadaManager : MonoBehaviour
         {
             contLoss[i] = true;
             lossGame += 1;
+            if (lossGame == 2)
+                player[i].GetComponent<GetAndAttackControl>().ScoreValue += 25;
             if (lossGame == 3)
-                player[i].GetComponent<GetAndAttackControl>().ScoreValue = 50;
-            
+                player[i].GetComponent<GetAndAttackControl>().ScoreValue += 50;
         } 
-        else if (lossGame == 3 && lossPlayer[i] == false)
+        else if (lossGame == 3 && lossPlayer[i] == false && contLoss[i] == false)
         {
-            player[i].GetComponent<GetAndAttackControl>().ScoreValue = 100;
+            player[i].GetComponent<GetAndAttackControl>().ScoreValue += 100;
+            contLoss[i] = true;
             FindObjectOfType<GameManager>().minigameEnded = true;
         }
     }
@@ -74,13 +84,41 @@ public class QueimadaManager : MonoBehaviour
         {
             for (int i = 0; i < 4; i++)
             {
-                life[i].text = player[i].GetComponent<StatusPlayer>().lifeValue.ToString();
+                LifeUI(i);
                 force[i].value = player[i].GetComponent<GetAndAttackControl>().forceValue / 100;
                 lossPlayer[i] = player[i].GetComponent<StatusPlayer>().loseValue;
                 WinLogic(i);
             }
         }
     }
+
+    public void LifeUI(int i)
+    {
+        if (lifeUI[i] == false)
+        {
+            life1[i].sprite = player[i].GetComponent<GetAndAttackControl>().SpriteUIValue;
+            life2[i].sprite = player[i].GetComponent<GetAndAttackControl>().SpriteUIValue;
+            life3[i].sprite = player[i].GetComponent<GetAndAttackControl>().SpriteUIValue;
+            lifeUI[i] = true;
+        }
+        
+        switch (player[i].GetComponent<StatusPlayer>().lifeValue)
+        {
+            case 0:
+                life1[i].gameObject.SetActive(false);
+                life2[i].gameObject.SetActive(false);
+                life3[i].gameObject.SetActive(false);
+                break;
+            case 1:
+                life1[i].gameObject.SetActive(false);
+                life2[i].gameObject.SetActive(false);
+                break;
+            case 2:
+                life1[i].gameObject.SetActive(false);
+                break;
+        }
+    }
+
     IEnumerator StarCooldown()
     {
         yield return new WaitForSeconds(0.01f);
