@@ -59,6 +59,12 @@ public class GetAndAttackControl : MonoBehaviour
         }
     }
 
+    public InputManager inputManagereValue
+    {
+        get { return inputManager; }
+        set { inputManager = value; }
+    }
+
     public int ScoreValue
     {
         get { return inputManager.playerData.playerScore; }
@@ -125,6 +131,8 @@ public class GetAndAttackControl : MonoBehaviour
             ball.transform.parent = transform;
             ball.transform.position = transform.position;
         }
+        if (ball != null && ball.GetComponent<BallControl>().playerValue != null && ball.GetComponent<BallControl>().playerValue.GetComponent<GetAndAttackControl>().gameObject != gameObject)
+            ball.GetComponent<BallControl>().playerValue.GetComponent<GetAndAttackControl>().cont = 0;
     }
 
     public void AttackLogic()
@@ -153,7 +161,7 @@ public class GetAndAttackControl : MonoBehaviour
         AttackDirection = ballDirection;
         time = true;
         cont = force/2;
-        if (force >= 95)
+        if (force >= 80)
         {
             ball.GetComponent<BallControl>().damageValue = 3;
             ball.GetComponent<BallControl>().fireBallValue = true;
@@ -207,8 +215,11 @@ public class GetAndAttackControl : MonoBehaviour
         if (time == true && cont <= 0)
         {
             cont = 0;
+            force = 0;
+            ball.tag = "Ball";
             time = false;
         }
+
         
     }
 
@@ -233,6 +244,7 @@ public class GetAndAttackControl : MonoBehaviour
         }
         if (collider.CompareTag("GetBall") && inputManager != null && inputManager.circlePressed == true)
         {
+            collider.GetComponentInParent<Rigidbody2D>().velocity = Vector2.zero;
             collider.GetComponentInParent<BallControl>().tag = "Ball";
         }
     }

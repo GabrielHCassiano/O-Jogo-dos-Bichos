@@ -18,6 +18,7 @@ public class BallControl : MonoBehaviour
     [SerializeField] private bool fora;
 
     [SerializeField] private SpriteRenderer fireBall;
+    [SerializeField] private SpriteRenderer Ball;
     [SerializeField] private bool fBall;
     [SerializeField] private bool attackBall;
 
@@ -37,7 +38,7 @@ public class BallControl : MonoBehaviour
         GetBallLogic();
         SpecialBall();
         StopBall();
-        BallSprite();
+        //BallSprite();
         AnimLogic();
     }
 
@@ -115,10 +116,14 @@ public class BallControl : MonoBehaviour
     {
         if (fBall == true)
         {
+            Ball.enabled = false;
             fireBall.gameObject.SetActive(true);
         }
         else if (fBall == false)
+        {
+            Ball.enabled = true;
             fireBall.gameObject.SetActive(false);
+        }
 
 
         if (GetComponent<Rigidbody2D>().velocity == Vector2.zero && player == null)

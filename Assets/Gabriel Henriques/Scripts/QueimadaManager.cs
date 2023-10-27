@@ -94,7 +94,7 @@ public class QueimadaManager : MonoBehaviour
 
     public void LifeUI(int i)
     {
-        if (lifeUI[i] == false)
+        if (lifeUI[i] == false && player[i].GetComponent<GetAndAttackControl>().inputManagereValue != null)
         {
             life1[i].sprite = player[i].GetComponent<GetAndAttackControl>().SpriteUIValue;
             life2[i].sprite = player[i].GetComponent<GetAndAttackControl>().SpriteUIValue;
