@@ -86,8 +86,8 @@ public class BallControl : MonoBehaviour
 
     public float playerContValue
     {
-        get { return player.GetComponent<GetAndAttackControl>().contValue; }
-        set { player.GetComponent<GetAndAttackControl>().contValue = value; }
+        get { return player.GetComponentInParent<GetAndAttackControl>().contValue; }
+        set { player.GetComponentInParent<GetAndAttackControl>().contValue = value; }
     }
 
     public void GetBallLogic()
@@ -114,6 +114,27 @@ public class BallControl : MonoBehaviour
 
     public void SpecialBall()
     {
+        if (GetComponent<Rigidbody2D>().velocity == Vector2.zero && player == null)
+        {
+            GetComponent<CircleCollider2D>().isTrigger = false;
+            fBall = false;
+            damage = 0;
+        }
+        else if (player != null && player.GetComponentInParent<StatusPlayer>().loseValue == true)
+        {
+            player = null;
+        }
+        /*else if (player != null && player.GetComponentInParent<GetAndAttackControl>().getBallValue == false)
+            GetComponent<CircleCollider2D>().isTrigger = true;*/
+        else if (GetComponent<Rigidbody2D>().velocity == Vector2.zero && player != null && player.GetComponentInParent<GetAndAttackControl>().getBallValue == false)
+        {
+            player = null;
+        }
+        else
+            GetComponent<CircleCollider2D>().isTrigger = true;
+
+
+
         if (fBall == true)
         {
             Ball.enabled = false;
@@ -124,39 +145,25 @@ public class BallControl : MonoBehaviour
             Ball.enabled = true;
             fireBall.gameObject.SetActive(false);
         }
-
-
-        if (GetComponent<Rigidbody2D>().velocity == Vector2.zero && player == null)
-        {
-            GetComponent<CircleCollider2D>().isTrigger = false;
-            fBall = false;
-            damage = 0;
-        }
-        else if(GetComponent<Rigidbody2D>().velocity == Vector2.zero && player != null && player.GetComponent<GetAndAttackControl>().getBallValue == false)
-        {
-            player = null;
-        }
-        else
-            GetComponent<CircleCollider2D>().isTrigger = true;
     }
 
     public void BallSprite()
     {
         if (player != null)
         {
-            if (player.GetComponent<GetAndAttackControl>().AttackDirectionValue.x > 0)
+            if (player.GetComponentInParent<GetAndAttackControl>().AttackDirectionValue.x > 0)
             {
                 fireBall.flipX = false;
             }
-            if (player.GetComponent<GetAndAttackControl>().AttackDirectionValue.x < 0)
+            if (player.GetComponentInParent<GetAndAttackControl>().AttackDirectionValue.x < 0)
             {
                 fireBall.flipX = true;
             }
-            if (player.GetComponent<GetAndAttackControl>().AttackDirectionValue.y > 0)
+            if (player.GetComponentInParent<GetAndAttackControl>().AttackDirectionValue.y > 0)
             {
                 fireBall.flipY = false;
             }
-            if (player.GetComponent<GetAndAttackControl>().AttackDirectionValue.y < 0)
+            if (player.GetComponentInParent<GetAndAttackControl>().AttackDirectionValue.y < 0)
             {
                 fireBall.flipY = true;
             }
@@ -165,10 +172,10 @@ public class BallControl : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && collision.gameObject.GetComponent<GetAndAttackControl>().getBallValue == true)
+        /*if (collision.gameObject.CompareTag("HitBox") /*&& collision.gameObject.GetComponentInParent<GetAndAttackControl>().getBallValue == true)
         {
             player = collision.gameObject;
-        }
+        }*/
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
@@ -176,22 +183,22 @@ public class BallControl : MonoBehaviour
         if (collider.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             //knockback.Knocking(collider);
-            //player.GetComponent<GetAndAttackControl>().contValue = 0;
-            knockback.KnockingForce(collider, player.GetComponent<GetAndAttackControl>().contValue);
+            //player.GetComponentInParent<GetAndAttackControl>().contValue = 0;
+            knockback.KnockingForce(collider, player.GetComponentInParent<GetAndAttackControl>().contValue);
             //StartCoroutine(WallTime());
         }
         if (collider.gameObject.layer == LayerMask.NameToLayer("Wall2"))
         {
             StartCoroutine(WallTime());
         }
-        if (collider.gameObject.CompareTag("Player") && collider.gameObject.GetComponent<GetAndAttackControl>().getBallValue == true)
+        if (collider.gameObject.CompareTag("HitBox") && collider.gameObject.GetComponentInParent<GetAndAttackControl>().getBallValue == true)
         {
             player = collider.gameObject;
         }
         if (collider.gameObject.CompareTag("AttackBall"))
         {
-            player.GetComponent<GetAndAttackControl>().contValue = 0;
-            collider.GetComponent<BallControl>().playerValue.GetComponent<GetAndAttackControl>().contValue = 0;
+            player.GetComponentInParent<GetAndAttackControl>().contValue = 0;
+            collider.GetComponent<BallControl>().playerValue.GetComponentInParent<GetAndAttackControl>().contValue = 0;
             knockback.Knocking(collider);
             collider.GetComponent<Knockback>().Knocking(GetComponent<Collider2D>());
         }
@@ -214,7 +221,7 @@ public class BallControl : MonoBehaviour
     {
         inStop = true;
         if(player != null)
-            player.GetComponent<GetAndAttackControl>().contValue = 0;
+            player.GetComponentInParent<GetAndAttackControl>().contValue = 0;
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         yield return new WaitForSeconds(0.5f);
         transform.position = spawnPos;
@@ -228,7 +235,7 @@ public class BallControl : MonoBehaviour
     {
         GetComponent<CircleCollider2D>().isTrigger = false;
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        player.GetComponent<GetAndAttackControl>().contValue = 0;
+        player.GetComponentInParent<GetAndAttackControl>().contValue = 0;
         yield return new WaitForSeconds(1f);
         GetComponent<CircleCollider2D>().isTrigger = true;
     }

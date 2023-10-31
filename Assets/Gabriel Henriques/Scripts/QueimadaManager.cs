@@ -46,6 +46,22 @@ public class QueimadaManager : MonoBehaviour
     {
         ManagerUI();
         AreasPlayer();
+        DebugLoss();
+    }
+
+    public void DebugLoss()
+    {
+        if(player != null)
+        {
+            if(Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha1) == true && player[0] != null) 
+                player[0].GetComponent<StatusPlayer>().lifeValue = 0;
+            if (Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha2) == true && player[1] != null)
+                player[1].GetComponent<StatusPlayer>().lifeValue = 0;
+            if (Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha3) == true && player[2] != null)
+                player[2].GetComponent<StatusPlayer>().lifeValue = 0;
+            if (Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha4) == true && player[3] != null)
+                player[3].GetComponent<StatusPlayer>().lifeValue = 0;
+        }
     }
 
     public void AreasPlayer()

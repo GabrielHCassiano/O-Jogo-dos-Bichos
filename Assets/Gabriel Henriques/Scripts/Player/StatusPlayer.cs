@@ -51,6 +51,7 @@ public class StatusPlayer : MonoBehaviour
     {
         if(life <= 0)
         {
+            life = 0;
             lose = true;
         }
         if (lose == true)
