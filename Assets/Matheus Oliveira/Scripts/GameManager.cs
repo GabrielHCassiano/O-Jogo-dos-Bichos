@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     [Space]
     public GameObject scoreboardPanel;
     public List<GameObject> UiPlayers;
-    List<GameObject> scoreboard;
+    [SerializeField] List<GameObject> scoreboard;
 
     PlayerInputManager playerInputManager;
 
@@ -104,7 +104,12 @@ public class GameManager : MonoBehaviour
             {
                 if (controllers[i].GetComponentInChildren<InputManager>() == null)
                     return;
+<<<<<<< Updated upstream
                 switch (controllers[i].GetComponentInChildren<InputManager>().playerData.playerScoreIndex)
+=======
+                print(controllers[i].GetComponentInChildren<InputManager>().playerData.playerScoreIndex);
+                switch (controllers[i].GetComponentInChildren<InputManager>().playerData.playerScoreIndex + 1)
+>>>>>>> Stashed changes
                 {
                     case 1:
                         controllers[i].transform.position = RoomManager.instance.transform.Find("1").position;
@@ -167,18 +172,17 @@ public class GameManager : MonoBehaviour
         scoreboard.Reverse();
         for (int i = 0; i < scoreboard.Count; i++)
         {
-            scoreboard[i].GetComponent<InputManager>().playerData.playerScoreIndex = scoreboard.IndexOf(scoreboard[i]) + 1;
+            scoreboard[i].GetComponent<InputManager>().playerData.playerScoreIndex = scoreboard.IndexOf(scoreboard[i]);
             UiPlayers[i].GetComponentInChildren<TMP_Text>().text = "Player " + scoreboard[i].GetComponent<InputManager>().playerID + " Score: " + scoreboard[i].GetComponent<InputManager>().playerData.playerScore;
-            UiPlayers[i].GetComponentInChildren<Image>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
+            if (UiPlayers[i].GetComponentInChildren<Image>().sprite == null)
+                UiPlayers[i].GetComponentInChildren<Image>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
         }
 
         controllers.Clear();
-        foreach (GameObject inputs in GameManager.instance.inputManagers)
+        foreach (GameObject inputs in inputManagers)
         {
-            inputs.transform.parent = GameManager.instance.transform;
+            inputs.transform.parent = transform;
         }
-
-        minigameEnded = false;
 
         yield return new WaitForSeconds(5f);
 
@@ -193,6 +197,8 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("FinishScene");
             gameFinished = true;
         }
+
+        minigameEnded = false;
     } 
 
     public void SetControllerParents()

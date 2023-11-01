@@ -66,7 +66,7 @@ public class MenuPlayerUImanager : MonoBehaviour
             }
 
             noPlayer.gameObject.SetActive(true);
-            noPlayer.GetComponentInChildren<TMP_Text>().text = "Aperte qualquer bot�o\npara entrar";
+            noPlayer.GetComponentInChildren<TMP_Text>().text = "Aperte qualquer botão\npara entrar";
             hasPlayer.gameObject.SetActive(false);
         }
         else
