@@ -104,7 +104,6 @@ public class GameManager : MonoBehaviour
             {
                 if (controllers[i].GetComponentInChildren<InputManager>() == null)
                     return;
-                print(controllers[i].GetComponentInChildren<InputManager>().playerData.playerScoreIndex);
                 switch (controllers[i].GetComponentInChildren<InputManager>().playerData.playerScoreIndex)
                 {
                     case 1:
@@ -133,6 +132,29 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(MinigameEndSequence());
         }
+        if (gameFinished)
+        {
+            StartCoroutine(Restart());
+        }
+    }
+
+    IEnumerator Restart()
+    {
+        gameFinished = false;
+
+        yield return new WaitForSeconds(8f);
+
+        for (int i = 0; i < inputManagers.Count; i++)
+        {
+            inputManagers[i].GetComponent<InputManager>().playerData.animatorController = null;
+            inputManagers[i].GetComponent<InputManager>().playerData.playerSprite = null;
+            inputManagers[i].GetComponent<InputManager>().playerData.playerScore = 0;
+            inputManagers[i].GetComponent<InputManager>().playerData.playerScoreIndex = 0;
+        }
+
+        controllers.Clear();
+
+        SceneManager.LoadScene("Menu");
     }
 
     IEnumerator MinigameEndSequence()

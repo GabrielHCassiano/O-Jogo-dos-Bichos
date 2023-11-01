@@ -9,6 +9,7 @@ TagManager:
   - GetBall
   - Ball
   - AttackBall
+  - Rope
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Wall2
   - Area
   - Ball
-  - 
+  - Ground
   - 
   - 
   - 
