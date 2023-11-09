@@ -104,12 +104,7 @@ public class GameManager : MonoBehaviour
             {
                 if (controllers[i].GetComponentInChildren<InputManager>() == null)
                     return;
-<<<<<<< Updated upstream
                 switch (controllers[i].GetComponentInChildren<InputManager>().playerData.playerScoreIndex)
-=======
-                print(controllers[i].GetComponentInChildren<InputManager>().playerData.playerScoreIndex);
-                switch (controllers[i].GetComponentInChildren<InputManager>().playerData.playerScoreIndex + 1)
->>>>>>> Stashed changes
                 {
                     case 1:
                         controllers[i].transform.position = RoomManager.instance.transform.Find("1").position;

@@ -6,11 +6,16 @@ using UnityEngine;
 public class PulaCordaManager : MonoBehaviour
 {
     public float speedModifier = 2;
+    public bool rotate = false;
     [Space]
     [SerializeField] GameObject rope;
     [SerializeField] GameObject ropeShadow;
     [Space]
     [SerializeField] BoxCollider2D ropeColl;
+    [Space]
+    public int lossCount = 0;
+
+    public List<GameObject> shadows;
 
     [SerializeField] float angleSoFar = 0;
     float angleLastFrame;
@@ -48,9 +53,6 @@ public class PulaCordaManager : MonoBehaviour
 
     void RopeAnim()
     {
-        rope.transform.Rotate(new Vector3(Time.deltaTime * speedModifier, 0, 0));
-        ropeShadow.transform.Rotate(new Vector3(Time.deltaTime * -speedModifier, 0, 0));
-
         if (rope.transform.eulerAngles.x < 180)
         {
             rope.GetComponent<LineRenderer>().sortingOrder = 1;
@@ -59,5 +61,10 @@ public class PulaCordaManager : MonoBehaviour
         {
             rope.GetComponent<LineRenderer>().sortingOrder = -1;
         }
+
+        if (!rotate)
+            return;
+        rope.transform.Rotate(new Vector3(Time.deltaTime * speedModifier, 0, 0));
+        ropeShadow.transform.Rotate(new Vector3(Time.deltaTime * -speedModifier, 0, 0));
     }
 }

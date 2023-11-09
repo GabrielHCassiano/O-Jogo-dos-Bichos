@@ -7,6 +7,7 @@ public class PulaCordaController : MonoBehaviour
 {
     bool grounded = true;
     bool lastFrameJumped = true;
+    bool canLose = true;
 
     Rigidbody2D rb;
     InputManager inputManager;
@@ -46,7 +47,13 @@ public class PulaCordaController : MonoBehaviour
 
     void Lose()
     {
-
+        RoomManager.instance.GetComponent<PulaCordaManager>().lossCount++;
+        if (inputManager != null)
+        {
+            RoomManager.instance.GetComponent<PulaCordaManager>().shadows[inputManager.playerID].GetComponent<SpriteRenderer>().enabled = false;
+        }
+        canLose = false;
+        enabled = false;
     }
 
     public void PlayDustParticle()
@@ -65,9 +72,8 @@ public class PulaCordaController : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag == "Rope")
+        if (collision.tag == "Rope" && canLose)
         {
-            print("yo we lost");
             Lose();
         }
     }
