@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PulaCordaManager : MonoBehaviour
 {
@@ -14,8 +15,6 @@ public class PulaCordaManager : MonoBehaviour
     [SerializeField] BoxCollider2D ropeColl;
     [Space]
     public int lossCount = 0;
-
-    public List<GameObject> shadows;
 
     [SerializeField] float angleSoFar = 0;
     float angleLastFrame;
@@ -33,6 +32,37 @@ public class PulaCordaManager : MonoBehaviour
     {
         RopeAnim();
         RopeColl();
+        EndGame();
+    }
+
+    void EndGame()
+    {
+        if (lossCount >= 3)
+        {
+            for(int i = 0; i < GameManager.instance.controllers.Count;  i++)
+            {
+                switch (GameManager.instance.controllers[i].GetComponent<PulaCordaController>().lost_pos)
+                {
+                    case 1:
+                        GameManager.instance.inputManagers[i].GetComponent<InputManager>().playerData.playerScore += 0;
+                        break;
+                    case 2:
+                        GameManager.instance.inputManagers[i].GetComponent<InputManager>().playerData.playerScore += 10;
+                        break;
+                    case 3:
+                        GameManager.instance.inputManagers[i].GetComponent<InputManager>().playerData.playerScore += 20;
+                        break;
+                    case 4:
+                        GameManager.instance.inputManagers[i].GetComponent<InputManager>().playerData.playerScore += 30;
+                        break;
+                    default:
+                        print("isso não é pra ser possível");
+                        break;
+                }
+            }
+
+            GameManager.instance.minigameEnded = true;
+        }
     }
 
     void RopeColl()

@@ -5,6 +5,8 @@ using UnityEngine.U2D;
 
 public class PulaCordaController : MonoBehaviour
 {
+    public int lost_pos = 0;
+
     bool grounded = true;
     bool lastFrameJumped = true;
     bool canLose = true;
@@ -48,12 +50,14 @@ public class PulaCordaController : MonoBehaviour
     void Lose()
     {
         RoomManager.instance.GetComponent<PulaCordaManager>().lossCount++;
+        lost_pos = RoomManager.instance.GetComponent<PulaCordaManager>().lossCount;
         if (inputManager != null)
         {
-            RoomManager.instance.GetComponent<PulaCordaManager>().shadows[inputManager.playerID].GetComponent<SpriteRenderer>().enabled = false;
+            RoomManager.instance.transform.GetChild(0).Find(inputManager.playerID.ToString()).gameObject.SetActive(false);
         }
+        GetComponentInChildren<SpriteRenderer>().enabled = false;
+        dustParticle.gameObject.SetActive(false);
         canLose = false;
-        enabled = false;
     }
 
     public void PlayDustParticle()

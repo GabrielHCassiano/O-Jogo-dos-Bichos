@@ -140,8 +140,6 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Restart()
     {
-        gameFinished = false;
-
         yield return new WaitForSeconds(8f);
 
         for (int i = 0; i < inputManagers.Count; i++)
@@ -153,8 +151,10 @@ public class GameManager : MonoBehaviour
         }
 
         controllers.Clear();
+        inputManagers.Clear();
 
         SceneManager.LoadScene("Menu");
+        gameFinished = false;
     }
 
     IEnumerator MinigameEndSequence()
@@ -185,15 +185,15 @@ public class GameManager : MonoBehaviour
         {
             rounds++;
             // carregar pr�ximo minigame
+            minigameEnded = false;
         }
         else if(!gameFinished)
         {
             // terminar o jogo
             SceneManager.LoadScene("FinishScene");
             gameFinished = true;
+            minigameEnded = false;
         }
-
-        minigameEnded = false;
     } 
 
     public void SetControllerParents()

@@ -1629,9 +1629,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedModifier: 200
+  rotate: 0
   rope: {fileID: 1771638700}
   ropeShadow: {fileID: 2092640694}
   ropeColl: {fileID: 2016806505}
+  lossCount: 0
+  shadows:
+  - {fileID: 1560483643}
+  - {fileID: 1236294611}
+  - {fileID: 2078034175}
+  - {fileID: 689031395}
   angleSoFar: 0
 --- !u!1 &1967783706
 GameObject:
