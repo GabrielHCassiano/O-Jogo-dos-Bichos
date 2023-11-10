@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     [Space]
     public GameObject scoreboardPanel;
     public List<GameObject> UiPlayers;
-    List<GameObject> scoreboard;
+    [SerializeField] List<GameObject> scoreboard;
 
     PlayerInputManager playerInputManager;
 
@@ -104,7 +104,6 @@ public class GameManager : MonoBehaviour
             {
                 if (controllers[i].GetComponentInChildren<InputManager>() == null)
                     return;
-                print(controllers[i].GetComponentInChildren<InputManager>().playerData.playerScoreIndex);
                 switch (controllers[i].GetComponentInChildren<InputManager>().playerData.playerScoreIndex)
                 {
                     case 1:
@@ -133,6 +132,29 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(MinigameEndSequence());
         }
+        if (gameFinished)
+        {
+            StartCoroutine(Restart());
+        }
+    }
+
+    IEnumerator Restart()
+    {
+        yield return new WaitForSeconds(8f);
+
+        for (int i = 0; i < inputManagers.Count; i++)
+        {
+            inputManagers[i].GetComponent<InputManager>().playerData.animatorController = null;
+            inputManagers[i].GetComponent<InputManager>().playerData.playerSprite = null;
+            inputManagers[i].GetComponent<InputManager>().playerData.playerScore = 0;
+            inputManagers[i].GetComponent<InputManager>().playerData.playerScoreIndex = 0;
+        }
+
+        controllers.Clear();
+        inputManagers.Clear();
+
+        SceneManager.LoadScene("Menu");
+        gameFinished = false;
     }
 
     IEnumerator MinigameEndSequence()
@@ -145,18 +167,17 @@ public class GameManager : MonoBehaviour
         scoreboard.Reverse();
         for (int i = 0; i < scoreboard.Count; i++)
         {
-            scoreboard[i].GetComponent<InputManager>().playerData.playerScoreIndex = scoreboard.IndexOf(scoreboard[i]) + 1;
+            scoreboard[i].GetComponent<InputManager>().playerData.playerScoreIndex = scoreboard.IndexOf(scoreboard[i]);
             UiPlayers[i].GetComponentInChildren<TMP_Text>().text = "Player " + scoreboard[i].GetComponent<InputManager>().playerID + " Score: " + scoreboard[i].GetComponent<InputManager>().playerData.playerScore;
-            UiPlayers[i].GetComponentInChildren<Image>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
+            if (UiPlayers[i].GetComponentInChildren<Image>().sprite == null)
+                UiPlayers[i].GetComponentInChildren<Image>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
         }
 
         controllers.Clear();
-        foreach (GameObject inputs in GameManager.instance.inputManagers)
+        foreach (GameObject inputs in inputManagers)
         {
-            inputs.transform.parent = GameManager.instance.transform;
+            inputs.transform.parent = transform;
         }
-
-        minigameEnded = false;
 
         yield return new WaitForSeconds(5f);
 
@@ -164,12 +185,14 @@ public class GameManager : MonoBehaviour
         {
             rounds++;
             // carregar pr�ximo minigame
+            minigameEnded = false;
         }
         else if(!gameFinished)
         {
             // terminar o jogo
             SceneManager.LoadScene("FinishScene");
             gameFinished = true;
+            minigameEnded = false;
         }
     } 
 
