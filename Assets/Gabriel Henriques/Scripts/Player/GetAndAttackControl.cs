@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GetAndAttackControl : MonoBehaviour
 {
@@ -9,8 +10,12 @@ public class GetAndAttackControl : MonoBehaviour
     private Rigidbody2D rb;
 
     private bool getBall = false;
+    private bool inGetBall;
+    private bool inputGetBall;
 
     [SerializeField] private GameObject ball;
+    [SerializeField] private GameObject[] attackBall = new GameObject[20];
+    private int idBall = 0;
 
     private float force = 0;
     private bool isLow;
@@ -44,6 +49,19 @@ public class GetAndAttackControl : MonoBehaviour
         AttackLogic();
         AttackTime();
         ContLogic();
+        /*if (inputManager.trianglePressed == true && ball != null)
+        {
+            ball.transform.parent = null;
+            ball.GetComponent<BallControl>().playerValue = null;
+            force = 0;
+
+            ball.tag = "Ball";
+            ball.tag = "Ball";
+            getBall = false;
+            inGetBall = false;
+            inputGetBall = false;
+            ball = null;
+        }*/
     }
 
     private void FixedUpdate()
@@ -114,6 +132,12 @@ public class GetAndAttackControl : MonoBehaviour
         set { force = value; }
     }
 
+    public bool inGetBallValue
+    {
+        get { return inGetBall; }
+        set { inGetBall = value; }
+    }
+
     public void DirectionMove()
     {
         if (inputManager != null && inputManager.moveDir != Vector2.zero && arrow != null)
@@ -141,6 +165,25 @@ public class GetAndAttackControl : MonoBehaviour
         }
         if (ball != null && ball.GetComponent<BallControl>().playerValue != null && ball.GetComponent<BallControl>().playerValue.GetComponentInParent<GetAndAttackControl>().gameObject != gameObject)
             ball.GetComponent<BallControl>().playerValue.GetComponentInParent<GetAndAttackControl>().cont = 0;
+
+
+        if (inputManager != null && inputManager.circlePressed == true && inputGetBall == false && getBall == false)
+        {
+            inputGetBall = true;
+            if (inGetBall == false)
+            {
+                StartCoroutine(GetBallCooldown());
+            }
+        }
+        if (inputManager != null && inputManager.circlePressed == false)
+            inputGetBall = false;
+    }
+
+    IEnumerator GetBallCooldown()
+    {
+        inGetBall = true;
+        yield return new WaitForSeconds(1.5f);
+        inGetBall = false;
     }
 
     public void AttackLogic()
@@ -154,6 +197,19 @@ public class GetAndAttackControl : MonoBehaviour
         }
         if (inArrow == true && inputManager.squarePressed == false)
         {
+            attackBall[idBall] = ball;
+            ball = null;
+            idBall += 1;
+            /*ball.transform.parent = null;
+            //ball.GetComponent<BallControl>().playerValue = null;
+            //force = 0;
+
+            //ball.tag = "Ball";
+            getBall = false;
+            inGetBall = false;
+            /*inputGetBall = false;
+            ball = null;*/
+
             inArrow = false;
             arrow.SetActive(false);
             InAttack();
@@ -162,31 +218,33 @@ public class GetAndAttackControl : MonoBehaviour
 
     void InAttack()
     {
-        ball.tag = "AttackBall";
-        ball.GetComponentInParent<BallControl>().damageValue = 1;
+        attackBall[idBall - 1].tag = "AttackBall";
+        attackBall[idBall - 1].GetComponentInParent<BallControl>().damageValue = 1;
         getBall = false;
-        ball.transform.parent = null;
+        attackBall[idBall - 1].transform.parent = null;
         AttackDirection = ballDirection;
+
         time = true;
         cont = force/2 + 20;
-        if (force >= 95)
+        if (force >= 97)
         {
-            ball.GetComponent<BallControl>().damageValue = 3;
-            ball.GetComponent<BallControl>().fireBallValue = true;
+            attackBall[idBall - 1].GetComponent<BallControl>().damageValue = 3;
+            attackBall[idBall - 1].GetComponent<BallControl>().fireBallValue = true;
         }
     }
 
     public void AttackTime()
     {
-        if (ball != null && ball.tag == "AttackBall")
+        if (idBall - 1 >= 0 && attackBall[idBall - 1] != null && attackBall[idBall - 1].tag == "AttackBall")
         {
-            ball.GetComponent<Rigidbody2D>().velocity = new Vector2(AttackDirection.x * cont, AttackDirection.y * cont);
+            attackBall[idBall - 1].GetComponent<Rigidbody2D>().velocity = new Vector2(AttackDirection.x * cont, AttackDirection.y * cont);
         }
-        if (ball != null && ball.tag == "AttackBall" && ball.GetComponent<Rigidbody2D>().velocity == Vector2.zero)
+        if (idBall - 1 >= 0 && attackBall[idBall - 1] != null && attackBall[idBall - 1].tag == "AttackBall" && attackBall[idBall - 1].GetComponent<Rigidbody2D>().velocity == Vector2.zero)
         {
             force = 0;
-            ball.tag = "Ball";
-            ball = null;
+            attackBall[idBall - 1].tag = "Ball";
+            attackBall[idBall - 1] = null;
+            idBall -= 1;
         }
     }
 
@@ -225,12 +283,13 @@ public class GetAndAttackControl : MonoBehaviour
             cont = 0;
             force = 0;
             time = false;
-            if (ball != null)
+            if (idBall -1 >= 0 && attackBall[idBall - 1] != null)
             {
-                ball.tag = "Ball";
-                ball.GetComponentInParent<Rigidbody2D>().velocity = Vector2.zero;
-                ball.GetComponent<BallControl>().fireBallValue = false;
-                ball = null;
+                attackBall[idBall - 1].tag = "Ball";
+                attackBall[idBall - 1].GetComponentInParent<Rigidbody2D>().velocity = Vector2.zero;
+                attackBall[idBall - 1].GetComponent<BallControl>().fireBallValue = false;
+                attackBall[idBall - 1] = null;
+                idBall -= 1;
             }
         }
 
@@ -241,6 +300,13 @@ public class GetAndAttackControl : MonoBehaviour
     {
         if (collider.CompareTag("Ball") && getBall == false)
         {
+            /*if (ball != null)
+            {
+                ball.transform.parent = null;
+                ball.GetComponent<BallControl>().playerValue = null;
+                getBall = false;
+                inGetBall = false;
+            }*/
             ball = collider.gameObject;
             getBall = true;
             collider.GetComponentInParent<Rigidbody2D>().velocity = Vector2.zero;
@@ -258,7 +324,7 @@ public class GetAndAttackControl : MonoBehaviour
             collider.GetComponentInParent<BallControl>().damageValue = 0;
             collider.GetComponent<BallControl>().playerValue = null;
         }
-        if (collider.CompareTag("GetBall") && inputManager != null && inputManager.circlePressed == true && getBall == false)
+        if (collider.CompareTag("GetBall") && inputManager != null && inGetBall == true)
         {
             collider.GetComponentInParent<BallControl>().tag = "Ball";
         }

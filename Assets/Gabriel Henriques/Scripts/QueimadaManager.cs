@@ -1,10 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class QueimadaManager : MonoBehaviour
@@ -19,6 +16,10 @@ public class QueimadaManager : MonoBehaviour
 
     [SerializeField] private GameObject arrow;
 
+    [SerializeField] private Sprite[] spriteX;
+    [SerializeField] private Sprite[] spriteO;
+    [SerializeField] private Sprite[] spriteD;
+
     [SerializeField] private Image[] life1;
     [SerializeField] private Image[] life2;
     [SerializeField] private Image[] life3;
@@ -28,6 +29,15 @@ public class QueimadaManager : MonoBehaviour
     [SerializeField] private Slider[] force;
     [SerializeField] private bool[] lossPlayer;
     private bool[] contLoss = new bool[5];
+
+    [SerializeField] private Toggle[] getBall;
+    [SerializeField] private Image[] getBallBack;
+    [SerializeField] private Image[] getBallCheck;
+    [SerializeField] private Toggle[] inDash;
+    [SerializeField] private Image[] inDashBack;
+    [SerializeField] private Image[] inDashCheck;
+    [SerializeField] private Image[] attackUI;
+
 
     [SerializeField] private int lossGame = 0;
     [SerializeField] private bool winGame;
@@ -44,9 +54,9 @@ public class QueimadaManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        DebugLoss();
         ManagerUI();
         AreasPlayer();
-        DebugLoss();
     }
 
     public void DebugLoss()
@@ -82,13 +92,13 @@ public class QueimadaManager : MonoBehaviour
             contLoss[i] = true;
             lossGame += 1;
             if (lossGame == 2)
-                player[i].GetComponent<GetAndAttackControl>().ScoreValue += 25;
+                player[i].GetComponent<GetAndAttackControl>().ScoreValue += 10;
             if (lossGame == 3)
-                player[i].GetComponent<GetAndAttackControl>().ScoreValue += 50;
+                player[i].GetComponent<GetAndAttackControl>().ScoreValue += 20;
         } 
         else if (lossGame == 3 && lossPlayer[i] == false && contLoss[i] == false)
         {
-            player[i].GetComponent<GetAndAttackControl>().ScoreValue += 100;
+            player[i].GetComponent<GetAndAttackControl>().ScoreValue += 30;
             contLoss[i] = true;
             FindObjectOfType<GameManager>().minigameEnded = true;
         }
@@ -103,7 +113,10 @@ public class QueimadaManager : MonoBehaviour
                 LifeUI(i);
                 force[i].value = player[i].GetComponent<GetAndAttackControl>().forceValue / 100;
                 lossPlayer[i] = player[i].GetComponent<StatusPlayer>().loseValue;
+                inDash[i].isOn = player[i].GetComponent<TopDownController>().canDash;
+                getBall[i].isOn = !player[i].GetComponent<GetAndAttackControl>().inGetBallValue;
                 WinLogic(i);
+                SpriteButton(i);
             }
         }
     }
@@ -147,6 +160,53 @@ public class QueimadaManager : MonoBehaviour
                 playerID = player[i].GetComponent<PlayerID>();
                 player[i].transform.position = spawnPos[playerID.ID - 1].position;
                 player[i].GetComponent<GetAndAttackControl>().ArrowValue = Instantiate(arrow);
+            }
+        }
+    }
+
+    public void SpriteButton(int i)
+    {
+        if (player[i].GetComponent<GetAndAttackControl>().inputManagereValue != null)
+        {
+            if (player[i].GetComponent<GetAndAttackControl>().inputManagereValue.inputName == "Keyboard")
+            {
+                attackUI[i].sprite = spriteD[0];
+                getBallBack[i].sprite = spriteO[0];
+                getBallCheck[i].sprite = spriteO[0];
+                inDashBack[i].sprite = spriteX[0];
+                inDashCheck[i].sprite = spriteX[0];
+            }
+            if (player[i].GetComponent<GetAndAttackControl>().inputManagereValue.inputName == "Playstation")
+            {
+                attackUI[i].sprite = spriteD[1];
+                getBallBack[i].sprite = spriteO[1];
+                getBallCheck[i].sprite = spriteO[1];
+                inDashBack[i].sprite = spriteX[1];
+                inDashCheck[i].sprite = spriteX[1];
+            }
+            if (player[i].GetComponent<GetAndAttackControl>().inputManagereValue.inputName == "Xbox")
+            {
+                attackUI[i].sprite = spriteD[2];
+                getBallBack[i].sprite = spriteO[2];
+                getBallCheck[i].sprite = spriteO[2];
+                inDashBack[i].sprite = spriteX[2];
+                inDashCheck[i].sprite = spriteX[2];
+            }
+            if (player[i].GetComponent<GetAndAttackControl>().inputManagereValue.inputName == "Nintendo")
+            {
+                attackUI[i].sprite = spriteD[3];
+                getBallBack[i].sprite = spriteO[3];
+                getBallCheck[i].sprite = spriteO[3];
+                inDashBack[i].sprite = spriteX[3];
+                inDashCheck[i].sprite = spriteX[3];
+            }
+            if (player[i].GetComponent<GetAndAttackControl>().inputManagereValue.inputName == "Generic")
+            {
+                attackUI[i].sprite = spriteD[4];
+                getBallBack[i].sprite = spriteO[4];
+                getBallCheck[i].sprite = spriteO[4];
+                inDashBack[i].sprite = spriteX[4];
+                inDashCheck[i].sprite = spriteX[4];
             }
         }
     }

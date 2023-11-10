@@ -48,16 +48,24 @@ public class BallControl : MonoBehaviour
         {
             if (knock == true)
             {
+                //tag = "Ball";
                 knock = false;
                 GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             }
         }
         else
         {
+            //tag = "AttackBall";
             knock = true;
             knockback.KnockLogic();
         }
 
+    }
+
+    public bool knockValue
+    {
+        get { return knock; }
+        set { knock = value; }
     }
 
     public int damageValue
@@ -180,11 +188,12 @@ public class BallControl : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        if (collider.gameObject.layer == LayerMask.NameToLayer("Wall") && tag == "AttackBall")
         {
             //knockback.Knocking(collider);
             //player.GetComponentInParent<GetAndAttackControl>().contValue = 0;
-            knockback.KnockingForce(collider, player.GetComponentInParent<GetAndAttackControl>().contValue);
+            knockback.KnockingWall(collider, player.GetComponentInParent<GetAndAttackControl>().contValue);
+            player.GetComponentInParent<GetAndAttackControl>().contValue = 0;
             //StartCoroutine(WallTime());
         }
         if (collider.gameObject.layer == LayerMask.NameToLayer("Wall2"))

@@ -34,6 +34,12 @@ public class Knockback : MonoBehaviour
         set { kBCount = value; }
     }
 
+    public Vector2 differenceValue
+    {
+        get { return difference; }
+        set { difference = value; }
+    }
+
 
     public void KnockLogic()
     {
@@ -61,15 +67,16 @@ public class Knockback : MonoBehaviour
 
     }
 
-    public void KnockingForce(Collider2D collider, float force)
+    public void KnockingWall(Collider2D collider, float force)
     {
-        kBForce = force;
         kBCount = kBTime;
 
         if (collider != null)
         {
-            difference = rb.transform.position - collider.transform.position;
-            difference = difference.normalized * kBForce;
+            /*difference = rb.transform.position - collider.transform.position;
+            difference = difference.normalized * kBForce;*/
+            difference = collider.GetComponent<Knockback>().differenceValue;
+            difference *= kBForce;
             isKnockRightPlayer = true;
         }
         else
