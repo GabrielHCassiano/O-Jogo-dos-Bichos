@@ -28,10 +28,15 @@ public class GameManager : MonoBehaviour
     public int rounds;
     public bool gameFinished = false;
     [Space]
+    public List<int> playedMinigames;
+    public List<int> availableMinigames;
     public bool minigameEnded = false; // os minigames tem que usar isso para determinar o fim do minigame;
+    bool runOnce = false;
     [Space]
+    public TMP_Text startText;
     public GameObject scoreboardPanel;
     public List<GameObject> UiPlayers;
+    [Space]
     [SerializeField] List<GameObject> scoreboard;
 
     PlayerInputManager playerInputManager;
@@ -46,6 +51,8 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
 
         DontDestroyOnLoad(gameObject);
+
+        Random.InitState((int)System.DateTime.Now.Ticks);
     }
 
     private void OnEnable()
@@ -68,10 +75,21 @@ public class GameManager : MonoBehaviour
         // Caso n�o tenha exatamente 4 players (o playerInputManager j� limita em 4), o jogo ter� um pause for�ado.
         if (SceneManager.GetActiveScene().name == "Menu")
             return;
-        if (playerInputManager.playerCount < 4)
-            forcedGamePause = true;
+
+        if (forcedGamePause)
+        {
+            for (int i = 0; i < inputManagers.Count ;i++)
+            {
+                inputManagers[i].GetComponent<InputManager>().canInput = false;
+            }
+        }
         else
-            forcedGamePause = false;
+        {
+            for (int i = 0; i < inputManagers.Count; i++)
+            {
+                inputManagers[i].GetComponent<InputManager>().canInput = true;
+            }
+        }
 
         // DEBUG, Como o normal � testar o controle direto nos jogos e n�o come�ar do Menu, os controles n�o s�o atribuidos automaticamente,
         // pois eles n�o foram conectados ainda.
@@ -88,6 +106,8 @@ public class GameManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Menu")
             return;
 
+        minigameEnded = false;
+
         for (int i = 1; i <= 4; i++)
         {
             var player = Instantiate(RoomManager.instance.playerControllerPrefab);
@@ -95,16 +115,16 @@ public class GameManager : MonoBehaviour
         }
 
         scoreboardPanel.SetActive(false);
+        runOnce = false;
 
         SetControllerParents();
 
         if (SceneManager.GetActiveScene().name == "FinishScene")
         {
-            for (int i = 0; i < controllers.Count; i++)
+            for (int i = 0; i < inputManagers.Count; i++)
             {
-                if (controllers[i].GetComponentInChildren<InputManager>() == null)
-                    return;
-                switch (controllers[i].GetComponentInChildren<InputManager>().playerData.playerScoreIndex)
+                print(controllers[i].GetComponentInChildren<InputManager>().playerData.playerScoreIndex + 1);
+                switch (controllers[i].GetComponentInChildren<InputManager>().playerData.playerScoreIndex + 1)
                 {
                     case 1:
                         controllers[i].transform.position = RoomManager.instance.transform.Find("1").position;
@@ -124,23 +144,47 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            StartCoroutine(MinigameStartRoutine());
+        }
+    }
+
+    IEnumerator MinigameStartRoutine()
+    {
+        forcedGamePause = true;
+        startText.text = "";
+        yield return new WaitForSeconds(1);
+        startText.text = "3";
+        yield return new WaitForSeconds(1);
+        startText.text = "2";
+        yield return new WaitForSeconds(1);
+        startText.text = "1";
+        yield return new WaitForSeconds(1);
+        startText.text = "";
+        forcedGamePause = false;
     }
 
     void CheckScores()
     {
-        if (minigameEnded)
+        if (minigameEnded && !runOnce)
         {
             StartCoroutine(MinigameEndSequence());
-        }
-        if (gameFinished)
-        {
-            StartCoroutine(Restart());
+            runOnce = true;
         }
     }
 
     IEnumerator Restart()
     {
+        rounds = 0;
+        minigameEnded = false;
         yield return new WaitForSeconds(8f);
+
+        foreach (var scene in playedMinigames)
+        {
+            availableMinigames.Add(scene);
+        }
+        playedMinigames.Clear();
 
         for (int i = 0; i < inputManagers.Count; i++)
         {
@@ -151,7 +195,11 @@ public class GameManager : MonoBehaviour
         }
 
         controllers.Clear();
-        inputManagers.Clear();
+
+        foreach (GameObject inputs in inputManagers)
+        {
+            inputs.transform.parent = transform;
+        }
 
         SceneManager.LoadScene("Menu");
         gameFinished = false;
@@ -159,42 +207,54 @@ public class GameManager : MonoBehaviour
 
     IEnumerator MinigameEndSequence()
     {
+        rounds++;
         scoreboardPanel.SetActive(true);
         scoreboard = inputManagers;
 
         // achar um jeito melhor de fazer isso, pois no momento, ap�s comparar 2 valores iguais, eles trocam de lugar
         scoreboard.Sort((p1, p2) => p1.GetComponent<InputManager>().playerData.playerScore.CompareTo(p2.GetComponent<InputManager>().playerData.playerScore));
         scoreboard.Reverse();
-        for (int i = 0; i < scoreboard.Count; i++)
+        for (int i = 0; i < inputManagers.Count; i++)
         {
             scoreboard[i].GetComponent<InputManager>().playerData.playerScoreIndex = scoreboard.IndexOf(scoreboard[i]);
             UiPlayers[i].GetComponentInChildren<TMP_Text>().text = "Player " + scoreboard[i].GetComponent<InputManager>().playerID + " Score: " + scoreboard[i].GetComponent<InputManager>().playerData.playerScore;
-            if (UiPlayers[i].GetComponentInChildren<Image>().sprite == null)
-                UiPlayers[i].GetComponentInChildren<Image>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
+            UiPlayers[i].GetComponentInChildren<Image>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
         }
 
         controllers.Clear();
+
+        yield return new WaitForSeconds(5f);
+
         foreach (GameObject inputs in inputManagers)
         {
             inputs.transform.parent = transform;
         }
 
-        yield return new WaitForSeconds(5f);
-
-        if(rounds < total_rounds)
+        if (rounds < total_rounds)
         {
-            rounds++;
-            // carregar pr�ximo minigame
-            minigameEnded = false;
+            /**
+            int index = Random.Range(0, availableMinigames.Count - 1);
+            int theSceneIndex = availableMinigames[index];
+            availableMinigames.RemoveAt(index);
+            foreach (var scene in playedMinigames)
+            {
+                availableMinigames.Add(scene);
+            }
+            playedMinigames.Clear();
+            playedMinigames.Add(theSceneIndex);
+            SceneManager.LoadScene(theSceneIndex);
+            **/
+
+            SceneManager.LoadScene("Queimada");
         }
-        else if(!gameFinished)
+        else if (!gameFinished)
         {
             // terminar o jogo
             SceneManager.LoadScene("FinishScene");
+            StartCoroutine(Restart());
             gameFinished = true;
-            minigameEnded = false;
         }
-    } 
+    }
 
     public void SetControllerParents()
     {

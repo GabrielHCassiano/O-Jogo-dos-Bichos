@@ -1451,14 +1451,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1771638700}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -1, y: 0, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: -0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2016806504}
   m_Father: {fileID: 1629092001}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -180, y: 0, z: 0}
 --- !u!120 &1771638702
 LineRenderer:
   serializedVersion: 2
@@ -1634,11 +1634,6 @@ MonoBehaviour:
   ropeShadow: {fileID: 2092640694}
   ropeColl: {fileID: 2016806505}
   lossCount: 0
-  shadows:
-  - {fileID: 1560483643}
-  - {fileID: 1236294611}
-  - {fileID: 2078034175}
-  - {fileID: 689031395}
   angleSoFar: 0
 --- !u!1 &1967783706
 GameObject:
@@ -1919,13 +1914,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2092640694}
   serializedVersion: 2
-  m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -1.74, z: 0}
   m_LocalScale: {x: 1, y: 0.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1629092001}
-  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!120 &2092640696
 LineRenderer:
   serializedVersion: 2

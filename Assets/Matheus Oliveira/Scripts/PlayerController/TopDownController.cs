@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class TopDownController : MonoBehaviour
 {
@@ -15,7 +16,6 @@ public class TopDownController : MonoBehaviour
     public float dashDuration = 1f;
 
     [Header("Debug")]
-    public bool canInput = true;
     public bool canMove = true;
     [Space]
     public bool lastFramePressedDash;
@@ -47,16 +47,24 @@ public class TopDownController : MonoBehaviour
             inputManager = GetComponent<PlayerID>().inputManager;
         else
             return;
-        if (canInput == false)
+
+        Animations();
+
+        if (inputManager.canInput == false)
+            return;
+        if (SceneManager.GetActiveScene().name == "FinishScene")
             return;
 
         DashInput();
-        Animations();
     }
 
     private void FixedUpdate()
     {
-        if (inputManager == null || canInput == false)
+        if (inputManager == null)
+            return;
+        if (inputManager.canInput == false)
+            return;
+        if (SceneManager.GetActiveScene().name == "FinishScene")
             return;
         Move();
         Dash();
@@ -135,6 +143,13 @@ public class TopDownController : MonoBehaviour
     {
         if (animator == null)
             return;
+        if (SceneManager.GetActiveScene().name == "FinishScene")
+        {
+            if (inputManager.playerData.playerScoreIndex >= 3)
+                animator.SetBool("lose", true);
+            else
+                animator.SetBool("win", true);
+        }
 
         animator.runtimeAnimatorController = inputManager.playerData.animatorController;
         animator.SetBool("isWalking", rb.velocity.magnitude != 0);

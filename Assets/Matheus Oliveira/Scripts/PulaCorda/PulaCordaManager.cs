@@ -39,10 +39,13 @@ public class PulaCordaManager : MonoBehaviour
     {
         if (lossCount >= 3)
         {
-            for(int i = 0; i < GameManager.instance.controllers.Count;  i++)
+            for(int i = 0; i < GameManager.instance.inputManagers.Count; i++)
             {
                 switch (GameManager.instance.controllers[i].GetComponent<PulaCordaController>().lost_pos)
                 {
+                    case 0:
+                        GameManager.instance.inputManagers[i].GetComponent<InputManager>().playerData.playerScore += 30;
+                        break;
                     case 1:
                         GameManager.instance.inputManagers[i].GetComponent<InputManager>().playerData.playerScore += 0;
                         break;
@@ -91,6 +94,8 @@ public class PulaCordaManager : MonoBehaviour
         {
             rope.GetComponent<LineRenderer>().sortingOrder = -1;
         }
+
+        rotate = !GameManager.instance.forcedGamePause;
 
         if (!rotate)
             return;

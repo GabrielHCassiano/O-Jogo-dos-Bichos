@@ -17,6 +17,8 @@ public class InputManager : MonoBehaviour
     [Space]
     public Vector2 moveDir = Vector2.zero;
     [Space]
+    public bool canInput;
+    [Space]
     public bool squarePressed = false;
     public bool trianglePressed = false;
     public bool circlePressed = false;
@@ -50,11 +52,22 @@ public class InputManager : MonoBehaviour
 
         if (playerInput.devices[0] is Keyboard)
         {
-            inputName = "Keyboard";
-            squareId = keyboardIDs[0];
-            triangleId = keyboardIDs[1];
-            circleId = keyboardIDs[2];
-            xId = keyboardIDs[3];
+            if(playerInput.devices[0].name == "Left")
+            {
+                inputName = "Keyboard Left";
+                squareId = keyboardIDs[0];
+                triangleId = keyboardIDs[1];
+                circleId = keyboardIDs[2];
+                xId = keyboardIDs[3];
+            }
+            else if (playerInput.devices[0].name == "Right")
+            {
+                inputName = "Keyboard Right";
+                squareId = keyboardIDs[4];
+                triangleId = keyboardIDs[5];
+                circleId = keyboardIDs[6];
+                xId = keyboardIDs[7];
+            }
         }
         else if (playerInput.devices[0].description.manufacturer != "")
         {

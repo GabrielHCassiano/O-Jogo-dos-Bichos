@@ -32,7 +32,19 @@ public class PulaCordaController : MonoBehaviour
         else
             return;
 
+        Animations();
+
+        if (inputManager.canInput == false)
+            return;
         Jump();
+    }
+
+    void Animations()
+    {
+        if (animator == null)
+            return;
+
+        animator.runtimeAnimatorController = inputManager.playerData.animatorController;
     }
 
     void Jump()
@@ -53,7 +65,7 @@ public class PulaCordaController : MonoBehaviour
         lost_pos = RoomManager.instance.GetComponent<PulaCordaManager>().lossCount;
         if (inputManager != null)
         {
-            RoomManager.instance.transform.GetChild(0).Find(inputManager.playerID.ToString()).gameObject.SetActive(false);
+            RoomManager.instance.transform.GetChild(0).Find(inputManager.playerID.ToString()).gameObject.SetActive(false); // desligar a sombra
         }
         GetComponentInChildren<SpriteRenderer>().enabled = false;
         dustParticle.gameObject.SetActive(false);

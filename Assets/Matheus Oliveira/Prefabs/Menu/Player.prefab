@@ -371,7 +371,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Segure <size=60><sprite=564></size> para confirmar
+  m_text: Segure <size=60><sprite=32></size> para confirmar
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2e42f880c8c587e4d99f749e955e7654, type: 2}
   m_sharedMaterial: {fileID: 6013880719665703521, guid: 2e42f880c8c587e4d99f749e955e7654, type: 2}

@@ -29,6 +29,13 @@ public class MenuManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        Random.InitState((int)System.DateTime.Now.Ticks);
+
+        foreach (MenuPlayerUImanager player in players)
+        {
+            player.confirmed = false;
+            play = false;
+        }
     }
 
     void Update()
@@ -53,7 +60,16 @@ public class MenuManager : MonoBehaviour
                 inputs.transform.parent = GameManager.instance.transform;
             }
             GameManager.instance.rounds = 0;
-            SceneManager.LoadScene("Queimada"); // trocar pela lógica de random
+
+            /**
+            int index = Random.Range(0, GameManager.instance.availableMinigames.Count);
+            int theSceneIndex = GameManager.instance.availableMinigames[index];
+            GameManager.instance.availableMinigames.RemoveAt(index);
+            GameManager.instance.playedMinigames.Add(theSceneIndex);
+            SceneManager.LoadScene(theSceneIndex);
+            **/
+
+            SceneManager.LoadScene("Queimada");
         }
 
         if(inputManager != null)
@@ -82,7 +98,7 @@ public class MenuManager : MonoBehaviour
         // caso contrário voltar para o menu principal
         if (!started && inputManager != null)
         {
-            if (inputManager.anyPressed)
+            if (inputManager.xPressed)
             {
                 SwitchToMenu(1);
                 started = true;

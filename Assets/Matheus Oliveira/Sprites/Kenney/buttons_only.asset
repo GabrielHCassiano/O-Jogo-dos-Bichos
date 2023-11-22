@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!21 &-4517598501855702950
+--- !u!21 &-2298185444075420183
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 1
@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Name: buttons_only
   m_EditorClassIdentifier: 
   hashCode: 1826217102
-  material: {fileID: -4517598501855702950}
+  material: {fileID: -2298185444075420183}
   materialHashCode: 0
   m_Version: 1.1.0
   m_FaceInfo:
@@ -277,47 +277,71 @@ MonoBehaviour:
     m_Unicode: 65534
     m_GlyphIndex: 32
     m_Scale: 1
+    m_Name: buttons_only_40
+    m_HashCode: 1663643797
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 33
+    m_Scale: 1
+    m_Name: buttons_only_41
+    m_HashCode: 1663643796
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 34
+    m_Scale: 1
+    m_Name: buttons_only_42
+    m_HashCode: 1663643799
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 35
+    m_Scale: 1
+    m_Name: buttons_only_43
+    m_HashCode: 1663643798
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 36
+    m_Scale: 1
     m_Name: buttons_only_32
     m_HashCode: 1663643760
   - m_ElementType: 2
     m_Unicode: 65534
-    m_GlyphIndex: 33
+    m_GlyphIndex: 37
     m_Scale: 1
     m_Name: buttons_only_33
     m_HashCode: 1663643761
   - m_ElementType: 2
     m_Unicode: 65534
-    m_GlyphIndex: 34
+    m_GlyphIndex: 38
     m_Scale: 1
     m_Name: buttons_only_34
     m_HashCode: 1663643766
   - m_ElementType: 2
     m_Unicode: 65534
-    m_GlyphIndex: 35
+    m_GlyphIndex: 39
     m_Scale: 1
     m_Name: buttons_only_35
     m_HashCode: 1663643767
   - m_ElementType: 2
     m_Unicode: 65534
-    m_GlyphIndex: 36
+    m_GlyphIndex: 40
     m_Scale: 1
     m_Name: buttons_only_36
     m_HashCode: 1663643764
   - m_ElementType: 2
     m_Unicode: 65534
-    m_GlyphIndex: 37
+    m_GlyphIndex: 41
     m_Scale: 1
     m_Name: buttons_only_37
     m_HashCode: 1663643765
   - m_ElementType: 2
     m_Unicode: 65534
-    m_GlyphIndex: 38
+    m_GlyphIndex: 42
     m_Scale: 1
     m_Name: buttons_only_38
     m_HashCode: 1663643770
   - m_ElementType: 2
     m_Unicode: 65534
-    m_GlyphIndex: 39
+    m_GlyphIndex: 43
     m_Scale: 1
     m_Name: buttons_only_39
     m_HashCode: 1663643771
@@ -842,6 +866,70 @@ MonoBehaviour:
       m_HorizontalBearingY: 12
       m_HorizontalAdvance: 16
     m_GlyphRect:
+      m_X: 0
+      m_Y: 0
+      m_Width: 16
+      m_Height: 16
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: -1414308711, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
+  - m_Index: 33
+    m_Metrics:
+      m_Width: 16
+      m_Height: 16
+      m_HorizontalBearingX: -0
+      m_HorizontalBearingY: 12
+      m_HorizontalAdvance: 16
+    m_GlyphRect:
+      m_X: 16
+      m_Y: 0
+      m_Width: 16
+      m_Height: 16
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: 1907435020, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
+  - m_Index: 34
+    m_Metrics:
+      m_Width: 16
+      m_Height: 16
+      m_HorizontalBearingX: -0
+      m_HorizontalBearingY: 12
+      m_HorizontalAdvance: 16
+    m_GlyphRect:
+      m_X: 32
+      m_Y: 0
+      m_Width: 16
+      m_Height: 16
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: 1455060216, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
+  - m_Index: 35
+    m_Metrics:
+      m_Width: 16
+      m_Height: 16
+      m_HorizontalBearingX: -0
+      m_HorizontalBearingY: 12
+      m_HorizontalAdvance: 16
+    m_GlyphRect:
+      m_X: 48
+      m_Y: 0
+      m_Width: 16
+      m_Height: 16
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: 345128483, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
+  - m_Index: 36
+    m_Metrics:
+      m_Width: 16
+      m_Height: 16
+      m_HorizontalBearingX: -0
+      m_HorizontalBearingY: 12
+      m_HorizontalAdvance: 16
+    m_GlyphRect:
       m_X: 128
       m_Y: 0
       m_Width: 16
@@ -850,7 +938,7 @@ MonoBehaviour:
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
     sprite: {fileID: 1369877917, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
-  - m_Index: 33
+  - m_Index: 37
     m_Metrics:
       m_Width: 16
       m_Height: 16
@@ -866,7 +954,7 @@ MonoBehaviour:
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
     sprite: {fileID: 2082874029, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
-  - m_Index: 34
+  - m_Index: 38
     m_Metrics:
       m_Width: 16
       m_Height: 16
@@ -882,7 +970,7 @@ MonoBehaviour:
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
     sprite: {fileID: -1079291717, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
-  - m_Index: 35
+  - m_Index: 39
     m_Metrics:
       m_Width: 16
       m_Height: 16
@@ -898,7 +986,7 @@ MonoBehaviour:
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
     sprite: {fileID: 2097685533, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
-  - m_Index: 36
+  - m_Index: 40
     m_Metrics:
       m_Width: 16
       m_Height: 16
@@ -914,7 +1002,7 @@ MonoBehaviour:
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
     sprite: {fileID: 1030020400, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
-  - m_Index: 37
+  - m_Index: 41
     m_Metrics:
       m_Width: 16
       m_Height: 16
@@ -930,7 +1018,7 @@ MonoBehaviour:
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
     sprite: {fileID: -1291897240, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
-  - m_Index: 38
+  - m_Index: 42
     m_Metrics:
       m_Width: 16
       m_Height: 16
@@ -946,7 +1034,7 @@ MonoBehaviour:
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
     sprite: {fileID: 463580096, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
-  - m_Index: 39
+  - m_Index: 43
     m_Metrics:
       m_Width: 16
       m_Height: 16

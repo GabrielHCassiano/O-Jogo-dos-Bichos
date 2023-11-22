@@ -4982,7 +4982,7 @@ GameObject:
   - component: {fileID: 6749675703435557439}
   m_Layer: 0
   m_Name: Hitbox
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5108,7 +5108,6 @@ MonoBehaviour:
   currentDashCooldown: 0
   dashSpeed: 4
   dashDuration: 0.25
-  canInput: 1
   canMove: 1
   lastFramePressedDash: 0
   canDash: 1
@@ -5187,7 +5186,7 @@ Animator:
   m_GameObject: {fileID: 3617645149592965802}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 39354dee71718ef4d8e831d5f33e8f74, type: 2}
+  m_Controller: {fileID: 9100000, guid: a2795c364042bcc41b9b5e7968dfc4aa, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
