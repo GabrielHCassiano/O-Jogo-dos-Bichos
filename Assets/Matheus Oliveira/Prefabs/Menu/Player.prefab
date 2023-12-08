@@ -573,6 +573,9 @@ MonoBehaviour:
   playerSpriteIndex: 0
   confirmationTime: 0
   confirmed: 0
+  playerSpriteSecret: {fileID: 21300000, guid: d115a165cc75c134b8672bcd771f9291, type: 3}
+  playerUiIconSecret: {fileID: 21300000, guid: 687720ec2bdde8843ae1fe10fcebf9d3, type: 3}
+  animatorControllerSecret: {fileID: 9100000, guid: 21a307cf689fa104581f9f88d3c9a338, type: 2}
 --- !u!222 &1202598593802741340
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -76,6 +76,15 @@ public class MenuManager : MonoBehaviour
         {
             returnText.text = "Segure <size=60><sprite=" + inputManager.circleId + "></size> para sair";
         }
+
+        if (Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha1) == true)
+            players[0].confirmed = true;
+        if (Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha2) == true)
+            players[1].confirmed = true;
+        if (Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha3) == true)
+            players[2].confirmed = true;
+        if (Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha4) == true)
+            players[3].confirmed = true;
     }
 
     void InputManager()

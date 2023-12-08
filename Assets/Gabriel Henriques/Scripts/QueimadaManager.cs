@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,11 +8,23 @@ public class QueimadaManager : MonoBehaviour
     private GameObject[] player;
     private PlayerID playerID;
 
+    [SerializeField] private SpriteRenderer mapaMain;
+    [SerializeField] private Sprite[] mapaSprite;
+    [SerializeField] private SpriteRenderer[] spriteArea;
+    [SerializeField] private Animator mapaMainAnim;
+    [SerializeField] private RuntimeAnimatorController praiaAnim;
+    [SerializeField] private GameObject conesObj;
+    [SerializeField] private GameObject canudosObj;
+    [SerializeField] private GameObject coqueirosObj;
+    [SerializeField] private GameObject gravetosObj;
+    [SerializeField] private SpriteRenderer[] spriteLine;
+
     [SerializeField] private Animator[] areas;
     [SerializeField] private Animator area1;
 
-
     [SerializeField] private GameObject arrow;
+    [SerializeField] private GameObject special;
+    [SerializeField] private GameObject luva;
 
     [SerializeField] private Sprite[] spriteX;
     [SerializeField] private Sprite[] spriteO;
@@ -63,7 +73,7 @@ public class QueimadaManager : MonoBehaviour
     {
         if(player != null)
         {
-            if(Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha1) == true && player[0] != null) 
+            if (Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha1) == true && player[0] != null)
                 player[0].GetComponent<StatusPlayer>().lifeValue = 0;
             if (Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha2) == true && player[1] != null)
                 player[1].GetComponent<StatusPlayer>().lifeValue = 0;
@@ -95,8 +105,13 @@ public class QueimadaManager : MonoBehaviour
                 player[i].GetComponent<GetAndAttackControl>().ScoreValue += 10;
             if (lossGame == 3)
                 player[i].GetComponent<GetAndAttackControl>().ScoreValue += 20;
-        } 
-        else if (lossGame == 3 && lossPlayer[i] == false && contLoss[i] == false)
+            if (lossGame == 4)
+            {
+                player[i].GetComponent<GetAndAttackControl>().ScoreValue += 30;
+                FindObjectOfType<GameManager>().minigameEnded = true;
+            }
+        }
+            else if (lossGame == 3 && lossPlayer[i] == false && contLoss[i] == false)
         {
             player[i].GetComponent<GetAndAttackControl>().ScoreValue += 30;
             contLoss[i] = true;
@@ -152,15 +167,94 @@ public class QueimadaManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.01f);
         player = GameObject.FindGameObjectsWithTag("Player");
+        Random.InitState((int)System.DateTime.Now.Ticks);
+        MapRandom();
         if (player != null)
         {
             for (int i = 0; i < 4; i++)
             {
+                player[i].GetComponent<TopDownController>().moveSpeed = 2.5f;
                 player[i].AddComponent<PlayerQueimadaControl>();
                 playerID = player[i].GetComponent<PlayerID>();
                 player[i].transform.position = spawnPos[playerID.ID - 1].position;
                 player[i].GetComponent<GetAndAttackControl>().ArrowValue = Instantiate(arrow);
+                player[i].GetComponent<GetAndAttackControl>().specialValue = Instantiate(special);
+                player[i].GetComponent<GetAndAttackControl>().luvaValue = Instantiate(luva);
             }
+        }
+    }
+
+    private void MapRandom()
+    {
+        //int select = Random.Range(1, 4);
+        int select = FindObjectOfType<GameManager>().rounds+1;
+        Color color;
+        switch (select)
+        {
+            case 1:
+                mapaMain.sprite = mapaSprite[0];
+                mapaMain.color = Color.white;
+                FindObjectOfType<Camera>().orthographicSize = 8.9f;
+                FindObjectOfType<Camera>().transform.position = new Vector3(0f, 0f, -10);
+                mapaMainAnim.enabled = false;
+                //mapaMainAnim.runtimeAnimatorController = null;
+                conesObj.SetActive(true);
+                coqueirosObj.SetActive(false);
+                canudosObj.SetActive(false);
+                gravetosObj.SetActive(false);
+                for (int i = 0; i < 4; i++)
+                {
+                    color = spriteArea[i].color;
+                    color.a = 0f;
+                    spriteArea[i].color = color;
+                    color = spriteLine[i].color;
+                    color.a = 0.4f;
+                    spriteLine[i].color = color;
+
+                }
+                break;
+            case 2:
+                mapaMain.sprite = mapaSprite[1];
+                mapaMain.color = Color.white;
+                FindObjectOfType<Camera>().orthographicSize = 11f;
+                FindObjectOfType<Camera>().transform.position = new Vector3(0f, 2f, -10);
+                //mapaMainAnim.runtimeAnimatorController = null;
+                mapaMainAnim.enabled = false;
+                conesObj.SetActive(false);
+                coqueirosObj.SetActive(false);
+                canudosObj.SetActive(false);
+                gravetosObj.SetActive(true);
+                for (int i = 0; i < 4; i++)
+                {
+                    color = spriteArea[i].color;
+                    color.a = 0.0f;
+                    spriteArea[i].color = color;
+                    color = spriteLine[i].color;
+                    color.a = 0f;
+                    spriteLine[i].color = color;
+                }
+                break;
+            case 3:
+                mapaMain.sprite = mapaSprite[2];
+                mapaMain.color = Color.white;
+                FindObjectOfType<Camera>().orthographicSize = 10f;
+                FindObjectOfType<Camera>().transform.position = new Vector3(0.5f, -1.6f, -10);
+                mapaMainAnim.enabled = true;
+                conesObj.SetActive(false);
+                coqueirosObj.SetActive(true);
+                canudosObj.SetActive(true);
+                gravetosObj.SetActive(false);
+                for (int i = 0; i < 4; i++)
+                {
+                    color = spriteArea[i].color;
+                    color.a = 0f;
+                    spriteArea[i].color = color;
+                    color = spriteLine[i].color;
+                    color.a = 0f;
+                    spriteLine[i].color = color;
+                }
+
+                break;
         }
     }
 
@@ -168,7 +262,7 @@ public class QueimadaManager : MonoBehaviour
     {
         if (player[i].GetComponent<GetAndAttackControl>().inputManagereValue != null)
         {
-            if (player[i].GetComponent<GetAndAttackControl>().inputManagereValue.inputName == "Keyboard")
+            if (player[i].GetComponent<GetAndAttackControl>().inputManagereValue.inputName == "Keyboard Left")
             {
                 attackUI[i].sprite = spriteD[0];
                 getBallBack[i].sprite = spriteO[0];
@@ -207,6 +301,14 @@ public class QueimadaManager : MonoBehaviour
                 getBallCheck[i].sprite = spriteO[4];
                 inDashBack[i].sprite = spriteX[4];
                 inDashCheck[i].sprite = spriteX[4];
+            }
+            if (player[i].GetComponent<GetAndAttackControl>().inputManagereValue.inputName == "Keyboard Right")
+            {
+                attackUI[i].sprite = spriteD[5];
+                getBallBack[i].sprite = spriteO[5];
+                getBallCheck[i].sprite = spriteO[5];
+                inDashBack[i].sprite = spriteX[5];
+                inDashCheck[i].sprite = spriteX[5];
             }
         }
     }

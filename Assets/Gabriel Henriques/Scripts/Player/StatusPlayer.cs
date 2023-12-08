@@ -63,6 +63,8 @@ public class StatusPlayer : MonoBehaviour
     IEnumerator LoseCooldown()
     {
         yield return new WaitForSeconds(0.1f);
+        if (GetComponentInChildren<InputManager>() != null)
+            GetComponentInChildren<InputManager>().transform.parent = null;
         gameObject.SetActive(false);
     }
 

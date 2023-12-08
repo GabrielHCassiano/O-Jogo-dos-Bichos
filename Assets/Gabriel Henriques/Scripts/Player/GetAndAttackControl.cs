@@ -9,7 +9,7 @@ public class GetAndAttackControl : MonoBehaviour
     [SerializeField] private InputManager inputManager;
     private Rigidbody2D rb;
 
-    private bool getBall = false;
+    [SerializeField] private bool getBall = false;
     private bool inGetBall;
     private bool inputGetBall;
 
@@ -20,12 +20,20 @@ public class GetAndAttackControl : MonoBehaviour
     private float force = 0;
     private bool isLow;
 
+    [SerializeField] private int contKill;
+    private bool specialAttack;
+    private bool specialDown;
+
+
     private float cont = 0;
     private bool time = false;
     private Vector2 ballDirection;
     private Vector2 AttackDirection;
 
     [SerializeField] private GameObject arrow;
+    [SerializeField] private GameObject special;
+    [SerializeField] private GameObject luva;
+
     private bool inArrow;
 
     private Knockback knockback;
@@ -39,29 +47,22 @@ public class GetAndAttackControl : MonoBehaviour
 
         arrow.transform.parent = transform;
         arrow.transform.position = transform.position + new Vector3(0, 0.8f, 0);
+        special.transform.parent = transform;
+        special.transform.position = transform.position + new Vector3(-0.1f, 0.8f, 0);
+        luva.transform.parent = transform;
+        luva.transform.position = transform.position + new Vector3(-0.05f, 2.8f, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
         DirectionMove();
+        DropBall();
         GetBallLogic();
+        SpecialAttack();
         AttackLogic();
         AttackTime();
         ContLogic();
-        /*if (inputManager.trianglePressed == true && ball != null)
-        {
-            ball.transform.parent = null;
-            ball.GetComponent<BallControl>().playerValue = null;
-            force = 0;
-
-            ball.tag = "Ball";
-            ball.tag = "Ball";
-            getBall = false;
-            inGetBall = false;
-            inputGetBall = false;
-            ball = null;
-        }*/
     }
 
     private void FixedUpdate()
@@ -101,6 +102,16 @@ public class GetAndAttackControl : MonoBehaviour
         get { return arrow; }
         set { arrow = value; }
     }
+    public GameObject specialValue
+    {
+        get { return special; }
+        set { special = value; }
+    }
+    public GameObject luvaValue
+    {
+        get { return luva; }
+        set { luva = value; }
+    }
 
     public bool getBallValue
     {
@@ -112,6 +123,18 @@ public class GetAndAttackControl : MonoBehaviour
     {
         get { return AttackDirection; }
         set { AttackDirection = value; }
+    }
+
+    public int contKillValue
+    {
+        get { return contKill; }
+        set { contKill = value; }
+    }
+
+    public bool specialDownValue
+    {
+        get { return specialDown; }
+        set { specialDown = value; }
     }
 
     public bool knockValue
@@ -148,8 +171,62 @@ public class GetAndAttackControl : MonoBehaviour
         }
     }
 
+    public void DropBall()
+    {
+        if (inputManager != null && inputManager.trianglePressed == true && ball != null)
+        {
+            ball.transform.parent = null;
+            ball.GetComponent<BallControl>().playerValue = null;
+            force = 0;
+
+            ball.tag = "Ball";
+            getBall = false;
+            inGetBall = false;
+            inputGetBall = false;
+            ball = null;
+        }
+    }
+
+    public void SpecialAttack()
+    {
+
+        if (specialAttack == true)
+        {
+            special.SetActive(true);
+        }
+        else
+            special.SetActive(false);
+
+        if (contKill >= 2 && specialAttack == false)
+        {
+            specialAttack = true;
+        }
+        else if (contKill <= 0)
+            specialAttack = false;
+
+        if (contKill > 0 && specialDown == false)
+        {
+            StartCoroutine(SpecialDown());
+        }
+    }
+
+    IEnumerator SpecialDown()
+    {
+        specialDown = true;
+        yield return new WaitForSeconds(7);
+        contKill = 0;
+    }
+
     public void GetBallLogic()
     {
+
+        if (inGetBall == true)
+        {
+            luva.SetActive(true);
+        }
+        else
+            luva.SetActive(false);
+
         if (ball != null && GetComponent<StatusPlayer>().loseValue == true)
         {
             ball.transform.parent = null;
@@ -226,10 +303,13 @@ public class GetAndAttackControl : MonoBehaviour
 
         time = true;
         cont = force/2 + 20;
-        if (force >= 97)
+        if (specialAttack == true)
         {
             attackBall[idBall - 1].GetComponent<BallControl>().damageValue = 3;
             attackBall[idBall - 1].GetComponent<BallControl>().fireBallValue = true;
+            cont = 100 / 2 + 20;
+            contKill = 0;
+            StopCoroutine(SpecialDown());
         }
     }
 
@@ -316,6 +396,21 @@ public class GetAndAttackControl : MonoBehaviour
         if (collider.CompareTag("AttackBall"))
         {
             knock = true;
+            StartCoroutine(DamageAnim());
+            /*if(ball != null)
+            {
+                ball.transform.parent = null;
+                ball.GetComponent<BallControl>().playerValue = null;
+                force = 0;
+                ball.tag = "Ball";
+                getBall = false;
+                inGetBall = false;
+                inputGetBall = false;
+                ball = null;
+            }*/
+            collider.GetComponent<BallControl>().playerValue.GetComponentInParent<GetAndAttackControl>().contKillValue++;
+            collider.GetComponent<BallControl>().playerValue.GetComponentInParent<GetAndAttackControl>().StopCoroutine(SpecialDown());
+            collider.GetComponent<BallControl>().playerValue.GetComponentInParent<GetAndAttackControl>().specialDownValue = false;
             collider.GetComponent<BallControl>().playerValue.GetComponentInParent<GetAndAttackControl>().contValue = 0;
             collider.GetComponent<Knockback>().Knocking(GetComponent<Collider2D>());
             if (inputManager != null)    //Apenas corre��o de error  
@@ -329,4 +424,12 @@ public class GetAndAttackControl : MonoBehaviour
             collider.GetComponentInParent<BallControl>().tag = "Ball";
         }
     }
+
+    IEnumerator DamageAnim()
+    {
+        GetComponentInChildren<SpriteRenderer>().color = Color.red;
+        yield return new WaitForSeconds(0.2f);
+        GetComponentInChildren<SpriteRenderer>().color = Color.white;
+    }
+
 }

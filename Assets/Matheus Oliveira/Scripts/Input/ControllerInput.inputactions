@@ -87,6 +87,28 @@
                 },
                 {
                     "name": "",
+                    "id": "5cd8a253-6c36-46f0-824f-a4977e4f3496",
+                    "path": "<HID:: USB Gamepad          >/button4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Quadrado",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "955a9a52-f107-4b21-a8ca-55aa6e437a06",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/button4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Quadrado",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "8ba53b3b-1b22-4ae0-8e70-f028b22fcf23",
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
@@ -114,6 +136,28 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
+                    "action": "Triangulo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cddc18ff-1595-47bf-bc6b-3775c7c7472b",
+                    "path": "<HID:: USB Gamepad          >/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Triangulo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0f931c2e-5a80-463b-ae51-438f07ce9e6f",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
                     "action": "Triangulo",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -153,6 +197,28 @@
                 },
                 {
                     "name": "",
+                    "id": "8622cad8-15bf-470e-a5fd-03bf85beb0bb",
+                    "path": "<HID:: USB Gamepad          >/button3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Xis",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cdf38393-58e1-4d0d-be7b-0e733273bad6",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/button3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Xis",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "761ee574-1f9c-4493-84e1-e7fa8de8989f",
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
@@ -180,6 +246,28 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
+                    "action": "Bola",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a7b5acdf-5162-4644-8e28-dbffb3114a33",
+                    "path": "<HID:: USB Gamepad          >/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Bola",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f91ac443-b13d-4509-98d6-1d20cd3ea827",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
                     "action": "Bola",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -433,6 +521,204 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "2711e7d3-132f-4100-9f5d-3c5d03cf4695",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "NormalizeVector2",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "d22b9e61-9b4b-4e38-a856-d705b9e24911",
+                    "path": "<HID:: USB Gamepad          >/hat/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "up",
+                    "id": "6de2872a-90a4-4155-aa2b-7121b0624023",
+                    "path": "<HID:: USB Gamepad          >/stick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "2b7f1cc9-bc64-45a7-b58f-fbf4c7ff3e59",
+                    "path": "<HID:: USB Gamepad          >/hat/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "cfda1d2a-b3ad-4b60-8ccb-c5be3b437d0d",
+                    "path": "<HID:: USB Gamepad          >/stick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "d9eb18d6-7e2f-42ad-ae05-059cfc2e7e59",
+                    "path": "<HID:: USB Gamepad          >/hat/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "9ab2eac5-6656-400b-a291-a19cf326a8d1",
+                    "path": "<HID:: USB Gamepad          >/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "2c955252-5490-497b-9616-47b69cb26866",
+                    "path": "<HID:: USB Gamepad          >/hat/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "11d1d423-26c9-4aaa-821b-831de9867ae1",
+                    "path": "<HID:: USB Gamepad          >/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "2a8e02d3-657c-4128-9d19-9f72d35aad48",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "NormalizeVector2",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "2b883ae5-56b8-465f-98da-c9db752354e1",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/hat/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "up",
+                    "id": "d6afb123-1d66-44d0-8818-b23ccb791f86",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/stick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "fdc69d86-52ca-4b74-9988-8ba9185eaff1",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/hat/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "ef351911-c4ef-4de3-8f77-c51d55feb847",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/stick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "89d69a6e-91a8-4af7-9365-ab6272df29cf",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/hat/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "f2f163fe-0a0e-47fb-a946-cc2acbb17285",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "4851efd3-ff5b-429d-873c-4d2630a7dbb7",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/hat/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "baccc9a7-731a-4ff0-8509-5c11c383ac54",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -801,6 +1087,248 @@
                     "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "45c72773-97af-4a2f-8ca0-543c4f2ad067",
+                    "path": "<HID:: USB Gamepad          >/button3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5eb255cf-55ec-46bd-b913-cbeac4600d66",
+                    "path": "<HID:: USB Gamepad          >/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "5a2c952d-44c4-45ec-9f6a-80110aa9887a",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "NormalizeVector2",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "3f2c7ef7-341d-4ec3-a713-2679bddb7eab",
+                    "path": "<HID:: USB Gamepad          >/hat/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "up",
+                    "id": "2ee21634-45e5-432d-8f36-72e2fb6ced01",
+                    "path": "<HID:: USB Gamepad          >/stick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "feb0c3a6-7e62-4d23-9f4e-2c97dcce4feb",
+                    "path": "<HID:: USB Gamepad          >/hat/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "641952db-3a42-4090-bcc6-7aa49738d8d6",
+                    "path": "<HID:: USB Gamepad          >/stick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "3b77859a-6dc5-4919-9811-6b44bd26843c",
+                    "path": "<HID:: USB Gamepad          >/hat/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "eb687e6c-700e-472a-8e57-2edc1d9dfc20",
+                    "path": "<HID:: USB Gamepad          >/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "cbff2c89-d3e8-4a23-9531-c3522ded8e4d",
+                    "path": "<HID:: USB Gamepad          >/hat/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "73eb6b3e-2da8-4e5e-81a9-90975b750c4a",
+                    "path": "<HID:: USB Gamepad          >/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick2",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "2f18bb1e-2140-4230-927e-233713c6f559",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/button3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d5a7dcf8-70b3-464f-8232-aaa37f12a338",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "2911ebe8-48ed-4087-877d-953fc6d5141c",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "NormalizeVector2",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "74658cbe-e050-4386-8cd9-79ba1726563f",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/hat/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "up",
+                    "id": "fa90beaa-54ef-4907-8ce8-78f454f4e594",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/stick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "a6c65ccf-e859-4cdc-9f20-9c4a4a0770e5",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/hat/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "589458aa-f74e-4676-b567-c34b31f18b77",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/stick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "ec321693-ff58-47a2-834d-705c6827b230",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/hat/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "9a1aace8-09ee-46b5-8a97-e722afb348ed",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "bd54d16c-3d29-4db7-88e9-79821209f47e",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/hat/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "47b0188d-6678-47f2-b349-60006001d883",
+                    "path": "<HID::DragonRise Inc.   Generic   USB  Joystick  >/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick3",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }
@@ -834,6 +1362,28 @@
             "devices": [
                 {
                     "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Joystick2",
+            "bindingGroup": "Joystick2",
+            "devices": [
+                {
+                    "devicePath": "<HID:: USB Gamepad          >",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Joystick3",
+            "bindingGroup": "Joystick3",
+            "devices": [
+                {
+                    "devicePath": "<HID::DragonRise Inc.   Generic   USB  Joystick  >",
                     "isOptional": false,
                     "isOR": false
                 }

@@ -98,6 +98,17 @@ public class GameManager : MonoBehaviour
             SetControllerParents();
         }
 
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Alpha9))
+        {
+            minigameEnded = true;
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Alpha0))
+        {
+            Destroy(FindAnyObjectByType<GameManager>().gameObject);
+            SceneManager.LoadScene("Menu");
+        }
+
         CheckScores();
     }
 
@@ -196,10 +207,12 @@ public class GameManager : MonoBehaviour
 
         controllers.Clear();
 
-        foreach (GameObject inputs in inputManagers)
+        /*foreach (GameObject inputs in inputManagers)
         {
             inputs.transform.parent = transform;
-        }
+        }*/
+
+        inputManagers.Clear();
 
         SceneManager.LoadScene("Menu");
         gameFinished = false;

@@ -25,6 +25,12 @@ public class MenuPlayerUImanager : MonoBehaviour
     [Space]
     [SerializeField] float confirmationTime = 0;
     public bool confirmed = false;
+
+    [SerializeField] Sprite playerSpriteSecret;
+    [SerializeField] Sprite playerUiIconSecret;
+    [SerializeField] RuntimeAnimatorController animatorControllerSecret;
+    private bool secretChar;
+
     private void Start()
     {
         playerID = Convert.ToInt32(name);
@@ -41,6 +47,7 @@ public class MenuPlayerUImanager : MonoBehaviour
 
         StartUp();
         Control();
+        SecretChar();
     }
 
     private void OnDisable()
@@ -49,6 +56,17 @@ public class MenuPlayerUImanager : MonoBehaviour
         confirmationTime = 0;
         confirmed = false;
         inputManager = null;
+    }
+
+    public void SecretChar()
+    {
+        if (inputManager != null && inputManager.moveDir.y == -1 && inputManager.trianglePressed == true && inputManager.squarePressed == true)
+        {
+            playerSprite.sprite = playerSpriteSecret;
+            secretChar = true;
+        }
+        else if(inputManager != null && inputManager.moveDir.x != 0)
+            secretChar = false;
     }
 
     void StartUp()
@@ -127,6 +145,12 @@ public class MenuPlayerUImanager : MonoBehaviour
         {
             inputManager.playerData.animatorController = animatorControllers[playerSpriteIndex];
             inputManager.playerData.playerSprite = playerUiIcons[playerSpriteIndex];
+
+            if(secretChar == true)
+            {
+                inputManager.playerData.animatorController = animatorControllerSecret;
+                inputManager.playerData.playerSprite = playerUiIconSecret;
+            }
 
             confirmationText.text = "Confirmado!\nAperte <size=60><sprite=" + inputManager.circleId + "></size> para desconfirmar";
         }

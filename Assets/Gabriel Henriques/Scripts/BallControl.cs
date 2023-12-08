@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 public class BallControl : MonoBehaviour
 {
@@ -14,6 +12,7 @@ public class BallControl : MonoBehaviour
     [SerializeField] private GameObject player;
 
     private Vector3 spawnPos;
+    private bool startSpawn;
     [SerializeField] private bool inStop;
     [SerializeField] private bool fora;
 
@@ -35,6 +34,7 @@ public class BallControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        BallReturn();
         GetBallLogic();
         SpecialBall();
         StopBall();
@@ -110,6 +110,33 @@ public class BallControl : MonoBehaviour
             attackBall = false;
             getball.SetActive(false);
         }
+    }
+
+    public void BallReturn()
+    {
+        if (player != null || tag != "Ball")
+        {
+            //print("STOP!");
+            //StopCoroutine(BallReturnTime());
+            StopAllCoroutines();
+            startSpawn = false;
+        }
+
+        if (player == null && transform.position != spawnPos && startSpawn == false)
+        {
+            StartCoroutine(BallReturnTime());
+        }
+
+    }
+
+    IEnumerator BallReturnTime()
+    {
+        startSpawn = true;
+        yield return new WaitForSeconds(4);
+        //if(player == null)
+            transform.position = spawnPos;
+        yield return new WaitForSeconds(1);
+        startSpawn = false;
     }
 
     public void AnimLogic()
@@ -200,11 +227,11 @@ public class BallControl : MonoBehaviour
         {
             StartCoroutine(WallTime());
         }
-        if (collider.gameObject.CompareTag("HitBox") && collider.gameObject.GetComponentInParent<GetAndAttackControl>().getBallValue == true)
+        if (collider.gameObject.CompareTag("HitBox") && collider.gameObject.GetComponentInParent<GetAndAttackControl>().getBallValue == true && tag != "AttackBall")
         {
             player = collider.gameObject;
         }
-        if (collider.gameObject.CompareTag("AttackBall"))
+        if (collider.gameObject.CompareTag("AttackBall") && tag == "AttackBall")
         {
             player.GetComponentInParent<GetAndAttackControl>().contValue = 0;
             collider.GetComponent<BallControl>().playerValue.GetComponentInParent<GetAndAttackControl>().contValue = 0;

@@ -106,6 +106,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -1033,6 +1046,90 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: buttons_only_44
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb64c7c58d6f9434c95bc16a3b3e1ac8
+      internalID: 860367240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttons_only_45
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f21a41f6fd645034a8815e2f669e13dd
+      internalID: -534306136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttons_only_46
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54665e08affbbfd46bf41e579baf40a5
+      internalID: 1711151820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttons_only_47
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6cd95ada3bbce6243915fa1bb0e85dc9
+      internalID: 1465310473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1046,48 +1143,52 @@ TextureImporter:
     nameFileIdTable:
       buttons_only_0: -592742838
       buttons_only_1: 1689044442
-      buttons_only_10: 971879875
-      buttons_only_11: -1898562728
-      buttons_only_12: -2085272846
-      buttons_only_13: -1151752650
-      buttons_only_14: 1559535715
-      buttons_only_15: -1953750058
-      buttons_only_16: 1504068844
-      buttons_only_17: -1827958805
-      buttons_only_18: -595384992
-      buttons_only_19: -2131277268
-      buttons_only_2: 1113692441
-      buttons_only_20: 2128375333
-      buttons_only_21: -1413179072
-      buttons_only_22: 1895077545
-      buttons_only_23: 1269485312
-      buttons_only_24: -1584058851
-      buttons_only_25: -1640475887
-      buttons_only_26: -1650077999
-      buttons_only_27: -232439993
-      buttons_only_28: 855386208
-      buttons_only_29: 458682529
-      buttons_only_3: -594645374
-      buttons_only_30: 177508914
-      buttons_only_31: -215647895
-      buttons_only_32: 1369877917
-      buttons_only_33: 2082874029
-      buttons_only_34: -1079291717
-      buttons_only_35: 2097685533
-      buttons_only_36: 1030020400
-      buttons_only_37: -1291897240
-      buttons_only_38: 463580096
-      buttons_only_39: 1738383965
-      buttons_only_4: 1503869859
-      buttons_only_40: -1414308711
-      buttons_only_41: 1907435020
-      buttons_only_42: 1455060216
-      buttons_only_43: 345128483
-      buttons_only_5: -1257623673
-      buttons_only_6: 93528047
-      buttons_only_7: 111928461
-      buttons_only_8: -2086206153
-      buttons_only_9: 1362175067
+      buttons_only_10: 1113692441
+      buttons_only_11: -594645374
+      buttons_only_12: 1503869859
+      buttons_only_13: -1257623673
+      buttons_only_14: 93528047
+      buttons_only_15: 111928461
+      buttons_only_16: -2086206153
+      buttons_only_17: 1362175067
+      buttons_only_18: 971879875
+      buttons_only_19: -1898562728
+      buttons_only_2: -2085272846
+      buttons_only_20: -1151752650
+      buttons_only_21: 1559535715
+      buttons_only_22: -1953750058
+      buttons_only_23: 1504068844
+      buttons_only_24: -1827958805
+      buttons_only_25: -595384992
+      buttons_only_26: -2131277268
+      buttons_only_27: 2128375333
+      buttons_only_28: -1413179072
+      buttons_only_29: 1895077545
+      buttons_only_3: 1269485312
+      buttons_only_30: -1584058851
+      buttons_only_31: -1640475887
+      buttons_only_32: -1650077999
+      buttons_only_33: -232439993
+      buttons_only_34: 855386208
+      buttons_only_35: 458682529
+      buttons_only_36: 177508914
+      buttons_only_37: -215647895
+      buttons_only_38: 1369877917
+      buttons_only_39: 2082874029
+      buttons_only_4: -1079291717
+      buttons_only_40: 2097685533
+      buttons_only_41: 1030020400
+      buttons_only_42: -1291897240
+      buttons_only_43: 463580096
+      buttons_only_44: -534306136
+      buttons_only_45: -520001087
+      buttons_only_46: 1711151820
+      buttons_only_47: 1465310473
+      buttons_only_5: 1738383965
+      buttons_only_6: -1414308711
+      buttons_only_7: -651180974
+      buttons_only_8: -1565123480
+      buttons_only_9: 860367240
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

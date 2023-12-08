@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Gabriel Henriques/Queimada.unity
     guid: a486da3376fd4ad4daeda8041546c9b5
   - enabled: 1
+    path: Assets/Paulo Fernandes/Scenes/Rock_Paper_Scissors.unity
+    guid: 868462b4b8ee89f479787c1d46b8e0cc
+  - enabled: 1
     path: Assets/Matheus Oliveira/Scenes/PulaCorda.unity
     guid: e2cb3580dbad2be44be3f8b7aeb9e7e4
   - enabled: 1
