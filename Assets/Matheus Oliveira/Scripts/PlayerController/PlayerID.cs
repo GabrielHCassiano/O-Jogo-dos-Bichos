@@ -11,5 +11,4 @@ public class PlayerID : MonoBehaviour
     public int ID = 0;
     [Space]
     public InputManager inputManager;
-    public InputPlayerArena inputArena;
 }
