@@ -8,7 +8,7 @@ public class ArqueriaMove : MonoBehaviour
 {
     private ArqueriaPlayerPhysics playerPhysical;
     private InputManager inputManager;
-    private Transform sprite;
+    [SerializeField] private SpriteRenderer sprite;
 
     private float playerDirection = 1;
 
@@ -29,7 +29,6 @@ public class ArqueriaMove : MonoBehaviour
     {
         playerPhysical = GetComponent<ArqueriaPlayerPhysics>();
         inputManager = GetComponentInChildren<InputManager>();
-        sprite = GetComponentInChildren<Transform>();
     }
 
     // Update is called once per frame
@@ -54,7 +53,7 @@ public class ArqueriaMove : MonoBehaviour
         else if (inputManager.moveDir.x < 0)
             playerDirection = -1;
 
-        sprite.localScale = new Vector3(playerDirection, transform.localScale.y, transform.localScale.z);
+        sprite.transform.localScale = new Vector3(playerDirection, transform.localScale.y, transform.localScale.z);
     }
 
     public void SystemPlayer()
@@ -122,13 +121,15 @@ public class ArqueriaMove : MonoBehaviour
         canDash = false;
         playerPhysical.CanMove = false;
 
+        playerPhysical.ResetVelocity();
+
         playerPhysical.Gravity = 0;
-        playerPhysical.Velocity += (inputManager.moveDir * dashSpeed);
+        playerPhysical.Rigidbody2D.velocity += (inputManager.moveDir * dashSpeed);
 
         yield return new WaitForSeconds(dashDuration);
 
-        playerPhysical.Velocity = Vector2.zero;
-        playerPhysical.Gravity = -9.81f;
+        playerPhysical.Rigidbody2D.velocity = Vector2.zero;
+        playerPhysical.Gravity = 2.5f;
 
         playerPhysical.CanMove = true;
     }
@@ -137,8 +138,8 @@ public class ArqueriaMove : MonoBehaviour
     {
         StopAllCoroutines();
 
-        playerPhysical.Velocity = Vector2.zero;
-        playerPhysical.Gravity = -9.81f;
+        playerPhysical.Rigidbody2D.velocity = Vector2.zero;
+        playerPhysical.Gravity = 2.5f;
 
         playerPhysical.CanMove = true;
     }

@@ -8,6 +8,7 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
     [Header("Velocity")]
     [SerializeField] private Vector2 velocity;
     [SerializeField] private Vector2 currentVelocity;
+    private Rigidbody2D rb;
 
     [Header("Check")]
     [SerializeField] private Transform checkCeiling;
@@ -28,6 +29,7 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
 
     [Header("Gravity")]
     [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private float gravityScale;
     [SerializeField] private float maxGravity;
 
     [Header("Jump")]
@@ -39,27 +41,32 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        rb = GetComponent<Rigidbody2D>();
+        laterDirection.x = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
+        print(InGround());
         //TestMove();
         CheckCollision();
-        PlayerGravity();
+        //PlayerGravity();
     }
 
     public void FixedUpdate()
     {
-        PlayerVelocity();
+
     }
 
-    public Vector2 Velocity
+
+
+    public Rigidbody2D Rigidbody2D 
     {
-        get { return velocity; }
-        set { velocity = value; }
+        get { return rb; }
+        set { rb = value; }
     }
+
     public bool CanMove
     {
         get { return canMove; }
@@ -74,8 +81,14 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
 
     public float Gravity
     {
-        get { return gravity; }
-        set { gravity = value; }
+        get { return rb.gravityScale; }
+        set { rb.gravityScale = value; }
+    }
+
+    public Vector2 LaterDirection
+    {
+        get { return laterDirection; }
+        set { laterDirection = value; }
     }
 
     public void OnDrawGizmos()
@@ -101,7 +114,7 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
     }
     public bool InGround()
     {
-        if (Physics2D.BoxCast(checkGround.position, new Vector2(0.8f, 0.01f), 0, Vector2.down, filterGround, results, 0f) > 0)
+        if (Physics2D.BoxCast(checkGround.position, new Vector2(0.1f, 0.01f), 0, Vector2.down, filterGround, results, 0f) > 0)
             return true;
         else
             return false;
@@ -115,7 +128,7 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
         if (InWall() == true)
         {
             print("Wall");
-            ColliderMove();
+            //ColliderMove();
         }
         else colliderWall.x = transform.position.x;
 
@@ -124,7 +137,7 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
         if (InGround() == true)
         {
             print("Ground");
-            ColliderJump();
+            //ColliderJump();
         }
         else
             colliderGround.y = transform.position.y;
@@ -149,76 +162,16 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
                 velocity.x = Mathf.SmoothDamp(velocity.x, maxSpeed * direction.x, ref currentVelocity.x, maxSpeed / acceleration);
             if (direction.x == 0)
                 velocity.x = Mathf.SmoothDamp(velocity.x, maxSpeed * direction.x, ref currentVelocity.x, maxSpeed / deceleration);
+
+            rb.velocity = new Vector2(velocity.x, rb.velocity.y);
         }
-    }
-
-    public void PlayerGravity()
-    {
-        if (InGround() == false && InWall() == false)
-        {
-            velocity.y += Physics2D.gravity.y * 1 * Time.deltaTime;
-            //velocity.y = Mathf.SmoothDamp(velocity.y, maxGravity * gravity, ref currentVelocity.y, maxGravity / 20);
-        }
-    }
-
-    public void TestMove()
-    {
-
-        velocity.y += Physics2D.gravity.y * 1 * Time.deltaTime;
-
-        if (InWall() == true)
-        {
-            print("asdsa");
-            velocity.x = 0;
-            currentVelocity.x = 0;
-            if (laterDirection.x > 0 && inJump == false)
-            {
-                colliderWall = Physics2D.ClosestPoint(transform.position, results[0].collider) + Vector2.left * 0.5f;
-
-                transform.position = new Vector3(colliderWall.x, colliderGround.y, 0);
-            }
-
-        }
-        else
-        {
-            colliderWall.x = transform.position.x;
-        }
-
-
-
-
-        if (InGround() == true && velocity.y < 0)
-        {
-            print("jump");
-            velocity.y = 0;
-            currentVelocity.y = 0;
-            colliderGround = Physics2D.ClosestPoint(transform.position, results[0].collider) + Vector2.up * 0.5f;
-            transform.position = new Vector3(colliderWall.x, colliderGround.y, 0);
-            isGround = true;
-        }
-        else
-            colliderGround.y = transform.position.y;
-
-
-
-
-        if (Input.GetKeyDown(KeyCode.Space) && isGround)
-        {
-            inJump = true;
-            StartCoroutine(CooldownJump());
-            velocity.y = Mathf.Sqrt(forceJump * -2 * (Physics2D.gravity.y * 1));
-        }
-    }
-    public void PlayerVelocity()
-    {
-
-        transform.position += new Vector3(velocity.x * Time.deltaTime, velocity.y * Time.deltaTime, 0);
     }
 
     public void PlayerJump()
     {
-        StartCoroutine(CooldownJump());
-        velocity.y = forceJump;
+        //StartCoroutine(CooldownJump());
+        rb.velocity = new Vector2(rb.velocity.x, forceJump);
+        //velocity.y = forceJump;
     }
 
     public IEnumerator CooldownJump()
@@ -232,9 +185,9 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
     public void HitCeiling()
     {
         GetComponent<ArqueriaMove>().ResetDash();
-        velocity.y = Mathf.Min(0, Velocity.y);
-        //Vector2 colliderGround = Physics2D.ClosestPoint(transform.position, results[0].collider) + Vector2.down * 0.5f;
-        //transform.position = new Vector3(transform.position.x, colliderGround.y, 0);
+        velocity.y = Mathf.Min(0, velocity.y);
+            //Vector2 colliderGround = Physics2D.ClosestPoint(transform.position, results[0].collider) + Vector2.down * 0.5f;
+            //transform.position = new Vector3(transform.position.x, colliderGround.y, 0);
     }
 
     public void ColliderJump()
@@ -261,5 +214,11 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
             transform.position = new Vector3(colliderWall.x, colliderGround.y, 0);
 
         }
+    }
+
+    public void ResetVelocity()
+    {
+        velocity = Vector2.zero; 
+        currentVelocity = Vector2.zero;
     }
 }
