@@ -14,7 +14,16 @@ public class PlayerController : MonoBehaviour
         else
             return;
 
+
+        
+        
         transform.Translate(new Vector2(inputManager.moveDir.x, inputManager.moveDir.y) * speed * Time.deltaTime);
+
+        if (inputManager.squarePressed)
+        {
+            print("quadrado pressionado");
+        }
+
     }
     //public void OnMove(InputAction.CallbackContext ctx) => movementInput = ctx.ReadValue<Vector2>();
     

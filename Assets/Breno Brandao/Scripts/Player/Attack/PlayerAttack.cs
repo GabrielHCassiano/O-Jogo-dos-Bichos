@@ -11,7 +11,6 @@ public class PlayerAttack : MonoBehaviour
     public GameObject balaoPrefab;
     public float attackspeed = 10;
 
-    //create an logic to attack others players or enemies in unity    //create an logic to attack others players or enemies in unity
     public void Attack()
     {
 
@@ -27,7 +26,6 @@ public class PlayerAttack : MonoBehaviour
             attackCooldown = Time.time + 1f;
         }
     }
-    // Start is called before the first frame update
 
     void Start()
     {
