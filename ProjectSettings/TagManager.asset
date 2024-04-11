@@ -11,6 +11,7 @@ TagManager:
   - AttackBall
   - Rope
   - HitBox
+  - Arrow
   layers:
   - Default
   - TransparentFX

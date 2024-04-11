@@ -7,8 +7,11 @@ public class ArqueriaCombat : MonoBehaviour
 {
     private InputManager inputManager;
 
+    [SerializeField] private int life;
+
     [SerializeField] private GameObject arrowPos;
     [SerializeField] private GameObject[] arrows;
+    [SerializeField] private int idArrow;
 
     private bool inArrow;
 
@@ -19,7 +22,9 @@ public class ArqueriaCombat : MonoBehaviour
     {
         inputManager = GetComponentInChildren<InputManager>();
 
+        life = 3;
         laterDirection.x = 1;
+
     }
 
     // Update is called once per frame
@@ -54,7 +59,17 @@ public class ArqueriaCombat : MonoBehaviour
 
     public void ArrowAim()
     {
-        if (inputManager.circlePressed == true && arrows[0] != null)
+        for (int i = 0; i < Arrows.Length; i++)
+        {
+            if (Arrows[i] != null)
+            {
+                idArrow = i;
+                break;
+            }
+        }
+
+
+        if (inputManager.circlePressed == true && arrows[idArrow] != null)
         {
             inArrow = true;
             arrowPos.transform.right = new Vector2(laterDirection.x, laterDirection.y);
@@ -64,12 +79,22 @@ public class ArqueriaCombat : MonoBehaviour
         }
         if (inputManager.circlePressed == false && inArrow == true)
         {
+
             arrowPos.SetActive(false);
 
-            arrows[0].SetActive(true);
+            arrows[idArrow].SetActive(true);
             //arrows[0].transform.parent = null;
-            arrows[0] = null;
+            arrows[idArrow] = null;
             inArrow = false;
+
         }
+    }
+
+    public void LifeDown()
+    {
+        if (life < 0)
+            life = 0;
+
+        life -= 1;
     }
 }

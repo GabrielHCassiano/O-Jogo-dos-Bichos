@@ -1,23 +1,25 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using UnityEditor.AnimatedValues;
+using System.Linq;
 using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
+    private Rigidbody2D rb;
+    [SerializeField] private GameObject sprite;
+    private Vector3 pos;
+
     [SerializeField] private ArqueriaCombat arqueriaCombat;
-    [SerializeField] private GameObject player;
+    [SerializeField] private PlayerID player;
 
     [SerializeField] private Vector2 diretion;
-
-    private Rigidbody2D rb;
-    private SpriteRenderer sprite;
     // Start is called before the first frame update
     void Start() 
     {
         rb = GetComponent<Rigidbody2D>();
+        arqueriaCombat = GetComponentInParent<ArqueriaCombat>();
+        player = arqueriaCombat.GetComponent<PlayerID>();
+        pos = new Vector3(0, 0.99f, 0);
     }
 
     // Update is called once per frame
@@ -25,49 +27,95 @@ public class Arrow : MonoBehaviour
     {
         ArrowLogic();
     }
+    public PlayerID Player
+    { 
+        get { return player; } 
+        set { player = value; }
+    }
 
     public void ArrowLogic()
     {
         if (arqueriaCombat != null)
         {
-            player = arqueriaCombat.gameObject;
+            player = arqueriaCombat.GetComponent<PlayerID>();
             diretion = arqueriaCombat.LaterDirection;
-            transform.right = diretion;
+            sprite.transform.right = diretion;
             transform.parent = null;
             arqueriaCombat = null;
 
             StartCoroutine(ArrowCooldown());
         }
-        else
-            arqueriaCombat = GetComponentInParent<ArqueriaCombat>();
+        //else
+          //  arqueriaCombat = GetComponentInParent<ArqueriaCombat>();
 
         if(rb.velocity != Vector2.zero)
         {
-            transform.right = new Vector2(rb.velocity.x, rb.velocity.y);
+            sprite.transform.right = new Vector3(rb.velocity.x, rb.velocity.y);
         }
+
     }
 
 
     public IEnumerator ArrowCooldown() 
     {
-        //rb.gravityScale = 0f;
-        //transform.Translate(diretion * 20 * Time.deltaTime);
         rb.gravityScale = 0f;
-        rb.velocity = diretion * 20;
-        yield return new WaitForSeconds(0.1f);
+        rb.velocity = (diretion * 20);
+        yield return new WaitForSeconds(0.2f);
         rb.gravityScale = 1f;
     }
 
-    public void OnCollisionEnter2D(Collision2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Ground") || collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        if (collision.gameObject.CompareTag("Arrow") == true && rb.velocity != Vector2.zero)
         {
+            StopAllCoroutines();
+            rb.velocity = Vector2.zero;
+            rb.gravityScale = 1f;
+        }
+
+
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground") || collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            StopAllCoroutines();
             player = null;
             rb.velocity = Vector2.zero;
             rb.gravityScale = 0f;
+        }
+        
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if(player != null && collision.gameObject.GetComponent<PlayerID>().ID != player.ID)
+            {
+                StopAllCoroutines();
+                player = null;
+                rb.velocity = Vector2.zero;
+                rb.gravityScale = 0f;
+                rb.isKinematic = true;
+                transform.parent = collision.gameObject.GetComponentInChildren<SpriteRenderer>().transform;
+                collision.gameObject.GetComponent<ArqueriaCombat>().LifeDown();
+            }
+        }
+    }
 
-            //transform.Translate(Vector2.zero);
-            print("kk");
+    public void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            for (int i = 0; i < collision.gameObject.GetComponent<ArqueriaCombat>().Arrows.Length; i++)
+            {
+                if (player == null && collision.gameObject.GetComponent<ArqueriaCombat>().Arrows[i] == null)
+                {
+                    rb.isKinematic = false;
+                    arqueriaCombat = collision.gameObject.GetComponent<ArqueriaCombat>();
+                    player = arqueriaCombat.GetComponent<PlayerID>();
+                    transform.parent = arqueriaCombat.transform;
+                    transform.position = arqueriaCombat.transform.position + pos;
+                    gameObject.SetActive(false);
+
+                    arqueriaCombat.Arrows[i] = gameObject;
+                    break;
+                }
+            }
         }
     }
 }
