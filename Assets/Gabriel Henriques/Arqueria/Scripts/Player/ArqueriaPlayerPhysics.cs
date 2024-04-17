@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ArqueriaPlayerPhysics : MonoBehaviour
 {
     [Header("Velocity")]
     [SerializeField] private Vector2 velocity;
     [SerializeField] private Vector2 currentVelocity;
-    private Rigidbody2D rb;
+    [SerializeField] private Rigidbody2D rb;
 
     [Header("Check")]
     [SerializeField] private Transform checkCeiling;
@@ -37,11 +38,10 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
     private bool inJump = false;
 
     private bool isGround = false;
-
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        //rb = GetComponent<Rigidbody2D>();
         laterDirection.x = 1;
     }
 
@@ -66,6 +66,13 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
         get { return rb; }
         set { rb = value; }
     }
+
+    public Vector2 Velocity
+    {
+        get { return velocity; }
+        set { velocity = value; }
+    }
+
 
     public bool CanMove
     {
@@ -94,13 +101,13 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
     public void OnDrawGizmos()
     {
         Gizmos.DrawCube(checkCeiling.position, new Vector2(0.5f, 0.01f));
-        Gizmos.DrawCube(checkWall.position, new Vector2(0.01f, 2f));
+        Gizmos.DrawCube(checkWall.position, new Vector2(0.1f, 1.5f));
         Gizmos.DrawCube(checkGround.position, new Vector2(0.8f, 0.01f));
     }
 
     public bool InWall()
     {
-        if (Physics2D.BoxCast(checkWall.position, new Vector2(0.01f, 2f), 0, Vector2.right, filterWall, results, 0f) > 0)
+        if (Physics2D.BoxCast(checkWall.position, new Vector2(0.1f, 1.5f), 0, Vector2.right, filterWall, results, 0f) > 0)
             return true;
         else
             return false;
@@ -114,7 +121,7 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
     }
     public bool InGround()
     {
-        if (Physics2D.BoxCast(checkGround.position, new Vector2(0.1f, 0.01f), 0, Vector2.down, filterGround, results, 0f) > 0)
+        if (Physics2D.BoxCast(checkGround.position, new Vector2(0.5f, 0.01f), 0, Vector2.down, filterGround, results, 0f) > 0)
             return true;
         else
             return false;
@@ -131,6 +138,24 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
             //ColliderMove();
         }
         else colliderWall.x = transform.position.x;
+
+        if (InWall() == true && InGround() == false && rb.gravityScale < 2.5f)
+        {
+            rb.gravityScale += 0.05f;
+            if (rb.gravityScale + 0.05f >= 2.5f)
+            {
+                rb.gravityScale = 2.5f;
+            }
+        }
+        else
+        {
+            rb.gravityScale = 2.5f;
+        }
+
+        if (InWall() == true && InGround() == false && rb.gravityScale == 2.5f)
+        {
+            rb.gravityScale = 0f;
+        }
 
 
 
@@ -160,8 +185,21 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
 
             if (direction.x != 0)
                 velocity.x = Mathf.SmoothDamp(velocity.x, maxSpeed * direction.x, ref currentVelocity.x, maxSpeed / acceleration);
-            if (direction.x == 0)
-                velocity.x = Mathf.SmoothDamp(velocity.x, maxSpeed * direction.x, ref currentVelocity.x, maxSpeed / deceleration);
+            if (direction.x == 0 && velocity.x != 0)
+            {
+                //velocity.x = Mathf.Lerp(velocity.x, 0, deceleration);
+                //velocity.x = 0
+                velocity.x -= (deceleration * laterDirection.x);
+                if (velocity.x - deceleration < 0 && laterDirection.x > 0)
+                {
+                    velocity.x = 0;
+                }
+                if (velocity.x + deceleration > 0 && laterDirection.x < 0)
+                {
+                    velocity.x = 0;
+                }
+                //velocity.x = Mathf.SmoothDamp(velocity.x, maxSpeed * direction.x, ref currentVelocity.x, maxSpeed / deceleration);
+            }
 
             rb.velocity = new Vector2(velocity.x, rb.velocity.y);
         }
@@ -174,12 +212,24 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
         //velocity.y = forceJump;
     }
 
+    public void WallJump(float direction)
+    {
+        //StartCoroutine(CooldownJump());
+
+        GetComponent<ArqueriaMove>().ResetDash();
+
+        rb.velocity = Vector2.zero;
+        velocity.x = 0;
+        rb.velocity = new Vector2(direction * 26, 12);
+        //GetComponent<ArqueriaMove>().PlayerDirection = GetComponentInChildren<SpriteRenderer>().transform.localScale.x * -1;
+        //velocity.y = forceJumps
+    }
+
     public IEnumerator CooldownJump()
     {
         inJump = true;
         yield return new WaitForSeconds(0.4f);
         inJump = false;
-
     }
 
     public void HitCeiling()

@@ -19,7 +19,7 @@ public class Arrow : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         arqueriaCombat = GetComponentInParent<ArqueriaCombat>();
         player = arqueriaCombat.GetComponent<PlayerID>();
-        pos = new Vector3(0, 0.99f, 0);
+        pos = new Vector3(0, 1f, 0);
     }
 
     // Update is called once per frame
@@ -59,18 +59,22 @@ public class Arrow : MonoBehaviour
     public IEnumerator ArrowCooldown() 
     {
         rb.gravityScale = 0f;
-        rb.velocity = (diretion * 20);
-        yield return new WaitForSeconds(0.2f);
-        rb.gravityScale = 1f;
+        rb.velocity = (diretion * 40);
+        yield return new WaitForSeconds(0.1f);
+        rb.gravityScale = 3f;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Arrow") == true && rb.velocity != Vector2.zero)
+        if (collision.gameObject.CompareTag("Arrow") == true && rb.velocity != Vector2.zero && collision.GetComponentInParent<Rigidbody2D>().velocity != Vector2.zero && player != null)
         {
             StopAllCoroutines();
             rb.velocity = Vector2.zero;
-            rb.gravityScale = 1f;
+            rb.gravityScale = 3f;
+            collision.GetComponentInParent<Arrow>().StopAllCoroutines();
+            collision.GetComponentInParent<Rigidbody2D>().velocity = Vector2.zero;
+            collision.GetComponentInParent<Rigidbody2D>().gravityScale = 3f;
+
         }
 
 
@@ -82,32 +86,32 @@ public class Arrow : MonoBehaviour
             rb.gravityScale = 0f;
         }
         
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("HitBox"))
         {
-            if(player != null && collision.gameObject.GetComponent<PlayerID>().ID != player.ID)
+            if(player != null && collision.gameObject.GetComponentInParent<PlayerID>().ID != player.ID)
             {
                 StopAllCoroutines();
                 player = null;
                 rb.velocity = Vector2.zero;
                 rb.gravityScale = 0f;
                 rb.isKinematic = true;
-                transform.parent = collision.gameObject.GetComponentInChildren<SpriteRenderer>().transform;
-                collision.gameObject.GetComponent<ArqueriaCombat>().LifeDown();
+                transform.parent = collision.gameObject.GetComponent<SpriteRenderer>().transform;
+                collision.gameObject.GetComponentInParent<ArqueriaCombat>().LifeDown();
             }
         }
     }
 
     public void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("HitBox"))
         {
-            for (int i = 0; i < collision.gameObject.GetComponent<ArqueriaCombat>().Arrows.Length; i++)
+            for (int i = 0; i < collision.gameObject.GetComponentInParent<ArqueriaCombat>().Arrows.Length; i++)
             {
-                if (player == null && collision.gameObject.GetComponent<ArqueriaCombat>().Arrows[i] == null)
+                if (player == null && collision.gameObject.GetComponentInParent<ArqueriaCombat>().Arrows[i] == null)
                 {
                     rb.isKinematic = false;
-                    arqueriaCombat = collision.gameObject.GetComponent<ArqueriaCombat>();
-                    player = arqueriaCombat.GetComponent<PlayerID>();
+                    arqueriaCombat = collision.gameObject.GetComponentInParent<ArqueriaCombat>();
+                    player = arqueriaCombat.GetComponentInParent<PlayerID>();
                     transform.parent = arqueriaCombat.transform;
                     transform.position = arqueriaCombat.transform.position + pos;
                     gameObject.SetActive(false);
