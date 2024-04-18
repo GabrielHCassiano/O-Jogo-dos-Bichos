@@ -66,6 +66,15 @@ public class Arrow : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
+
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground") || collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            StopAllCoroutines();
+            rb.velocity = Vector2.zero;
+            rb.gravityScale = 0f;
+            player = null;
+        }
+
         if (collision.gameObject.CompareTag("Arrow") == true && rb.velocity != Vector2.zero && collision.GetComponentInParent<Rigidbody2D>().velocity != Vector2.zero && player != null)
         {
             StopAllCoroutines();
@@ -75,15 +84,6 @@ public class Arrow : MonoBehaviour
             collision.GetComponentInParent<Rigidbody2D>().velocity = Vector2.zero;
             collision.GetComponentInParent<Rigidbody2D>().gravityScale = 3f;
 
-        }
-
-
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground") || collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
-        {
-            StopAllCoroutines();
-            player = null;
-            rb.velocity = Vector2.zero;
-            rb.gravityScale = 0f;
         }
         
         if (collision.gameObject.CompareTag("HitBox"))

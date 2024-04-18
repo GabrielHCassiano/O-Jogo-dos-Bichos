@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
 
     PlayerInputManager playerInputManager;
 
+    private bool trueArrow = false;
+
     private void Awake()
     {
         // Garantindo que o GameManager n�o ser� deletado em transi��o de cena
@@ -258,7 +260,7 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(theSceneIndex);
             **/
 
-            SceneManager.LoadScene("Queimada");
+            SceneManager.LoadScene("Arqueria");
         }
         else if (!gameFinished)
         {
@@ -295,4 +297,11 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    public bool TrueArrow
+    { 
+        get { return trueArrow;  } 
+        set { trueArrow = value; }
+    }
+
 }

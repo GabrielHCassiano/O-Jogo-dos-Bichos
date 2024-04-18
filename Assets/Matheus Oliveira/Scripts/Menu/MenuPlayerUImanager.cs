@@ -26,10 +26,15 @@ public class MenuPlayerUImanager : MonoBehaviour
     [SerializeField] float confirmationTime = 0;
     public bool confirmed = false;
 
-    [SerializeField] Sprite playerSpriteSecret;
-    [SerializeField] Sprite playerUiIconSecret;
-    [SerializeField] RuntimeAnimatorController animatorControllerSecret;
+
+    [SerializeField] Sprite[] playerSpriteSecret;
+    [SerializeField] RuntimeAnimatorController[] animatorControllerSecret;
+    [SerializeField] private string secretCode;
     private bool secretChar;
+    private int idSecret;
+    private bool canX;
+    private bool canO;
+    [SerializeField] private GameObject trueArrow;
 
     private void Start()
     {
@@ -60,13 +65,122 @@ public class MenuPlayerUImanager : MonoBehaviour
 
     public void SecretChar()
     {
-        if (inputManager != null && inputManager.moveDir.y == -1 && inputManager.trianglePressed == true && inputManager.squarePressed == true)
+        if (inputManager != null)
         {
-            playerSprite.sprite = playerSpriteSecret;
-            secretChar = true;
+            SecrectCode();
+
+            if (secretChar == false && secretCode == "V \\V > V /V < V \\V > X " /*&& inputManager.moveDir.y == -1 && inputManager.trianglePressed == true && inputManager.squarePressed == true*/)
+            {
+                idSecret = 0;
+                secretChar = true;
+                confirmed = true;
+            }
+            if (secretChar == false && secretCode == "< V A > X ")
+            {
+                idSecret = 1;
+                secretChar = true;
+                confirmed = true;
+            }
+            if (confirmed == false && secretChar == true)
+            {
+                secretChar = false;
+                secretCode = "";
+                canX = false;
+                canO = false;
+            }
+
+            if (secretCode == "< > V V X O ")
+            {
+                secretCode = "";
+                trueArrow.SetActive(GameManager.instance.TrueArrow = !GameManager.instance.TrueArrow);
+                
+            }
         }
-        else if(inputManager != null && inputManager.moveDir.x != 0)
-            secretChar = false;
+    }
+
+    public void SecrectCode()
+    {
+        if (inputManager.xPressed == true && canX == false)
+        {
+            StopAllCoroutines();
+            secretCode += "X ";
+            canX = true;
+        }
+
+        if (inputManager.circlePressed == true && canO == false)
+        {
+            StopAllCoroutines();
+            secretCode += "O ";
+            canO = true;
+        }
+
+        if (inputManager.moveDir.x > 0 && inputManager.moveDir.y < 0)
+        {
+            StopAllCoroutines();
+            secretCode += "\\V ";
+            inputManager.moveDir = Vector2.zero;
+        }
+        if (inputManager.moveDir.x > 0 && inputManager.moveDir.y > 0)
+        {
+            StopAllCoroutines();
+            secretCode += "/A ";
+            inputManager.moveDir = Vector2.zero;
+        }
+        if (inputManager.moveDir.x < 0 && inputManager.moveDir.y < 0)
+        {
+            StopAllCoroutines();
+            secretCode += "/V ";
+            inputManager.moveDir = Vector2.zero;
+        }
+        if (inputManager.moveDir.x < 0 && inputManager.moveDir.y > 0)
+        {
+            StopAllCoroutines();
+            secretCode += "\\A ";
+        }
+
+        if (inputManager.moveDir.x < 0)
+        {
+            StopAllCoroutines();
+            secretCode += "< ";
+            inputManager.moveDir = Vector2.zero;
+        }
+        if (inputManager.moveDir.x > 0)
+        {
+            StopAllCoroutines();
+            secretCode += "> ";
+            inputManager.moveDir = Vector2.zero;
+        }
+        if (inputManager.moveDir.y < 0)
+        {
+            StopAllCoroutines();
+            secretCode += "V ";
+            inputManager.moveDir = Vector2.zero;
+        }
+        if (inputManager.moveDir.y > 0)
+        {
+            StopAllCoroutines();
+            secretCode += "A ";
+            inputManager.moveDir = Vector2.zero;
+        }
+
+        if (secretCode != "")
+            StartCoroutine(CodeClean());
+    }
+
+    public IEnumerator CodeClean()
+    {
+        yield return new WaitForSeconds(0.3f);
+        secretCode = "";
+        canX = false;
+        canO = false;
+    }
+
+    public IEnumerator SecretIcon()
+    {
+        playerSprite.sprite = playerSpriteSecret[2];
+        yield return new WaitForSeconds(1f);
+        playerSprite.sprite = playerSpriteSecret[2];
+
     }
 
     void StartUp()
@@ -148,8 +262,9 @@ public class MenuPlayerUImanager : MonoBehaviour
 
             if(secretChar == true)
             {
-                inputManager.playerData.animatorController = animatorControllerSecret;
-                inputManager.playerData.playerSprite = playerUiIconSecret;
+                playerSprite.sprite = playerSpriteSecret[idSecret];
+                inputManager.playerData.animatorController = animatorControllerSecret[idSecret];
+                inputManager.playerData.playerSprite = playerSpriteSecret[idSecret];
             }
 
             confirmationText.text = "Confirmado!\nAperte <size=60><sprite=" + inputManager.circleId + "></size> para desconfirmar";

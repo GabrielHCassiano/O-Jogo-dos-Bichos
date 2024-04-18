@@ -9,11 +9,15 @@ public class ArqueriaCombat : MonoBehaviour
 
     [SerializeField] private int life;
 
+    private bool lose;
+
     [SerializeField] private GameObject arrowPos;
     [SerializeField] private GameObject[] arrows;
     [SerializeField] private int idArrow;
-
     private bool inArrow;
+
+    [SerializeField] private Sprite trueArrow;
+    [SerializeField] private RuntimeAnimatorController trueArrowAnim;
 
     private Vector2 laterDirection;
 
@@ -25,13 +29,32 @@ public class ArqueriaCombat : MonoBehaviour
         life = 3;
         laterDirection.x = 1;
 
+        if (GameManager.instance.TrueArrow == true)
+        {
+            arrowPos.GetComponentInChildren<Animator>().runtimeAnimatorController = trueArrowAnim;
+            for (int i = 0; i < 3; i++)
+                arrows[i].GetComponentInChildren<SpriteRenderer>().sprite = trueArrow;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         System();
-        ArrowAim();   
+        ArrowAim();
+        LoseLogic();
+    }
+
+    public bool Lose
+    {
+        get { return lose; }
+        set { lose = value; }
+    }
+
+    public int Life
+    {
+        get { return life; }
+        set { life = value; }
     }
 
     public Vector3 LaterDirection
@@ -53,8 +76,9 @@ public class ArqueriaCombat : MonoBehaviour
         else
             return;
 
-        if (inputManager.moveDir != Vector2.zero)
+        if (inputManager != null && inputManager.moveDir != Vector2.zero)
             laterDirection = inputManager.moveDir;
+
     }
 
     public void ArrowAim()
@@ -69,7 +93,7 @@ public class ArqueriaCombat : MonoBehaviour
         }
 
 
-        if (inputManager.circlePressed == true && arrows[idArrow] != null)
+        if (inputManager != null && inputManager.circlePressed == true && arrows[idArrow] != null)
         {
             inArrow = true;
             arrowPos.transform.right = new Vector2(laterDirection.x, laterDirection.y);
@@ -77,7 +101,7 @@ public class ArqueriaCombat : MonoBehaviour
             arrowPos.SetActive(true);
 
         }
-        if (inputManager.circlePressed == false && inArrow == true)
+        if (inputManager != null && inputManager.circlePressed == false && inArrow == true)
         {
 
             arrowPos.SetActive(false);
@@ -92,9 +116,28 @@ public class ArqueriaCombat : MonoBehaviour
 
     public void LifeDown()
     {
-        if (life < 0)
-            life = 0;
-
         life -= 1;
+    }
+
+    public void LoseLogic()
+    {
+        if (life <= 0)
+        {
+            life = 0;
+            lose = true;
+        }
+        if (lose == true)
+        {
+            print("0");
+            StartCoroutine(LoseCooldown());
+        }
+    }
+
+    IEnumerator LoseCooldown()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (GetComponentInChildren<InputManager>() != null)
+            GetComponentInChildren<InputManager>().transform.parent = null;
+        gameObject.SetActive(false);
     }
 }

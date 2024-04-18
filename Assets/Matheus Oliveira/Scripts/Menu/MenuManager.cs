@@ -61,15 +61,15 @@ public class MenuManager : MonoBehaviour
             }
             GameManager.instance.rounds = 0;
 
-            /*
+            /**
             int index = Random.Range(0, GameManager.instance.availableMinigames.Count);
             int theSceneIndex = GameManager.instance.availableMinigames[index];
             GameManager.instance.availableMinigames.RemoveAt(index);
             GameManager.instance.playedMinigames.Add(theSceneIndex);
             SceneManager.LoadScene(theSceneIndex);
-            */
+            **/
 
-            SceneManager.LoadScene("Arqueria");
+            SceneManager.LoadScene(2);
         }
 
         if(inputManager != null)

@@ -60,11 +60,17 @@ public class ArqueriaMove : MonoBehaviour
         set { playerDirection = value; }
     }
 
+    public int ScoreValue
+    {
+        get { return inputManager.playerData.playerScore; }
+        set { inputManager.playerData.playerScore = value; }
+    }
+
     public void FlipLogic()
     {
-        if (inputManager.moveDir.x > 0)
+        if (inputManager != null && inputManager.moveDir.x > 0)
             playerDirection = 1;
-        else if (inputManager.moveDir.x < 0)
+        else if (inputManager != null && inputManager.moveDir.x < 0)
             playerDirection = -1;
 
         sprite.transform.localScale = new Vector3(playerDirection, transform.localScale.y, transform.localScale.z);
@@ -77,7 +83,7 @@ public class ArqueriaMove : MonoBehaviour
         else
             return;
 
-        if (inputManager.canInput == false)
+        if (inputManager != null && inputManager.canInput == false)
             return;
         if (SceneManager.GetActiveScene().name == "FinishScene")
             return;
@@ -85,12 +91,13 @@ public class ArqueriaMove : MonoBehaviour
 
     public void MoveLogic()
     {
-        playerPhysical.PlayerMove(inputManager.moveDir.normalized);
+        if (inputManager != null)
+            playerPhysical.PlayerMove(inputManager.moveDir.normalized);
     }
 
     public void JumpLogic()
     {
-        if (playerPhysical.InWall() && inputManager.xPressed == true && inWallJump == false)
+        if (playerPhysical.InWall() && inputManager != null && inputManager.xPressed == true && inWallJump == false)
         {
             StartCoroutine(CooldownWallJump());
         }
@@ -102,7 +109,7 @@ public class ArqueriaMove : MonoBehaviour
         else
             coyoteTimeCounter -= Time.deltaTime;
 
-        if (inputManager.xPressed == true && coyoteTimeCounter > 0)
+        if (inputManager != null && inputManager.xPressed == true && coyoteTimeCounter > 0)
         {
             playerPhysical.PlayerJump();
         }
@@ -121,12 +128,13 @@ public class ArqueriaMove : MonoBehaviour
 
     public void DashInput()
     {
-        if (inputManager.squarePressed == true && inputManager.moveDir != Vector2.zero && canDash && inputManager.squarePressed != lastFramePressedDash)
+        if (inputManager != null && inputManager.squarePressed == true && inputManager.moveDir != Vector2.zero && canDash && inputManager.squarePressed != lastFramePressedDash)
         {
             doDash = true;
         }
 
-        lastFramePressedDash = inputManager.squarePressed;
+        if (inputManager != null)
+            lastFramePressedDash = inputManager.squarePressed;
     }
 
     public void DashLogic()
@@ -180,13 +188,14 @@ public class ArqueriaMove : MonoBehaviour
             return;
         if (SceneManager.GetActiveScene().name == "FinishScene")
         {
-            if (inputManager.playerData.playerScoreIndex >= 3)
+            if (inputManager != null  && inputManager.playerData.playerScoreIndex >= 3)
                 animator.SetBool("lose", true);
             else
                 animator.SetBool("win", true);
         }
 
-        animator.runtimeAnimatorController = inputManager.playerData.animatorController;
+        if (inputManager != null)
+            animator.runtimeAnimatorController = inputManager.playerData.animatorController;
         animator.SetBool("Arqueria", true);
         animator.SetFloat("Horizontal", playerPhysical.Rigidbody2D.velocity.x);
         animator.SetFloat("Vertical", playerPhysical.Rigidbody2D.velocity.y);
