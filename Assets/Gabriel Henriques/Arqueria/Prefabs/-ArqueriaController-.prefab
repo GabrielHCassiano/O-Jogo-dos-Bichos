@@ -5259,7 +5259,7 @@ MonoBehaviour:
   - {fileID: 5427486256601058603}
   idArrow: 0
   trueArrow: {fileID: 21300000, guid: 72d19284927467d4cb7659e3a85c0673, type: 3}
-  trueArrowAnim: {fileID: 9100000, guid: 139d648f42a02124cb05dc2bb4860bb7, type: 2}
+  trueArrowAnim: {fileID: 9100000, guid: ced49eaf6ad3f8c469b9db1eb377ef7c, type: 2}
 --- !u!50 &9020494314813942759
 Rigidbody2D:
   serializedVersion: 4

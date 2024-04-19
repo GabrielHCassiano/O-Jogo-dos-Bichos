@@ -53,7 +53,7 @@ public class MenuManager : MonoBehaviour
             }
         }
 
-        if(play)
+        if(play && GameManager.instance.Play)
         {
             foreach (GameObject inputs in GameManager.instance.inputManagers)
             {
@@ -61,15 +61,17 @@ public class MenuManager : MonoBehaviour
             }
             GameManager.instance.rounds = 0;
 
-            /**
-            int index = Random.Range(0, GameManager.instance.availableMinigames.Count);
-            int theSceneIndex = GameManager.instance.availableMinigames[index];
-            GameManager.instance.availableMinigames.RemoveAt(index);
-            GameManager.instance.playedMinigames.Add(theSceneIndex);
-            SceneManager.LoadScene(theSceneIndex);
-            **/
-
-            SceneManager.LoadScene(2);
+            if (GameManager.instance.Map == "Random")
+            {
+                Random.InitState((int)System.DateTime.Now.Ticks);
+                int index = Random.Range(0, GameManager.instance.availableMinigames.Count);
+                int theSceneIndex = GameManager.instance.availableMinigames[index];
+                GameManager.instance.availableMinigames.RemoveAt(index);
+                GameManager.instance.playedMinigames.Add(theSceneIndex);
+                SceneManager.LoadScene(theSceneIndex);
+            }
+            else 
+                SceneManager.LoadScene(GameManager.instance.Map);
         }
 
         if(inputManager != null)

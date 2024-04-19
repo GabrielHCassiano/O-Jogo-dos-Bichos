@@ -8,7 +8,7 @@ public class ArqueriaCombat : MonoBehaviour
     private InputManager inputManager;
 
     [SerializeField] private int life;
-
+    private bool shield;
     private bool lose;
 
     [SerializeField] private GameObject arrowPos;
@@ -103,7 +103,12 @@ public class ArqueriaCombat : MonoBehaviour
         }
         if (inputManager != null && inputManager.circlePressed == false && inArrow == true)
         {
-
+            if (shield == true)
+            {
+                StopAllCoroutines();
+                shield = false;
+                GetComponentInChildren<SpriteRenderer>().color = Color.white;
+            }
             arrowPos.SetActive(false);
 
             arrows[idArrow].SetActive(true);
@@ -116,7 +121,11 @@ public class ArqueriaCombat : MonoBehaviour
 
     public void LifeDown()
     {
-        life -= 1;
+        if (shield == false)
+        {
+            life -= 1;
+            StartCoroutine(DamageAnim());
+        }
     }
 
     public void LoseLogic()
@@ -128,7 +137,6 @@ public class ArqueriaCombat : MonoBehaviour
         }
         if (lose == true)
         {
-            print("0");
             StartCoroutine(LoseCooldown());
         }
     }
@@ -140,4 +148,33 @@ public class ArqueriaCombat : MonoBehaviour
             GetComponentInChildren<InputManager>().transform.parent = null;
         gameObject.SetActive(false);
     }
+
+    IEnumerator DamageAnim()
+    {
+        shield = true;
+        GetComponentInChildren<SpriteRenderer>().color = Color.red;
+        yield return new WaitForSeconds(0.2f);
+        GetComponentInChildren<SpriteRenderer>().color = Color.white;
+        GetComponentInChildren<SpriteRenderer>().color -= new Color(0f, 0f, 0f, 1f);
+        yield return new WaitForSeconds(0.2f);
+        GetComponentInChildren<SpriteRenderer>().color += new Color(0f, 0f, 0f, 1f);
+        yield return new WaitForSeconds(0.2f);
+        GetComponentInChildren<SpriteRenderer>().color -= new Color(0f, 0f, 0f, 1f);
+        yield return new WaitForSeconds(0.2f);
+        GetComponentInChildren<SpriteRenderer>().color += new Color(0f, 0f, 0f, 1f);
+        yield return new WaitForSeconds(0.2f);
+        GetComponentInChildren<SpriteRenderer>().color -= new Color(0f, 0f, 0f, 1f);
+        yield return new WaitForSeconds(0.2f);
+        GetComponentInChildren<SpriteRenderer>().color += new Color(0f, 0f, 0f, 1f);
+        yield return new WaitForSeconds(0.2f);
+        GetComponentInChildren<SpriteRenderer>().color -= new Color(0f, 0f, 0f, 1f);
+        yield return new WaitForSeconds(0.2f);
+        GetComponentInChildren<SpriteRenderer>().color += new Color(0f, 0f, 0f, 1f);
+        yield return new WaitForSeconds(0.2f);
+        GetComponentInChildren<SpriteRenderer>().color -= new Color(0f, 0f, 0f, 1f);
+        yield return new WaitForSeconds(0.2f);
+        GetComponentInChildren<SpriteRenderer>().color += new Color(0f, 0f, 0f, 1f);
+        shield = false;
+    }
+
 }

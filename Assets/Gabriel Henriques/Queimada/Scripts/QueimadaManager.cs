@@ -186,8 +186,8 @@ public class QueimadaManager : MonoBehaviour
 
     private void MapRandom()
     {
-        //int select = Random.Range(1, 4);
-        int select = FindObjectOfType<GameManager>().rounds+1;
+        int select = Random.Range(1, 4);
+        //int select = FindObjectOfType<GameManager>().rounds+1;
         Color color;
         switch (select)
         {

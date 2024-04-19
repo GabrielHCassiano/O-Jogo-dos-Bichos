@@ -16,7 +16,8 @@ public class MenuPlayerUImanager : MonoBehaviour
     [SerializeField] TMP_Text confirmationText;
     [SerializeField] int playerID = 0;
     [Space]
-    [SerializeField] Image playerSprite;
+    [SerializeField] SpriteRenderer playerSprite;
+    [SerializeField] Animator playerAnimator;
     [SerializeField] List<Sprite> playerSprites;
     [SerializeField] List<Sprite> playerUiIcons;
     [SerializeField] List<RuntimeAnimatorController> animatorControllers;
@@ -26,6 +27,18 @@ public class MenuPlayerUImanager : MonoBehaviour
     [SerializeField] float confirmationTime = 0;
     public bool confirmed = false;
 
+    [SerializeField] private float delayTime = 0;
+
+    [SerializeField] private GameObject selectMaps;
+    [SerializeField] private int mapIndex = 0;
+    [SerializeField] private bool confirmedMap = false;
+    [SerializeField] float confirmationMapTime = 0;
+    [SerializeField] TMP_Text confirmationMapText;
+    [SerializeField] private GameObject selectRounds;
+    private int rounds = 3;
+    [SerializeField] float confirmationRoundTime = 0;
+    [SerializeField] TMP_Text confirmationRoundText;
+    private bool confirmedRound = false;
 
     [SerializeField] Sprite[] playerSpriteSecret;
     [SerializeField] RuntimeAnimatorController[] animatorControllerSecret;
@@ -41,7 +54,7 @@ public class MenuPlayerUImanager : MonoBehaviour
         playerID = Convert.ToInt32(name);
 
         hasPlayer.Find("Player").GetComponent<TMP_Text>().text = "Player " + playerID;
-        playerSprite = hasPlayer.Find("Image").GetComponent<Image>();
+        playerSprite = hasPlayer.Find("Sprite").GetComponent<SpriteRenderer>();
         confirmationText = hasPlayer.Find("Confirm").GetComponent<TMP_Text>();
     }
 
@@ -93,7 +106,7 @@ public class MenuPlayerUImanager : MonoBehaviour
             {
                 secretCode = "";
                 trueArrow.SetActive(GameManager.instance.TrueArrow = !GameManager.instance.TrueArrow);
-                
+
             }
         }
     }
@@ -185,7 +198,7 @@ public class MenuPlayerUImanager : MonoBehaviour
 
     void StartUp()
     {
-        
+
         if (inputManager == null)
         {
             foreach (GameObject input in GameManager.instance.inputManagers)
@@ -203,7 +216,7 @@ public class MenuPlayerUImanager : MonoBehaviour
         }
         else
         {
-            if(inputManager.controllerConnected)
+            if (inputManager.controllerConnected)
             {
                 noPlayer.gameObject.SetActive(false);
                 hasPlayer.gameObject.SetActive(true);
@@ -222,7 +235,25 @@ public class MenuPlayerUImanager : MonoBehaviour
         if (inputManager == null)
             return;
 
-        if(inputManager.moveDir.x == -1 && inputManager.moveDir.x != lastXinput && !confirmed && confirmationTime == 0)
+        if (playerID == 1)
+        {
+            GameManager.instance.Play = confirmedRound;
+
+            if (delayTime < 0)
+                delayTime = 0;
+            if (delayTime > 0)
+                delayTime -= Time.deltaTime;
+
+            selectMaps.SetActive(confirmed);
+            selectRounds.SetActive(confirmedMap);
+
+            if (confirmed == true)
+                SelectMap();
+            if (confirmedMap == true)
+                SelectRound();
+        }
+
+        if (inputManager.moveDir.x == -1 && inputManager.moveDir.x != lastXinput && !confirmed && confirmationTime == 0)
         {
             if (playerSpriteIndex <= 0)
                 playerSpriteIndex = playerSprites.Count - 1;
@@ -238,6 +269,8 @@ public class MenuPlayerUImanager : MonoBehaviour
         }
 
         playerSprite.sprite = playerSprites[playerSpriteIndex];
+        playerAnimator.runtimeAnimatorController = animatorControllers[playerSpriteIndex];
+        playerAnimator.SetBool("isWalking", confirmed);
         lastXinput = inputManager.moveDir.x;
 
         if (inputManager.xPressed && !confirmed)
@@ -252,7 +285,8 @@ public class MenuPlayerUImanager : MonoBehaviour
         {
             confirmationTime = 0;
         }
-        if(confirmed && inputManager.circlePressed)
+
+        if (confirmed && inputManager.circlePressed && confirmedMap == false && delayTime == 0)
             confirmed = false;
 
         if (confirmed)
@@ -260,9 +294,10 @@ public class MenuPlayerUImanager : MonoBehaviour
             inputManager.playerData.animatorController = animatorControllers[playerSpriteIndex];
             inputManager.playerData.playerSprite = playerUiIcons[playerSpriteIndex];
 
-            if(secretChar == true)
+            if (secretChar == true)
             {
                 playerSprite.sprite = playerSpriteSecret[idSecret];
+                playerAnimator.runtimeAnimatorController = animatorControllerSecret[idSecret];
                 inputManager.playerData.animatorController = animatorControllerSecret[idSecret];
                 inputManager.playerData.playerSprite = playerSpriteSecret[idSecret];
             }
@@ -272,6 +307,115 @@ public class MenuPlayerUImanager : MonoBehaviour
         else
         {
             confirmationText.text = "Segure <size=60><sprite=" + inputManager.xId + "></size> para confirmar";
+        }
+    }
+
+    public void SelectMap()
+    {
+        if (inputManager.moveDir.x == -1 && inputManager.moveDir.x != lastXinput && !confirmedMap && confirmationMapTime == 0)
+        {
+            if (mapIndex <= 0)
+                mapIndex = 2;
+            else
+                mapIndex--;
+        }
+        else if (inputManager.moveDir.x == 1 && inputManager.moveDir.x != lastXinput && !confirmedMap && confirmationMapTime == 0)
+        {
+            if (mapIndex >= 2)
+                mapIndex = 0;
+            else
+                mapIndex++;
+        }
+
+        switch (mapIndex)
+        {
+            case 0:
+                selectMaps.GetComponentInChildren<TextMeshProUGUI>().text = "Random";
+                break;
+            case 1:
+                selectMaps.GetComponentInChildren<TextMeshProUGUI>().text = "Queimada";
+                break;
+            case 2:
+                selectMaps.GetComponentInChildren<TextMeshProUGUI>().text = "Arqueria";
+                break;
+        }
+
+        if (inputManager.xPressed && !confirmedMap)
+        {
+            confirmationMapTime += Time.deltaTime;
+            if (confirmationMapTime > 1)
+                confirmedMap = true;
+            else
+                confirmedMap = false;
+        }
+        else
+        {
+            confirmationMapTime = 0;
+        }
+        if (confirmedMap && inputManager.circlePressed && confirmedRound == false && delayTime == 0)
+        {
+            delayTime = 0.1f;
+            confirmedMap = false;
+        }
+
+        if (confirmedMap)
+        {
+            GameManager.instance.Map = selectMaps.GetComponentInChildren<TextMeshProUGUI>().text;
+
+            confirmationMapText.text = "Aperte <size=60><sprite=" + inputManager.circleId + "></size> para desconfirmar";
+        }
+        else
+        {
+            confirmationMapText.text = "Segure <size=60><sprite=" + inputManager.xId + "></size> para confirmar";
+        }
+    }
+
+    public void SelectRound()
+    {
+        if (inputManager.moveDir.x == -1 && inputManager.moveDir.x != lastXinput && !confirmedRound && confirmationTime == 0)
+        {
+            if (rounds <= 1)
+                rounds = 5;
+            else
+                rounds--;
+        }
+        else if (inputManager.moveDir.x == 1 && inputManager.moveDir.x != lastXinput && !confirmedRound && confirmationTime == 0)
+        {
+            if (rounds >= 5)
+                rounds = 1;
+            else
+                rounds++;
+        }
+
+        selectRounds.GetComponentInChildren<TextMeshProUGUI>().text = rounds.ToString();
+
+        if (inputManager.xPressed && !confirmedRound)
+        {
+            confirmationRoundTime += Time.deltaTime;
+            if (confirmationRoundTime > 1)
+                confirmedRound = true;
+            else
+                confirmedRound = false;
+        }
+        else
+        {
+            confirmationRoundTime = 0;
+        }
+        if (confirmedRound && inputManager.circlePressed)
+        {
+            delayTime = 0.1f;
+            confirmedRound = false;
+        }
+
+        if (confirmedRound)
+        {
+            GameManager.instance.total_rounds = rounds;
+
+            confirmationRoundText.text = "Aperte <size=60><sprite=" + inputManager.circleId + "></size> para desconfirmar";
+        }
+        else
+        {
+            confirmationRoundText.text = "Segure <size=60><sprite=" + inputManager.xId + "></size> para confirmar";
         }
     }
 }

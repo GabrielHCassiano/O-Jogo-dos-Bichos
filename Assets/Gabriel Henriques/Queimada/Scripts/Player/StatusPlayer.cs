@@ -72,5 +72,4 @@ public class StatusPlayer : MonoBehaviour
     {
         life -= damage * force;
     }
-
 }

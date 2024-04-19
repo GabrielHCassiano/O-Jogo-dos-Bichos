@@ -35,6 +35,17 @@ public class Arrow : MonoBehaviour
 
     public void ArrowLogic()
     {
+
+        if (GetComponentInParent<SpriteRenderer>() != null)
+        {
+            if (GetComponentInParent<SpriteRenderer>().GetComponentInParent<ArqueriaCombat>().Lose == true)
+            {
+                rb.isKinematic = false;
+                transform.parent = null;
+                rb.gravityScale = 8f;
+            }
+        }
+
         if (arqueriaCombat != null)
         {
             player = arqueriaCombat.GetComponent<PlayerID>();
@@ -61,7 +72,7 @@ public class Arrow : MonoBehaviour
         rb.gravityScale = 0f;
         rb.velocity = (diretion * 40);
         yield return new WaitForSeconds(0.1f);
-        rb.gravityScale = 3f;
+        rb.gravityScale = 8f;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -79,7 +90,7 @@ public class Arrow : MonoBehaviour
         {
             StopAllCoroutines();
             rb.velocity = Vector2.zero;
-            rb.gravityScale = 3f;
+            rb.gravityScale = 8f;
             collision.GetComponentInParent<Arrow>().StopAllCoroutines();
             collision.GetComponentInParent<Rigidbody2D>().velocity = Vector2.zero;
             collision.GetComponentInParent<Rigidbody2D>().gravityScale = 3f;

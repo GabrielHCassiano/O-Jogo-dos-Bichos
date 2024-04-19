@@ -41,6 +41,9 @@ public class GameManager : MonoBehaviour
 
     PlayerInputManager playerInputManager;
 
+    private string map;
+    private bool play = false;
+
     private bool trueArrow = false;
 
     private void Awake()
@@ -247,20 +250,22 @@ public class GameManager : MonoBehaviour
 
         if (rounds < total_rounds)
         {
-            /**
-            int index = Random.Range(0, availableMinigames.Count - 1);
-            int theSceneIndex = availableMinigames[index];
-            availableMinigames.RemoveAt(index);
-            foreach (var scene in playedMinigames)
+            if (map == "Random")
             {
-                availableMinigames.Add(scene);
+                Random.InitState((int)System.DateTime.Now.Ticks);
+                int index = Random.Range(0, availableMinigames.Count - 1);
+                int theSceneIndex = availableMinigames[index];
+                availableMinigames.RemoveAt(index);
+                foreach (var scene in playedMinigames)
+                {
+                    availableMinigames.Add(scene);
+                }
+                playedMinigames.Clear();
+                playedMinigames.Add(theSceneIndex);
+                SceneManager.LoadScene(theSceneIndex);
             }
-            playedMinigames.Clear();
-            playedMinigames.Add(theSceneIndex);
-            SceneManager.LoadScene(theSceneIndex);
-            **/
-
-            SceneManager.LoadScene("Arqueria");
+            else 
+                SceneManager.LoadScene(map);
         }
         else if (!gameFinished)
         {
@@ -296,6 +301,18 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public string Map
+    {
+        get { return map; }
+        set { map = value; }
+    }
+
+    public bool Play
+    {
+        get { return play; }
+        set { play = value; }
     }
 
     public bool TrueArrow
