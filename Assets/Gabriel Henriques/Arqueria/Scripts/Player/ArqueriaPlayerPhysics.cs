@@ -170,7 +170,7 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
 
         if (InCeiling())
         {
-            HitCeiling();
+            //HitCeiling();
         }
 
 
