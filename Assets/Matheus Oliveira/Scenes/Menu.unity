@@ -245,7 +245,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 959.9505, y: -421.3824}
+  m_AnchoredPosition: {x: 959.95056, y: -421.3824}
   m_SizeDelta: {x: 350, y: 340.11002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6818306
@@ -442,6 +442,10 @@ PrefabInstance:
       propertyPath: trueArrow
       value: 
       objectReference: {fileID: 2006159253}
+    - target: {fileID: 5867164345584580160, guid: aa12f3cf7bf0d004fb26897776bfcfe4, type: 3}
+      propertyPath: menuPlayer
+      value: 
+      objectReference: {fileID: 1847241847}
     - target: {fileID: 5867164345584580160, guid: aa12f3cf7bf0d004fb26897776bfcfe4, type: 3}
       propertyPath: selectMaps
       value: 
@@ -13445,6 +13449,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2006159253}
     - target: {fileID: 5867164345584580160, guid: aa12f3cf7bf0d004fb26897776bfcfe4, type: 3}
+      propertyPath: menuPlayer
+      value: 
+      objectReference: {fileID: 1847241847}
+    - target: {fileID: 5867164345584580160, guid: aa12f3cf7bf0d004fb26897776bfcfe4, type: 3}
       propertyPath: selectMaps
       value: 
       objectReference: {fileID: 430799938}
@@ -13715,6 +13723,10 @@ PrefabInstance:
       propertyPath: trueArrow
       value: 
       objectReference: {fileID: 2006159253}
+    - target: {fileID: 5867164345584580160, guid: aa12f3cf7bf0d004fb26897776bfcfe4, type: 3}
+      propertyPath: menuPlayer
+      value: 
+      objectReference: {fileID: 1847241847}
     - target: {fileID: 5867164345584580160, guid: aa12f3cf7bf0d004fb26897776bfcfe4, type: 3}
       propertyPath: selectMaps
       value: 
@@ -21535,7 +21547,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 959.9505, y: -921.27783}
+  m_AnchoredPosition: {x: 959.95056, y: -921.27783}
   m_SizeDelta: {x: 350, y: 137.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1858480987
@@ -27193,6 +27205,10 @@ PrefabInstance:
       propertyPath: trueArrow
       value: 
       objectReference: {fileID: 2006159253}
+    - target: {fileID: 5867164345584580160, guid: aa12f3cf7bf0d004fb26897776bfcfe4, type: 3}
+      propertyPath: menuPlayer
+      value: 
+      objectReference: {fileID: 1847241847}
     - target: {fileID: 5867164345584580160, guid: aa12f3cf7bf0d004fb26897776bfcfe4, type: 3}
       propertyPath: selectMaps
       value: 

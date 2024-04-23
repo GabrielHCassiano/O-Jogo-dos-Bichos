@@ -80,6 +80,11 @@ MonoBehaviour:
   - 2
   - 0
   - 1
+  genericIDs:
+  - 19
+  - 16
+  - 17
+  - 18
   squareId: 
   triangleId: 
   circleId: 

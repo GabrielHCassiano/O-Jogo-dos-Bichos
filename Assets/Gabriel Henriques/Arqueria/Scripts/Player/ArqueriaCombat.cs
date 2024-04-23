@@ -40,9 +40,13 @@ public class ArqueriaCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        LoseLogic();
+        if (inputManager == null)
+            return;
+        if (inputManager.canInput == false)
+            return;
         System();
         ArrowAim();
-        LoseLogic();
     }
 
     public bool Lose

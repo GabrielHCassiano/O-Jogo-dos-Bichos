@@ -34,6 +34,7 @@ public class InputManager : MonoBehaviour
     public List<string> playstationIDs;
     public List<string> xboxIDs;
     public List<string> nintendoIDs;
+    public List<string> genericIDs;
     [Space]
     [HideInInspector] public string squareId;
     [HideInInspector] public string triangleId;
@@ -89,10 +90,10 @@ public class InputManager : MonoBehaviour
                     break;
                 default:
                     inputName = "Generic";
-                    squareId = playstationIDs[0];
-                    triangleId = playstationIDs[1];
-                    circleId = playstationIDs[2];
-                    xId = playstationIDs[3];
+                    squareId = genericIDs[0];
+                    triangleId = genericIDs[1];
+                    circleId = genericIDs[2];
+                    xId = genericIDs[3];
                     break;
             }
         }

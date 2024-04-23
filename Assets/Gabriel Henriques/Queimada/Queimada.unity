@@ -21354,21 +21354,21 @@ MonoBehaviour:
   - {fileID: -1953750058, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
   - {fileID: 1503869859, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
   - {fileID: -1257623673, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
-  - {fileID: -1953750058, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
+  - {fileID: -1561926884, guid: 6e9cbae983afed54eb19c3b086dd8529, type: 3}
   - {fileID: -534306136, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
   spriteO:
   - {fileID: 1738383965, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
   - {fileID: -1151752650, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
   - {fileID: -1257623673, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
   - {fileID: 1503869859, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
-  - {fileID: -1151752650, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
+  - {fileID: -772696653, guid: 6e9cbae983afed54eb19c3b086dd8529, type: 3}
   - {fileID: 1711151820, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
   spriteD:
   - {fileID: -1291897240, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
   - {fileID: 1559535715, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
   - {fileID: 93528047, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
   - {fileID: 111928461, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
-  - {fileID: 1559535715, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
+  - {fileID: -618834504, guid: 6e9cbae983afed54eb19c3b086dd8529, type: 3}
   - {fileID: 860367240, guid: b6fcdf4031efc054299fcf7a6b57d270, type: 3}
   life1:
   - {fileID: 1828761259}

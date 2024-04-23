@@ -24,19 +24,18 @@ public class MenuPlayerUImanager : MonoBehaviour
     [SerializeField] int playerSpriteIndex = 0;
     float lastXinput = 0;
     [Space]
-    [SerializeField] float confirmationTime = 0;
     public bool confirmed = false;
 
-    [SerializeField] private float delayTime = 0;
+    [SerializeField] private GameObject menuPlayer;
+    private float delayStartTime = 0.4f;
+    private float delayBackTime = 0;
 
     [SerializeField] private GameObject selectMaps;
     [SerializeField] private int mapIndex = 0;
     [SerializeField] private bool confirmedMap = false;
-    [SerializeField] float confirmationMapTime = 0;
     [SerializeField] TMP_Text confirmationMapText;
     [SerializeField] private GameObject selectRounds;
     private int rounds = 3;
-    [SerializeField] float confirmationRoundTime = 0;
     [SerializeField] TMP_Text confirmationRoundText;
     private bool confirmedRound = false;
 
@@ -71,7 +70,6 @@ public class MenuPlayerUImanager : MonoBehaviour
     private void OnDisable()
     {
         playerSpriteIndex = 0;
-        confirmationTime = 0;
         confirmed = false;
         inputManager = null;
     }
@@ -235,14 +233,22 @@ public class MenuPlayerUImanager : MonoBehaviour
         if (inputManager == null)
             return;
 
+        if (menuPlayer.activeSelf == false)
+            return;
+
+        if (delayStartTime < 0)
+            delayStartTime = 0;
+        if (delayStartTime > 0)
+            delayStartTime -= Time.deltaTime;
+
         if (playerID == 1)
         {
             GameManager.instance.Play = confirmedRound;
 
-            if (delayTime < 0)
-                delayTime = 0;
-            if (delayTime > 0)
-                delayTime -= Time.deltaTime;
+            if (delayBackTime < 0)
+                delayBackTime = 0;
+            if (delayBackTime > 0)
+                delayBackTime -= Time.deltaTime;
 
             selectMaps.SetActive(confirmed);
             selectRounds.SetActive(confirmedMap);
@@ -253,14 +259,14 @@ public class MenuPlayerUImanager : MonoBehaviour
                 SelectRound();
         }
 
-        if (inputManager.moveDir.x == -1 && inputManager.moveDir.x != lastXinput && !confirmed && confirmationTime == 0)
+        if (inputManager.moveDir.x == -1 && inputManager.moveDir.x != lastXinput && !confirmed)
         {
             if (playerSpriteIndex <= 0)
                 playerSpriteIndex = playerSprites.Count - 1;
             else
                 playerSpriteIndex--;
         }
-        else if (inputManager.moveDir.x == 1 && inputManager.moveDir.x != lastXinput && !confirmed && confirmationTime == 0)
+        else if (inputManager.moveDir.x == 1 && inputManager.moveDir.x != lastXinput && !confirmed)
         {
             if (playerSpriteIndex >= playerSprites.Count - 1)
                 playerSpriteIndex = 0;
@@ -273,20 +279,13 @@ public class MenuPlayerUImanager : MonoBehaviour
         playerAnimator.SetBool("isWalking", confirmed);
         lastXinput = inputManager.moveDir.x;
 
-        if (inputManager.xPressed && !confirmed)
+        if (inputManager.xPressed && !confirmed && delayStartTime == 0)
         {
-            confirmationTime += Time.deltaTime;
-            if (confirmationTime > 1)
-                confirmed = true;
-            else
-                confirmed = false;
-        }
-        else
-        {
-            confirmationTime = 0;
+            delayStartTime = 0.4f;
+            confirmed = true;
         }
 
-        if (confirmed && inputManager.circlePressed && confirmedMap == false && delayTime == 0)
+        if (confirmed && inputManager.circlePressed && confirmedMap == false && delayBackTime == 0)
             confirmed = false;
 
         if (confirmed)
@@ -306,20 +305,20 @@ public class MenuPlayerUImanager : MonoBehaviour
         }
         else
         {
-            confirmationText.text = "Segure <size=60><sprite=" + inputManager.xId + "></size> para confirmar";
+            confirmationText.text = "Aperte <size=60><sprite=" + inputManager.xId + "></size> para confirmar";
         }
     }
 
     public void SelectMap()
     {
-        if (inputManager.moveDir.x == -1 && inputManager.moveDir.x != lastXinput && !confirmedMap && confirmationMapTime == 0)
+        if (inputManager.moveDir.x == -1 && inputManager.moveDir.x != lastXinput && !confirmedMap)
         {
             if (mapIndex <= 0)
                 mapIndex = 2;
             else
                 mapIndex--;
         }
-        else if (inputManager.moveDir.x == 1 && inputManager.moveDir.x != lastXinput && !confirmedMap && confirmationMapTime == 0)
+        else if (inputManager.moveDir.x == 1 && inputManager.moveDir.x != lastXinput && !confirmedMap)
         {
             if (mapIndex >= 2)
                 mapIndex = 0;
@@ -340,21 +339,16 @@ public class MenuPlayerUImanager : MonoBehaviour
                 break;
         }
 
-        if (inputManager.xPressed && !confirmedMap)
+
+        if (inputManager.xPressed && !confirmedMap && delayStartTime == 0)
         {
-            confirmationMapTime += Time.deltaTime;
-            if (confirmationMapTime > 1)
-                confirmedMap = true;
-            else
-                confirmedMap = false;
+            delayStartTime = 0.4f;
+            confirmedMap = true;
         }
-        else
+
+        if (confirmedMap && inputManager.circlePressed && confirmedRound == false && delayBackTime == 0)
         {
-            confirmationMapTime = 0;
-        }
-        if (confirmedMap && inputManager.circlePressed && confirmedRound == false && delayTime == 0)
-        {
-            delayTime = 0.1f;
+            delayBackTime = 0.4f;
             confirmedMap = false;
         }
 
@@ -366,20 +360,20 @@ public class MenuPlayerUImanager : MonoBehaviour
         }
         else
         {
-            confirmationMapText.text = "Segure <size=60><sprite=" + inputManager.xId + "></size> para confirmar";
+            confirmationMapText.text = "Aperte <size=60><sprite=" + inputManager.xId + "></size> para confirmar";
         }
     }
 
     public void SelectRound()
     {
-        if (inputManager.moveDir.x == -1 && inputManager.moveDir.x != lastXinput && !confirmedRound && confirmationTime == 0)
+        if (inputManager.moveDir.x == -1 && inputManager.moveDir.x != lastXinput && !confirmedRound)
         {
             if (rounds <= 1)
                 rounds = 5;
             else
                 rounds--;
         }
-        else if (inputManager.moveDir.x == 1 && inputManager.moveDir.x != lastXinput && !confirmedRound && confirmationTime == 0)
+        else if (inputManager.moveDir.x == 1 && inputManager.moveDir.x != lastXinput && !confirmedRound)
         {
             if (rounds >= 5)
                 rounds = 1;
@@ -389,21 +383,16 @@ public class MenuPlayerUImanager : MonoBehaviour
 
         selectRounds.GetComponentInChildren<TextMeshProUGUI>().text = rounds.ToString();
 
-        if (inputManager.xPressed && !confirmedRound)
+
+        if (inputManager.xPressed && !confirmedRound && delayStartTime == 0)
         {
-            confirmationRoundTime += Time.deltaTime;
-            if (confirmationRoundTime > 1)
-                confirmedRound = true;
-            else
-                confirmedRound = false;
+            delayStartTime = 0.4f;
+            confirmedRound = true;
         }
-        else
-        {
-            confirmationRoundTime = 0;
-        }
+
         if (confirmedRound && inputManager.circlePressed)
         {
-            delayTime = 0.1f;
+            delayBackTime = 0.4f;
             confirmedRound = false;
         }
 
@@ -415,7 +404,13 @@ public class MenuPlayerUImanager : MonoBehaviour
         }
         else
         {
-            confirmationRoundText.text = "Segure <size=60><sprite=" + inputManager.xId + "></size> para confirmar";
+            confirmationRoundText.text = "Aperte <size=60><sprite=" + inputManager.xId + "></size> para confirmar";
         }
+    }
+
+    public float DelayStartTime
+    { 
+        get { return delayStartTime; }
+        set { delayStartTime = value; }
     }
 }

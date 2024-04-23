@@ -13,6 +13,7 @@ public class ArqueriaMove : MonoBehaviour
     private float playerDirection = 1;
 
     private bool inWallJump;
+    private bool wallJump;
 
     private bool canDash = true;
     private bool doDash = false;
@@ -41,7 +42,6 @@ public class ArqueriaMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SystemPlayer();
         FlipLogic();
         DashInput();
         Animations();
@@ -49,6 +49,15 @@ public class ArqueriaMove : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (GetComponent<PlayerID>().inputManager != null)
+            inputManager = GetComponent<PlayerID>().inputManager;
+        else
+            return;
+
+        if (inputManager.canInput == false)
+            return;
+        if (SceneManager.GetActiveScene().name == "FinishScene")
+            return;
         MoveLogic();
         JumpLogic();
         DashLogic();
@@ -76,19 +85,6 @@ public class ArqueriaMove : MonoBehaviour
         sprite.transform.localScale = new Vector3(playerDirection, transform.localScale.y, transform.localScale.z);
     }
 
-    public void SystemPlayer()
-    {
-        if (GetComponent<PlayerID>().inputManager != null)
-            inputManager = GetComponent<PlayerID>().inputManager;
-        else
-            return;
-
-        if (inputManager != null && inputManager.canInput == false)
-            return;
-        if (SceneManager.GetActiveScene().name == "FinishScene")
-            return;
-    }
-
     public void MoveLogic()
     {
         if (inputManager != null)
@@ -99,8 +95,11 @@ public class ArqueriaMove : MonoBehaviour
     {
         if (playerPhysical.InWall() && inputManager != null && inputManager.xPressed == true && inWallJump == false)
         {
+            wallJump = true;
             StartCoroutine(CooldownWallJump());
         }
+        else
+            wallJump = false;
 
         if (playerPhysical.InGround())
         {
@@ -199,6 +198,7 @@ public class ArqueriaMove : MonoBehaviour
         animator.SetBool("Arqueria", true);
         animator.SetFloat("Horizontal", playerPhysical.Rigidbody2D.velocity.x);
         animator.SetFloat("Vertical", playerPhysical.Rigidbody2D.velocity.y);
+        animator.SetBool("WallJump", wallJump);
         animator.SetBool("InGround", playerPhysical.InGround());
 
         //animator.SetBool("isWalking", GetComponent<Rigidbody2D>().velocity.x != 0);

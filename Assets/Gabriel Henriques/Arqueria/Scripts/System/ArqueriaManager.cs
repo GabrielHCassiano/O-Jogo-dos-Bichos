@@ -1,14 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static KeyboardSplitter;
+using UnityEngine.UI;
 
 public class ArqueriaManager : MonoBehaviour
 {
 
     private GameObject[] players;
     [SerializeField] private Transform[] spawnPlayers;
+
+    [SerializeField] private Image[] attackUI;
+    [SerializeField] private Image[] jumpUI;
+    [SerializeField] private Image[] dashUI;
+
+
+    [SerializeField] private Sprite[] spriteX;
+    [SerializeField] private Sprite[] spriteD;
+    [SerializeField] private Sprite[] spriteRT;
+
+
+    [SerializeField] private Image[] life1;
+    [SerializeField] private Image[] life2;
+    [SerializeField] private Image[] life3;
+
+    private bool[] lifeUI = new bool[5];
+
 
     [SerializeField] private bool[] lossPlayer;
     private bool[] contLoss = new bool[5];
@@ -74,9 +90,38 @@ public class ArqueriaManager : MonoBehaviour
         {
             for (int i = 0; i < 4; i++)
             {
+                SpriteButton(i);
+                LifeUI(i);
                 lossPlayer[i] = players[i].GetComponent<ArqueriaCombat>().Lose;
                 WinLogic(i);
             }
+        }
+    }
+
+    public void LifeUI(int i)
+    {
+        if (lifeUI[i] == false && players[i].GetComponentInChildren<InputManager>() != null)
+        {
+            life1[i].sprite = players[i].GetComponentInChildren<InputManager>().playerData.playerSprite;
+            life2[i].sprite = players[i].GetComponentInChildren<InputManager>().playerData.playerSprite;
+            life3[i].sprite = players[i].GetComponentInChildren<InputManager>().playerData.playerSprite;
+            lifeUI[i] = true;
+        }
+
+        switch (players[i].GetComponent<ArqueriaCombat>().Life)
+        {
+            case 0:
+                life1[i].gameObject.SetActive(false);
+                life2[i].gameObject.SetActive(false);
+                life3[i].gameObject.SetActive(false);
+                break;
+            case 1:
+                life1[i].gameObject.SetActive(false);
+                life2[i].gameObject.SetActive(false);
+                break;
+            case 2:
+                life1[i].gameObject.SetActive(false);
+                break;
         }
     }
 
@@ -88,6 +133,49 @@ public class ArqueriaManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             players[i].transform.position = spawnPlayers[i].position;
+        }
+    }
+
+    public void SpriteButton(int i)
+    {
+        if (players[i].GetComponentInChildren<InputManager>() != null)
+        {
+            if (players[i].GetComponentInChildren<InputManager>().inputName == "Keyboard Left")
+            {
+                attackUI[i].sprite = spriteD[0];
+                jumpUI[i].sprite = spriteX[0];
+                dashUI[i].sprite = spriteRT[0];
+            }
+            if (players[i].GetComponentInChildren<InputManager>().inputName == "Playstation")
+            {
+                attackUI[i].sprite = spriteD[1];
+                jumpUI[i].sprite = spriteX[1];
+                dashUI[i].sprite = spriteRT[1];
+            }
+            if (players[i].GetComponentInChildren<InputManager>().inputName == "Xbox")
+            {
+                attackUI[i].sprite = spriteD[2];
+                jumpUI[i].sprite = spriteX[2];
+                dashUI[i].sprite = spriteRT[2];
+            }
+            if (players[i].GetComponentInChildren<InputManager>().inputName == "Nintendo")
+            {
+                attackUI[i].sprite = spriteD[3];
+                jumpUI[i].sprite = spriteX[3];
+                dashUI[i].sprite = spriteRT[3];
+            }
+            if (players[i].GetComponentInChildren<InputManager>().inputName == "Generic")
+            {
+                attackUI[i].sprite = spriteD[4];
+                jumpUI[i].sprite = spriteX[4];
+                dashUI[i].sprite = spriteRT[4];
+            }
+            if (players[i].GetComponentInChildren<InputManager>().inputName == "Keyboard Right")
+            {
+                attackUI[i].sprite = spriteD[5];
+                jumpUI[i].sprite = spriteX[5];
+                dashUI[i].sprite = spriteRT[5];
+            }
         }
     }
 }

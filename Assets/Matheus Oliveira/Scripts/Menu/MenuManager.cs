@@ -128,6 +128,8 @@ public class MenuManager : MonoBehaviour
                 returnConfirmTime += Time.deltaTime;
                 if(returnConfirmTime >= 1)
                 {
+                    for (int i = 0; i < 4; i++)
+                        FindObjectsOfType<MenuPlayerUImanager>()[i].DelayStartTime = 0.4f;
                     SwitchToMenu(1);
                 }
             }
