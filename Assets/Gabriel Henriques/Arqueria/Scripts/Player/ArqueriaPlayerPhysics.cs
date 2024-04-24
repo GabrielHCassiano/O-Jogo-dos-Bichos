@@ -29,9 +29,7 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
     [SerializeField] private float maxSpeed;
 
     [Header("Gravity")]
-    [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float gravityScale;
-    [SerializeField] private float maxGravity;
 
     [Header("Jump")]
     [SerializeField] private float forceJump;
@@ -134,7 +132,6 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
 
         if (InWall() == true)
         {
-            print("Wall");
             //ColliderMove();
         }
         else colliderWall.x = transform.position.x;
@@ -161,7 +158,6 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
 
         if (InGround() == true)
         {
-            print("Ground");
             //ColliderJump();
         }
         else

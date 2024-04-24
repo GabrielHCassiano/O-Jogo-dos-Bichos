@@ -23,6 +23,7 @@ public class InputManager : MonoBehaviour
     public bool trianglePressed = false;
     public bool circlePressed = false;
     public bool xPressed = false;
+    public bool rtPressed = false;
     [Space]
     public bool anyPressed = false;
     [Space]
@@ -157,6 +158,11 @@ public class InputManager : MonoBehaviour
     public void OnCircle(InputAction.CallbackContext context)
     {
         circlePressed = context.action.triggered;
+    }
+
+    public void OnRT(InputAction.CallbackContext context)
+    {
+        rtPressed = context.action.triggered;
     }
 
     public void OnRegained(PlayerInput input)

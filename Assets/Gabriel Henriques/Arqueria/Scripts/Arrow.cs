@@ -70,7 +70,7 @@ public class Arrow : MonoBehaviour
     public IEnumerator ArrowCooldown() 
     {
         rb.gravityScale = 0f;
-        rb.velocity = (diretion * 40);
+        rb.velocity = (diretion * 50);
         yield return new WaitForSeconds(0.1f);
         rb.gravityScale = 8f;
     }
@@ -99,9 +99,13 @@ public class Arrow : MonoBehaviour
         
         if (collision.gameObject.CompareTag("HitBox"))
         {
-            if(player != null && collision.gameObject.GetComponentInParent<PlayerID>().ID != player.ID)
+            if(player != null && collision.gameObject.GetComponentInParent<PlayerID>().ID != player.ID && collision.gameObject.GetComponentInParent<ArqueriaCombat>().Shield == false)
             {
                 StopAllCoroutines();
+                if (collision.gameObject.GetComponentInParent<ArqueriaCombat>().Life - 1 <= 0)
+                    player.GetComponent<ArqueriaCombat>().ScoreUp_2();
+                else
+                    player.GetComponent<ArqueriaCombat>().ScoreUp();
                 player = null;
                 rb.velocity = Vector2.zero;
                 rb.gravityScale = 0f;

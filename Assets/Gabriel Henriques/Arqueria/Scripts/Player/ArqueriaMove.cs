@@ -13,10 +13,10 @@ public class ArqueriaMove : MonoBehaviour
     private float playerDirection = 1;
 
     private bool inWallJump;
-    private bool wallJump;
 
     private bool canDash = true;
     private bool doDash = false;
+    private bool inDash = false;
 
     [Header("Dash")]
     [SerializeField] private float dashSpeed = 4f;
@@ -29,6 +29,9 @@ public class ArqueriaMove : MonoBehaviour
 
     private Animator animator;
     private ParticleSystem dustParticle;
+
+    [SerializeField] private SpriteRenderer uiDash;
+    [SerializeField] private SpriteRenderer[] ghosting;
 
     // Start is called before the first frame update
     void Start()
@@ -45,6 +48,7 @@ public class ArqueriaMove : MonoBehaviour
         FlipLogic();
         DashInput();
         Animations();
+        UIDash();
     }
 
     private void FixedUpdate()
@@ -69,12 +73,6 @@ public class ArqueriaMove : MonoBehaviour
         set { playerDirection = value; }
     }
 
-    public int ScoreValue
-    {
-        get { return inputManager.playerData.playerScore; }
-        set { inputManager.playerData.playerScore = value; }
-    }
-
     public void FlipLogic()
     {
         if (inputManager != null && inputManager.moveDir.x > 0)
@@ -95,11 +93,8 @@ public class ArqueriaMove : MonoBehaviour
     {
         if (playerPhysical.InWall() && inputManager != null && inputManager.xPressed == true && inWallJump == false)
         {
-            wallJump = true;
             StartCoroutine(CooldownWallJump());
         }
-        else
-            wallJump = false;
 
         if (playerPhysical.InGround())
         {
@@ -127,13 +122,13 @@ public class ArqueriaMove : MonoBehaviour
 
     public void DashInput()
     {
-        if (inputManager != null && inputManager.squarePressed == true && inputManager.moveDir != Vector2.zero && canDash && inputManager.squarePressed != lastFramePressedDash)
+        if (inputManager != null && inputManager.rtPressed == true && inputManager.moveDir != Vector2.zero && canDash && inputManager.squarePressed != lastFramePressedDash)
         {
             doDash = true;
         }
 
         if (inputManager != null)
-            lastFramePressedDash = inputManager.squarePressed;
+            lastFramePressedDash = inputManager.rtPressed;
     }
 
     public void DashLogic()
@@ -145,28 +140,53 @@ public class ArqueriaMove : MonoBehaviour
 
         if (doDash && canDash)
         {
+            StartCoroutine(GhostingAnim());
             StartCoroutine(DashRoutine());
         }
+
     }
 
     IEnumerator DashRoutine()
     {
-        print("Dash");
         doDash = false;
         canDash = false;
+        inDash = true;
         playerPhysical.CanMove = false;
 
         playerPhysical.ResetVelocity();
 
         playerPhysical.Gravity = 0;
         playerPhysical.Rigidbody2D.velocity = (inputManager.moveDir * dashSpeed);
-
         yield return new WaitForSeconds(dashDuration);
 
         playerPhysical.Rigidbody2D.velocity = Vector2.zero;
         playerPhysical.Gravity = 2.5f;
 
         playerPhysical.CanMove = true;
+        inDash = false;
+    }
+
+    IEnumerator GhostingAnim()
+    {
+        for (int i = 0; i < ghosting.Length; i++)
+        {
+            yield return new WaitForSeconds(0.05f);
+            ghosting[i].sprite = sprite.sprite;
+            ghosting[i].transform.localScale = new Vector3(playerDirection, transform.localScale.y, transform.localScale.z);
+            ghosting[i].gameObject.SetActive(true);
+            ghosting[i].transform.parent = null;
+        }
+        ResetGhosting();
+    }
+
+    public void ResetGhosting()
+    {
+        for (int i = 0; i < ghosting.Length; i++)
+        {
+            ghosting[i].transform.parent = transform;
+            ghosting[i].transform.position = transform.position;
+            ghosting[i].gameObject.SetActive(false);
+        }
     }
 
     public void ResetDash()
@@ -179,6 +199,25 @@ public class ArqueriaMove : MonoBehaviour
         playerPhysical.CanMove = true;
 
         inWallJump = false;
+        //ResetGhosting();
+    }
+    
+    public void UIDash()
+    {
+        if (canDash == true)
+        {
+            uiDash.gameObject.SetActive(true);
+            uiDash.color = Color.yellow;
+        }
+        else if (inDash == true)
+        {
+            uiDash.gameObject.SetActive(false);
+        }
+        else
+        {
+            uiDash.gameObject.SetActive(true);
+            uiDash.color = Color.gray;
+        }
     }
 
     void Animations()
@@ -198,7 +237,7 @@ public class ArqueriaMove : MonoBehaviour
         animator.SetBool("Arqueria", true);
         animator.SetFloat("Horizontal", playerPhysical.Rigidbody2D.velocity.x);
         animator.SetFloat("Vertical", playerPhysical.Rigidbody2D.velocity.y);
-        animator.SetBool("WallJump", wallJump);
+        animator.SetBool("WallJump", playerPhysical.InWall() && !playerPhysical.InGround());
         animator.SetBool("InGround", playerPhysical.InGround());
 
         //animator.SetBool("isWalking", GetComponent<Rigidbody2D>().velocity.x != 0);

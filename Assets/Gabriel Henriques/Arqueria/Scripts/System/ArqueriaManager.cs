@@ -67,18 +67,18 @@ public class ArqueriaManager : MonoBehaviour
             contLoss[i] = true;
             lossGame += 1;
             if (lossGame == 2)
-                players[i].GetComponent<ArqueriaMove>().ScoreValue += 10;
+                players[i].GetComponentInChildren<InputManager>().playerData.playerScore += 10;
             if (lossGame == 3)
-                players[i].GetComponent<ArqueriaMove>().ScoreValue += 20;
+                players[i].GetComponentInChildren<InputManager>().playerData.playerScore += 20;
             if (lossGame == 4)
             {
-                players[i].GetComponent<ArqueriaMove>().ScoreValue += 30;
+                players[i].GetComponentInChildren<InputManager>().playerData.playerScore += 30;
                 FindObjectOfType<GameManager>().minigameEnded = true;
             }
         }
         else if (lossGame == 3 && lossPlayer[i] == false && contLoss[i] == false)
         {
-            players[i].GetComponent<ArqueriaMove>().ScoreValue += 30;
+            players[i].GetComponentInChildren<InputManager>().playerData.playerScore += 30;
             contLoss[i] = true;
             FindObjectOfType<GameManager>().minigameEnded = true;
         }

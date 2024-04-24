@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 
 public class ArqueriaCombat : MonoBehaviour
@@ -11,6 +12,9 @@ public class ArqueriaCombat : MonoBehaviour
     private bool shield;
     private bool lose;
 
+    [SerializeField] private SpriteRenderer[] uiArrow;
+    [SerializeField] private Sprite trueUIArrow;
+
     [SerializeField] private GameObject arrowPos;
     [SerializeField] private GameObject[] arrows;
     [SerializeField] private int idArrow;
@@ -20,6 +24,10 @@ public class ArqueriaCombat : MonoBehaviour
     [SerializeField] private RuntimeAnimatorController trueArrowAnim;
 
     private Vector2 laterDirection;
+
+    [SerializeField] private GameObject[] scoreUp;
+    [SerializeField] private GameObject[] scoreUp_2;
+
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +41,10 @@ public class ArqueriaCombat : MonoBehaviour
         {
             arrowPos.GetComponentInChildren<Animator>().runtimeAnimatorController = trueArrowAnim;
             for (int i = 0; i < 3; i++)
+            {
                 arrows[i].GetComponentInChildren<SpriteRenderer>().sprite = trueArrow;
+                uiArrow[i].sprite = trueUIArrow;
+            }
         }
     }
 
@@ -46,7 +57,9 @@ public class ArqueriaCombat : MonoBehaviour
         if (inputManager.canInput == false)
             return;
         System();
+        ScoreUpdate();
         ArrowAim();
+        UIArrow();
     }
 
     public bool Lose
@@ -61,6 +74,12 @@ public class ArqueriaCombat : MonoBehaviour
         set { life = value; }
     }
 
+    public bool Shield
+    {
+        get { return shield; }
+        set { shield = value; }
+    }
+
     public Vector3 LaterDirection
     {
         get { return laterDirection; }
@@ -68,9 +87,9 @@ public class ArqueriaCombat : MonoBehaviour
     }
 
     public GameObject[] Arrows
-    { 
-      get { return arrows; } 
-      set {  arrows = value; }  
+    {
+        get { return arrows; }
+        set { arrows = value; }
     }
 
     public void System()
@@ -87,7 +106,7 @@ public class ArqueriaCombat : MonoBehaviour
 
     public void ArrowAim()
     {
-        for (int i = 0; i < Arrows.Length; i++)
+        for (int i = 2; i >= 0; i--)
         {
             if (Arrows[i] != null)
             {
@@ -97,7 +116,7 @@ public class ArqueriaCombat : MonoBehaviour
         }
 
 
-        if (inputManager != null && inputManager.circlePressed == true && arrows[idArrow] != null)
+        if (inputManager != null && inputManager.squarePressed == true && arrows[idArrow] != null)
         {
             inArrow = true;
             arrowPos.transform.right = new Vector2(laterDirection.x, laterDirection.y);
@@ -105,7 +124,7 @@ public class ArqueriaCombat : MonoBehaviour
             arrowPos.SetActive(true);
 
         }
-        if (inputManager != null && inputManager.circlePressed == false && inArrow == true)
+        if (inputManager != null && inputManager.squarePressed == false && inArrow == true)
         {
             if (shield == true)
             {
@@ -129,6 +148,71 @@ public class ArqueriaCombat : MonoBehaviour
         {
             life -= 1;
             StartCoroutine(DamageAnim());
+        }
+    }
+
+    public void ScoreUpdate()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            if (scoreUp[i].activeSelf == true && scoreUp[i].GetComponent<TextMeshProUGUI>().enabled == false)
+            {
+                scoreUp[i].GetComponent<TextMeshProUGUI>().enabled = true;
+                scoreUp[i].SetActive(false);
+            }
+
+        }
+
+        for (int i = 0; i < 5; i++)
+        {
+            if (scoreUp_2[i].activeSelf == true && scoreUp_2[i].GetComponent<TextMeshProUGUI>().enabled == false)
+            {
+                scoreUp_2[i].GetComponent<TextMeshProUGUI>().enabled = true;
+                scoreUp_2[i].SetActive(false);
+            }
+
+        }
+
+    }
+
+    public void ScoreUp_2()
+    {
+        inputManager.playerData.playerScore += 10;
+        for (int i = 0; i < 5; i++)
+        {
+            if (scoreUp_2[i].activeSelf == false)
+            {
+                scoreUp_2[i].SetActive(true);
+                break;
+            }
+
+        }
+
+    }
+
+    public void ScoreUp()
+    {
+        inputManager.playerData.playerScore += 5;
+        for(int i = 0; i < 5; i++) 
+        {
+            if (scoreUp[i].activeSelf == false)
+            {
+                scoreUp[i].SetActive(true);
+                break;
+            }
+
+        }
+
+    }
+
+    public void UIArrow()
+    {
+        for (int i = 2; i >= 0; i--)
+        {
+            if (arrows[i] == null)
+                uiArrow[i].color = Color.black;
+            else
+                uiArrow[i].color = Color.white;
         }
     }
 
@@ -157,27 +241,17 @@ public class ArqueriaCombat : MonoBehaviour
     {
         shield = true;
         GetComponentInChildren<SpriteRenderer>().color = Color.red;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         GetComponentInChildren<SpriteRenderer>().color = Color.white;
-        GetComponentInChildren<SpriteRenderer>().color -= new Color(0f, 0f, 0f, 1f);
-        yield return new WaitForSeconds(0.2f);
-        GetComponentInChildren<SpriteRenderer>().color += new Color(0f, 0f, 0f, 1f);
-        yield return new WaitForSeconds(0.2f);
-        GetComponentInChildren<SpriteRenderer>().color -= new Color(0f, 0f, 0f, 1f);
-        yield return new WaitForSeconds(0.2f);
-        GetComponentInChildren<SpriteRenderer>().color += new Color(0f, 0f, 0f, 1f);
-        yield return new WaitForSeconds(0.2f);
-        GetComponentInChildren<SpriteRenderer>().color -= new Color(0f, 0f, 0f, 1f);
-        yield return new WaitForSeconds(0.2f);
-        GetComponentInChildren<SpriteRenderer>().color += new Color(0f, 0f, 0f, 1f);
-        yield return new WaitForSeconds(0.2f);
-        GetComponentInChildren<SpriteRenderer>().color -= new Color(0f, 0f, 0f, 1f);
-        yield return new WaitForSeconds(0.2f);
-        GetComponentInChildren<SpriteRenderer>().color += new Color(0f, 0f, 0f, 1f);
-        yield return new WaitForSeconds(0.2f);
-        GetComponentInChildren<SpriteRenderer>().color -= new Color(0f, 0f, 0f, 1f);
-        yield return new WaitForSeconds(0.2f);
-        GetComponentInChildren<SpriteRenderer>().color += new Color(0f, 0f, 0f, 1f);
+
+        for (int i = 0; i < 10; i++)
+        {
+            GetComponentInChildren<SpriteRenderer>().color -= new Color(0f, 0f, 0f, 1f);
+            yield return new WaitForSeconds(0.1f);
+            GetComponentInChildren<SpriteRenderer>().color += new Color(0f, 0f, 0f, 1f);
+            yield return new WaitForSeconds(0.1f);
+
+        }
         shield = false;
     }
 
