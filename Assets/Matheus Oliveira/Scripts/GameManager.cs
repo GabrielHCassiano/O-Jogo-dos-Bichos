@@ -250,7 +250,7 @@ public class GameManager : MonoBehaviour
 
         if (rounds < total_rounds)
         {
-            if (map == "Random")
+            if (map == "Aleatório")
             {
                 Random.InitState((int)System.DateTime.Now.Ticks);
                 int index = Random.Range(0, availableMinigames.Count - 1);

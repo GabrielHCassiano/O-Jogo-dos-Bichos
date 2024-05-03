@@ -35,7 +35,7 @@ ScriptedImporter:
     spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
-    spritePixelsToUnits: 16
+    spritePixelsToUnits: 26
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
     spriteGenerateFallbackPhysicsShape: 0
     generateCubemap: 6
@@ -75,8 +75,8 @@ ScriptedImporter:
     importHiddenLayers: 0
     layerImportMode: 1
     defaultPivotSpace: 0
-    defaultPivotAlignment: 7
-    customPivotPosition: {x: 0.5, y: 0.5}
+    defaultPivotAlignment: 9
+    customPivotPosition: {x: 0.3, y: 0}
     spritePadding: 0
     generateModelPrefab: 1
     generateAnimationClips: 1
@@ -87,15 +87,15 @@ ScriptedImporter:
     importHiddenLayers: 0
     layerImportMode: 1
     defaultPivotSpace: 0
-    defaultPivotAlignment: 7
-    customPivotPosition: {x: 0.5, y: 0.5}
+    defaultPivotAlignment: 9
+    customPivotPosition: {x: 0.3, y: 0}
     spritePadding: 0
     generateModelPrefab: 1
     generateAnimationClips: 1
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638495764171557971
+  platformSettingsDirtyTick: 638497375898703499
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -121,7 +121,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: Red_Hood_Assassin_64_Frame_0
     originalName: 
-    pivot: {x: 1.2244898, y: 0}
+    pivot: {x: 0.70204085, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -141,7 +141,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 358}
   - name: Red_Hood_Assassin_64_Frame_1
     originalName: 
-    pivot: {x: 1.2244898, y: 0}
+    pivot: {x: 0.70204085, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -161,7 +161,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 422}
   - name: Red_Hood_Assassin_64_Frame_2
     originalName: 
-    pivot: {x: 1.2244898, y: 0}
+    pivot: {x: 0.70204085, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -181,7 +181,7 @@ ScriptedImporter:
     uvTransform: {x: 82, y: 132}
   - name: Red_Hood_Assassin_64_Frame_3
     originalName: 
-    pivot: {x: 1.2244898, y: 0}
+    pivot: {x: 0.70204085, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -201,7 +201,7 @@ ScriptedImporter:
     uvTransform: {x: 82, y: 195}
   - name: Red_Hood_Assassin_64_Frame_4
     originalName: 
-    pivot: {x: 1.2244898, y: 0}
+    pivot: {x: 0.70204085, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -221,7 +221,7 @@ ScriptedImporter:
     uvTransform: {x: 82, y: 258}
   - name: Red_Hood_Assassin_64_Frame_5
     originalName: 
-    pivot: {x: 1.2244898, y: 0}
+    pivot: {x: 0.70204085, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -241,7 +241,7 @@ ScriptedImporter:
     uvTransform: {x: 82, y: 4}
   - name: Red_Hood_Assassin_64_Frame_6
     originalName: 
-    pivot: {x: 1.2244898, y: 0}
+    pivot: {x: 0.70204085, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -261,7 +261,7 @@ ScriptedImporter:
     uvTransform: {x: 82, y: 68}
   - name: Red_Hood_Assassin_64_Frame_7
     originalName: 
-    pivot: {x: 0.90625, y: 0}
+    pivot: {x: 0.10625005, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -281,7 +281,7 @@ ScriptedImporter:
     uvTransform: {x: 82, y: 444}
   - name: Red_Hood_Assassin_64_Frame_8
     originalName: 
-    pivot: {x: 0.42857143, y: 0}
+    pivot: {x: -0.18095236, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -301,7 +301,7 @@ ScriptedImporter:
     uvTransform: {x: 82, y: 384}
   - name: Red_Hood_Assassin_64_Frame_9
     originalName: 
-    pivot: {x: 0.18571429, y: 0}
+    pivot: {x: -0.17999998, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -321,7 +321,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 4}
   - name: Red_Hood_Assassin_64_Frame_10
     originalName: 
-    pivot: {x: 0.20588236, y: 0}
+    pivot: {x: -0.17058821, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -341,7 +341,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 60}
   - name: Red_Hood_Assassin_64_Frame_11
     originalName: 
-    pivot: {x: 0.22058824, y: 0}
+    pivot: {x: -0.15588233, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -361,7 +361,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 116}
   - name: Red_Hood_Assassin_64_Frame_12
     originalName: 
-    pivot: {x: 0.48214287, y: 0}
+    pivot: {x: 0.025000028, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -381,7 +381,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 235}
   - name: Red_Hood_Assassin_64_Frame_13
     originalName: 
-    pivot: {x: 0.6315789, y: 0}
+    pivot: {x: 0.18245617, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -401,7 +401,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 172}
   - name: Red_Hood_Assassin_64_Frame_14
     originalName: 
-    pivot: {x: 1.1276596, y: 0}
+    pivot: {x: 0.5829787, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -421,7 +421,7 @@ ScriptedImporter:
     uvTransform: {x: 82, y: 321}
   - name: Red_Hood_Assassin_64_Frame_15
     originalName: 
-    pivot: {x: 1.22, y: 0}
+    pivot: {x: 0.708, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:

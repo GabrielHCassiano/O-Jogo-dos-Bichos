@@ -173,7 +173,6 @@ public class QueimadaManager : MonoBehaviour
         {
             for (int i = 0; i < 4; i++)
             {
-                player[i].GetComponent<TopDownController>().moveSpeed = 2.5f;
                 player[i].AddComponent<PlayerQueimadaControl>();
                 playerID = player[i].GetComponent<PlayerID>();
                 player[i].transform.position = spawnPos[playerID.ID - 1].position;

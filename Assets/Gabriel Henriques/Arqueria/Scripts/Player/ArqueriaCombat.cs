@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ArqueriaCombat : MonoBehaviour
@@ -19,6 +20,7 @@ public class ArqueriaCombat : MonoBehaviour
     [SerializeField] private GameObject[] arrows;
     [SerializeField] private int idArrow;
     private bool inArrow;
+    private bool canAttack = true;
 
     [SerializeField] private Sprite trueArrow;
     [SerializeField] private RuntimeAnimatorController trueArrowAnim;
@@ -116,31 +118,38 @@ public class ArqueriaCombat : MonoBehaviour
         }
 
 
-        if (inputManager != null && inputManager.squarePressed == true && arrows[idArrow] != null)
+        if (inputManager != null && inputManager.squarePressed == true && arrows[idArrow] != null && canAttack == true)
         {
             inArrow = true;
             arrowPos.transform.right = new Vector2(laterDirection.x, laterDirection.y);
 
             arrowPos.SetActive(true);
-
         }
         if (inputManager != null && inputManager.squarePressed == false && inArrow == true)
         {
-            if (shield == true)
+            /*if (shield == true)
             {
                 StopAllCoroutines();
+                StartCoroutine(ShieldAnim());
                 shield = false;
-                GetComponentInChildren<SpriteRenderer>().color = Color.white;
-            }
+            }*/
             arrowPos.SetActive(false);
-
+            arrows[idArrow].GetComponent<Arrow>().Force = arrowPos.GetComponentInChildren<ForceArrow>().Force;
             arrows[idArrow].SetActive(true);
             //arrows[0].transform.parent = null;
             arrows[idArrow] = null;
             inArrow = false;
-
+            StartCoroutine(AttackCooldown());
         }
     }
+
+    public IEnumerator AttackCooldown()
+    {
+        canAttack = false;
+        yield return new WaitForSeconds(0.3f);
+        canAttack = true;
+    }
+
 
     public void LifeDown()
     {
@@ -237,6 +246,13 @@ public class ArqueriaCombat : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    IEnumerator ShieldAnim()
+    {
+        GetComponentInChildren<SpriteRenderer>().color = new Color(0.3019608f, 0.6313726f, 0.6941177f, 1f);
+        yield return new WaitForSeconds(0.2f);
+        GetComponentInChildren<SpriteRenderer>().color = Color.white;
+    }
+
     IEnumerator DamageAnim()
     {
         shield = true;
@@ -244,7 +260,7 @@ public class ArqueriaCombat : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         GetComponentInChildren<SpriteRenderer>().color = Color.white;
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 15; i++)
         {
             GetComponentInChildren<SpriteRenderer>().color -= new Color(0f, 0f, 0f, 1f);
             yield return new WaitForSeconds(0.1f);
@@ -252,7 +268,11 @@ public class ArqueriaCombat : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
 
         }
+
         shield = false;
+        GetComponentInChildren<SpriteRenderer>().color = new Color(0.3019608f, 0.6313726f, 0.6941177f, 1f);
+        yield return new WaitForSeconds(0.2f);
+        GetComponentInChildren<SpriteRenderer>().color = Color.white;
     }
 
 }

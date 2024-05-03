@@ -28,7 +28,8 @@ public class ArqueriaMove : MonoBehaviour
     private float coyoteTimeCounter;
 
     private Animator animator;
-    private ParticleSystem dustParticle;
+    [SerializeField] private ParticleSystem dustParticle;
+    [SerializeField] private ParticleSystem dustParticleWall;
 
     [SerializeField] private SpriteRenderer uiDash;
     [SerializeField] private SpriteRenderer[] ghosting;
@@ -39,7 +40,6 @@ public class ArqueriaMove : MonoBehaviour
         playerPhysical = GetComponent<ArqueriaPlayerPhysics>();
         inputManager = GetComponentInChildren<InputManager>();
         animator = GetComponent<Animator>();
-        dustParticle = GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -193,6 +193,8 @@ public class ArqueriaMove : MonoBehaviour
     {
         StopAllCoroutines();
 
+        inDash = false;
+
         playerPhysical.Rigidbody2D.velocity = Vector2.zero;
         playerPhysical.Gravity = 2.5f;
 
@@ -206,16 +208,10 @@ public class ArqueriaMove : MonoBehaviour
     {
         if (canDash == true)
         {
-            uiDash.gameObject.SetActive(true);
             uiDash.color = Color.yellow;
         }
-        else if (inDash == true)
+        else if (canDash == false)
         {
-            uiDash.gameObject.SetActive(false);
-        }
-        else
-        {
-            uiDash.gameObject.SetActive(true);
             uiDash.color = Color.gray;
         }
     }
@@ -246,6 +242,11 @@ public class ArqueriaMove : MonoBehaviour
     public void PlayDustParticle()
     {
         dustParticle.Play();
+    }
+
+    public void PlayDustParticleWall()
+    {
+        dustParticleWall.Play();
     }
 
 }

@@ -13,6 +13,8 @@ public class Arrow : MonoBehaviour
     [SerializeField] private PlayerID player;
 
     [SerializeField] private Vector2 diretion;
+
+    private int force;
     // Start is called before the first frame update
     void Start() 
     {
@@ -31,6 +33,12 @@ public class Arrow : MonoBehaviour
     { 
         get { return player; } 
         set { player = value; }
+    }
+
+    public int Force
+    {
+        get { return force; }
+        set { force = value; }
     }
 
     public void ArrowLogic()
@@ -70,7 +78,7 @@ public class Arrow : MonoBehaviour
     public IEnumerator ArrowCooldown() 
     {
         rb.gravityScale = 0f;
-        rb.velocity = (diretion * 50);
+        rb.velocity = (diretion * force);
         yield return new WaitForSeconds(0.1f);
         rb.gravityScale = 8f;
     }

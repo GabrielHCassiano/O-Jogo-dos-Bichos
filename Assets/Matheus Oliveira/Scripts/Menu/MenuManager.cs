@@ -61,7 +61,7 @@ public class MenuManager : MonoBehaviour
             }
             GameManager.instance.rounds = 0;
 
-            if (GameManager.instance.Map == "Random")
+            if (GameManager.instance.Map == "Aleatório")
             {
                 Random.InitState((int)System.DateTime.Now.Ticks);
                 int index = Random.Range(0, GameManager.instance.availableMinigames.Count);
@@ -111,6 +111,7 @@ public class MenuManager : MonoBehaviour
         {
             if (inputManager.xPressed)
             {
+                Menus[0].SetActive(false);
                 SwitchToMenu(1);
                 started = true;
             }
@@ -118,7 +119,7 @@ public class MenuManager : MonoBehaviour
         else if (inputManager == null)
         {
             started = false;
-            SwitchToMenu(0);
+            Menus[0].SetActive(true);
         }
 
         if (inputManager != null && currentMenu == 2)

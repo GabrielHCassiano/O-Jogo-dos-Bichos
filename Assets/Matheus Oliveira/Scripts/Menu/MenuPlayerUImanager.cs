@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 public class MenuPlayerUImanager : MonoBehaviour
 {
@@ -28,16 +29,18 @@ public class MenuPlayerUImanager : MonoBehaviour
 
     [SerializeField] private GameObject menuPlayer;
     private float delayStartTime = 0.4f;
-    private float delayBackTime = 0;
 
     [SerializeField] private GameObject selectMaps;
     [SerializeField] private int mapIndex = 0;
     [SerializeField] private bool confirmedMap = false;
     [SerializeField] TMP_Text confirmationMapText;
+    [SerializeField] private GameObject trailMap;
     [SerializeField] private GameObject selectRounds;
     private int rounds = 3;
     [SerializeField] TMP_Text confirmationRoundText;
     private bool confirmedRound = false;
+    [SerializeField] private GameObject trailRound;
+
 
     [SerializeField] Sprite[] playerSpriteSecret;
     [SerializeField] RuntimeAnimatorController[] animatorControllerSecret;
@@ -80,7 +83,7 @@ public class MenuPlayerUImanager : MonoBehaviour
         {
             SecrectCode();
 
-            if (secretChar == false && secretCode == "V \\V > V /V < V \\V > X " /*&& inputManager.moveDir.y == -1 && inputManager.trianglePressed == true && inputManager.squarePressed == true*/)
+            if (secretChar == false && secretCode == "V \\V > V /V < V \\V > X ")
             {
                 idSecret = 0;
                 secretChar = true;
@@ -89,6 +92,13 @@ public class MenuPlayerUImanager : MonoBehaviour
             if (secretChar == false && secretCode == "< V A > X ")
             {
                 idSecret = 1;
+                secretChar = true;
+                confirmed = true;
+            }
+            if (secretChar == false && secretCode == "A A V V < > < > X O ")
+            {
+                idSecret = 2;
+                inputManager.AddComponent<Red_HoodAttack>();
                 secretChar = true;
                 confirmed = true;
             }
@@ -245,18 +255,23 @@ public class MenuPlayerUImanager : MonoBehaviour
         {
             GameManager.instance.Play = confirmedRound;
 
-            if (delayBackTime < 0)
-                delayBackTime = 0;
-            if (delayBackTime > 0)
-                delayBackTime -= Time.deltaTime;
-
             selectMaps.SetActive(confirmed);
             selectRounds.SetActive(confirmedMap);
 
-            if (confirmed == true)
+            if (confirmed == true)            
                 SelectMap();
             if (confirmedMap == true)
                 SelectRound();
+
+            if (selectMaps.activeSelf == true && !confirmedMap)
+                trailMap.GetComponent<TrailRenderer>().sortingLayerName = "UI";
+            else
+                trailMap.GetComponent<TrailRenderer>().sortingLayerName = "Background";
+
+            if (selectRounds.activeSelf == true && !confirmedRound)
+                trailRound.GetComponent<TrailRenderer>().sortingLayerName = "UI";
+            else
+                trailRound.GetComponent<TrailRenderer>().sortingLayerName = "Background";
         }
 
         if (inputManager.moveDir.x == -1 && inputManager.moveDir.x != lastXinput && !confirmed)
@@ -285,7 +300,7 @@ public class MenuPlayerUImanager : MonoBehaviour
             confirmed = true;
         }
 
-        if (confirmed && inputManager.circlePressed && confirmedMap == false && delayBackTime == 0)
+        if (confirmed && inputManager.circlePressed && confirmedMap == false && delayStartTime == 0 && secretCode != "A A V V < > < > X O ")
             confirmed = false;
 
         if (confirmed)
@@ -300,6 +315,10 @@ public class MenuPlayerUImanager : MonoBehaviour
                 inputManager.playerData.animatorController = animatorControllerSecret[idSecret];
                 inputManager.playerData.playerSprite = playerSpriteSecret[idSecret];
             }
+            else
+                if (inputManager.GetComponent<Red_HoodAttack>() != null)
+                Destroy(inputManager.GetComponent<Red_HoodAttack>());
+
 
             confirmationText.text = "Confirmado!\nAperte <size=60><sprite=" + inputManager.circleId + "></size> para desconfirmar";
         }
@@ -311,6 +330,8 @@ public class MenuPlayerUImanager : MonoBehaviour
 
     public void SelectMap()
     {
+
+
         if (inputManager.moveDir.x == -1 && inputManager.moveDir.x != lastXinput && !confirmedMap)
         {
             if (mapIndex <= 0)
@@ -329,7 +350,7 @@ public class MenuPlayerUImanager : MonoBehaviour
         switch (mapIndex)
         {
             case 0:
-                selectMaps.GetComponentInChildren<TextMeshProUGUI>().text = "Random";
+                selectMaps.GetComponentInChildren<TextMeshProUGUI>().text = "Aleatório";
                 break;
             case 1:
                 selectMaps.GetComponentInChildren<TextMeshProUGUI>().text = "Queimada";
@@ -346,9 +367,9 @@ public class MenuPlayerUImanager : MonoBehaviour
             confirmedMap = true;
         }
 
-        if (confirmedMap && inputManager.circlePressed && confirmedRound == false && delayBackTime == 0)
+        if (confirmedMap && inputManager.circlePressed && confirmedRound == false && delayStartTime == 0)
         {
-            delayBackTime = 0.4f;
+            delayStartTime = 0.4f;
             confirmedMap = false;
         }
 
@@ -392,7 +413,7 @@ public class MenuPlayerUImanager : MonoBehaviour
 
         if (confirmedRound && inputManager.circlePressed)
         {
-            delayBackTime = 0.4f;
+            delayStartTime = 0.4f;
             confirmedRound = false;
         }
 
