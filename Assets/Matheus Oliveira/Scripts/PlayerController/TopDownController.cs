@@ -77,7 +77,7 @@ public class TopDownController : MonoBehaviour
             // pegando a informação de direção do inputManager
             // e movendo com ela
             moveDir = inputManager.moveDir;
-            rb.velocity = (moveDir * moveSpeed * 100) * Time.deltaTime;
+            rb.velocity = (moveDir * moveSpeed);
 
             // Dando flip no sprite
             if (moveDir.x > 0)
@@ -124,7 +124,7 @@ public class TopDownController : MonoBehaviour
     IEnumerator DashRoutine()
     {
         canMove = false;
-        rb.velocity = (moveDir * dashSpeed * 100) * Time.deltaTime;
+        rb.velocity = (moveDir * dashSpeed);
 
         yield return new WaitForSeconds(dashDuration);
 

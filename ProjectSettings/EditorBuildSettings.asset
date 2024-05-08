@@ -24,4 +24,4 @@ EditorBuildSettings:
     path: Assets/Matheus Oliveira/Scenes/FinishScene.unity
     guid: c88650f7dfe97ef4f8313b90d61afbf6
   m_configObjects:
-    com.unity.input.settings: {fileID: 11400000, guid: 37454975dcaa2f643a587e3468935dfe, type: 2}
+    com.unity.input.settings: {fileID: 11400000, guid: ed11fdbba3be7af428f6c074ada479d5, type: 2}

@@ -47,6 +47,7 @@ public class MenuPlayerUImanager : MonoBehaviour
     [SerializeField] private string secretCode;
     private bool secretChar;
     private int idSecret;
+    private string key;
     private bool canX;
     private bool canO;
     [SerializeField] private GameObject trueArrow;
@@ -95,13 +96,20 @@ public class MenuPlayerUImanager : MonoBehaviour
                 secretChar = true;
                 confirmed = true;
             }
-            if (secretChar == false && secretCode == "A A V V < > < > X O ")
+            if (secretChar == false && secretCode == "V /V < \\A A /A > \\V V X ")
             {
                 idSecret = 2;
+                secretChar = true;
+                confirmed = true;
+            }
+            if (secretChar == false && secretCode == "A A V V < > < > X O ")
+            {
+                idSecret = 3;
                 inputManager.AddComponent<Red_HoodAttack>();
                 secretChar = true;
                 confirmed = true;
             }
+
             if (confirmed == false && secretChar == true)
             {
                 secretChar = false;
@@ -135,62 +143,80 @@ public class MenuPlayerUImanager : MonoBehaviour
             canO = true;
         }
 
-        if (inputManager.moveDir.x > 0 && inputManager.moveDir.y < 0)
+        if (inputManager.moveDir.x > 0 && inputManager.moveDir.y < 0 && key != "\\V ")
         {
             StopAllCoroutines();
-            secretCode += "\\V ";
+            key = "\\V ";
             inputManager.moveDir = Vector2.zero;
+            secretCode += key;
         }
-        if (inputManager.moveDir.x > 0 && inputManager.moveDir.y > 0)
+        if (inputManager.moveDir.x > 0 && inputManager.moveDir.y > 0 && key != "/A ")
         {
             StopAllCoroutines();
-            secretCode += "/A ";
+            key = "/A ";
             inputManager.moveDir = Vector2.zero;
+            secretCode += key;
         }
-        if (inputManager.moveDir.x < 0 && inputManager.moveDir.y < 0)
+        if (inputManager.moveDir.x < 0 && inputManager.moveDir.y < 0 && key != "/V ")
         {
             StopAllCoroutines();
-            secretCode += "/V ";
+            key = "/V ";
             inputManager.moveDir = Vector2.zero;
+            secretCode += key;
         }
-        if (inputManager.moveDir.x < 0 && inputManager.moveDir.y > 0)
+        if (inputManager.moveDir.x < 0 && inputManager.moveDir.y > 0 && key != "\\A ")
         {
             StopAllCoroutines();
-            secretCode += "\\A ";
+            key = "\\A ";
+            inputManager.moveDir = Vector2.zero;
+            secretCode += key;
         }
 
-        if (inputManager.moveDir.x < 0)
+        if (inputManager.moveDir.x < 0 && inputManager.moveDir.y == 0 && key != "< ")
         {
             StopAllCoroutines();
-            secretCode += "< ";
+            key = "< ";
             inputManager.moveDir = Vector2.zero;
+            secretCode += key;
         }
-        if (inputManager.moveDir.x > 0)
+        if (inputManager.moveDir.x > 0 && inputManager.moveDir.y == 0 && key != "> ")
         {
             StopAllCoroutines();
-            secretCode += "> ";
+            key = "> ";
             inputManager.moveDir = Vector2.zero;
+            secretCode += key;
         }
-        if (inputManager.moveDir.y < 0)
+        if (inputManager.moveDir.y < 0 && inputManager.moveDir.x == 0 && key != "V ")
         {
             StopAllCoroutines();
-            secretCode += "V ";
+            key = "V ";
             inputManager.moveDir = Vector2.zero;
+            secretCode += key;
         }
-        if (inputManager.moveDir.y > 0)
+        if (inputManager.moveDir.y > 0 && inputManager.moveDir.x == 0 && key != "A ")
         {
             StopAllCoroutines();
-            secretCode += "A ";
+            key = "A ";
             inputManager.moveDir = Vector2.zero;
+            secretCode += key;
         }
+
+        if (key != "")
+            StartCoroutine(KeyClean());
 
         if (secretCode != "")
             StartCoroutine(CodeClean());
     }
 
+    public IEnumerator KeyClean()
+    {
+        yield return new WaitForSeconds(0.1f);
+        key = "";
+    }
+
     public IEnumerator CodeClean()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.4f);
         secretCode = "";
         canX = false;
         canO = false;

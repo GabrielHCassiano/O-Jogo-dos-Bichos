@@ -137,7 +137,7 @@ public class InputManager : MonoBehaviour
     //----------------------Input----------------------//
 
     // Anal�gico
-    public void OnMove(InputAction.CallbackContext context )
+    public void OnMove(InputAction.CallbackContext context)
     {
         moveDir = context.ReadValue<Vector2>();
     }
