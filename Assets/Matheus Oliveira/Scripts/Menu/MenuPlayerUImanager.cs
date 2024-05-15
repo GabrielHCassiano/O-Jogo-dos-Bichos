@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 
 public class MenuPlayerUImanager : MonoBehaviour
 {
+
     [Header("Debug")]
     [SerializeField] RectTransform noPlayer;
     [SerializeField] RectTransform hasPlayer;
@@ -102,7 +103,7 @@ public class MenuPlayerUImanager : MonoBehaviour
                 secretChar = true;
                 confirmed = true;
             }
-            if (secretChar == false && secretCode == "A A V V < > < > X O ")
+            if (secretChar == false && secretCode == "A A V V < > < > O X ")
             {
                 idSecret = 3;
                 inputManager.AddComponent<Red_HoodAttack>();
@@ -356,18 +357,16 @@ public class MenuPlayerUImanager : MonoBehaviour
 
     public void SelectMap()
     {
-
-
         if (inputManager.moveDir.x == -1 && inputManager.moveDir.x != lastXinput && !confirmedMap)
         {
             if (mapIndex <= 0)
-                mapIndex = 2;
+                mapIndex = 3;
             else
                 mapIndex--;
         }
         else if (inputManager.moveDir.x == 1 && inputManager.moveDir.x != lastXinput && !confirmedMap)
         {
-            if (mapIndex >= 2)
+            if (mapIndex >= 3)
                 mapIndex = 0;
             else
                 mapIndex++;
@@ -383,6 +382,9 @@ public class MenuPlayerUImanager : MonoBehaviour
                 break;
             case 2:
                 selectMaps.GetComponentInChildren<TextMeshProUGUI>().text = "Arqueria";
+                break;
+            case 3:
+                selectMaps.GetComponentInChildren<TextMeshProUGUI>().text = "Pescaria";
                 break;
         }
 

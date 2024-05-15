@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Gabriel Henriques/Arqueria/Arqueria.unity
     guid: 8b684725b0c7ce243bfa6f46c25f98e1
+  - enabled: 0
+    path: Assets/Gabriel Henriques/Pescaria/Pescaria.unity
+    guid: 3043d4f9cb2bb5445947a5673a3b749b
   - enabled: 1
     path: Assets/Matheus Oliveira/Scenes/PulaCorda.unity
     guid: e2cb3580dbad2be44be3f8b7aeb9e7e4

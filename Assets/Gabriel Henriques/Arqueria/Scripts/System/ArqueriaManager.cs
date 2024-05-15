@@ -13,7 +13,6 @@ public class ArqueriaManager : MonoBehaviour
     [SerializeField] private Image[] jumpUI;
     [SerializeField] private Image[] dashUI;
 
-
     [SerializeField] private Sprite[] spriteX;
     [SerializeField] private Sprite[] spriteD;
     [SerializeField] private Sprite[] spriteRT;
@@ -24,7 +23,6 @@ public class ArqueriaManager : MonoBehaviour
     [SerializeField] private Image[] life3;
 
     private bool[] lifeUI = new bool[5];
-
 
     [SerializeField] private bool[] lossPlayer;
     private bool[] contLoss = new bool[5];
