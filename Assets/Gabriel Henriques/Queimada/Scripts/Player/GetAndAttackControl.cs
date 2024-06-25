@@ -86,8 +86,8 @@ public class GetAndAttackControl : MonoBehaviour
 
     public int ScoreValue
     {
-        get { return inputManager.playerData.playerScore; }
-        set { inputManager.playerData.playerScore = value; }
+        get { return inputManager.playerData.playerNewScore; }
+        set { inputManager.playerData.playerNewScore = value; }
     }
 
     public Sprite SpriteUIValue

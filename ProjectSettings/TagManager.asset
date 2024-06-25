@@ -12,6 +12,7 @@ TagManager:
   - Rope
   - HitBox
   - Arrow
+  - Rio
   layers:
   - Default
   - TransparentFX
@@ -24,11 +25,11 @@ TagManager:
   - Area
   - Ball
   - Ground
-  - 
-  - 
-  - 
-  - 
-  - 
+  - WallFish
+  - Hitbox
+  - Team1
+  - Team2
+  - HitboxPesca
   - 
   - 
   - 

@@ -30,6 +30,8 @@ public class GhostingDash : MonoBehaviour
         {
             yield return new WaitForSeconds(0.05f);
             ghosting[i].sprite = GetComponentInChildren<SpriteRenderer>().sprite;
+            ghosting[i].material = GetComponentInChildren<SpriteRenderer>().material;
+            ghosting[i].material.SetColor("_OutlineColor", GetComponentInChildren<InputManager>().playerData.color);
             ghosting[i].transform.localScale = new Vector3(GetComponentInChildren<SpriteRenderer>().transform.localScale.x, transform.localScale.y, transform.localScale.z);
             ghosting[i].gameObject.SetActive(true);
             ghosting[i].transform.parent = null;

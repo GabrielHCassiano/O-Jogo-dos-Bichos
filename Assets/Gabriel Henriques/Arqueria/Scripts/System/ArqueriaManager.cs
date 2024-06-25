@@ -17,10 +17,11 @@ public class ArqueriaManager : MonoBehaviour
     [SerializeField] private Sprite[] spriteD;
     [SerializeField] private Sprite[] spriteRT;
 
-
     [SerializeField] private Image[] life1;
     [SerializeField] private Image[] life2;
     [SerializeField] private Image[] life3;
+
+    [SerializeField] private Material material;
 
     private bool[] lifeUI = new bool[5];
 
@@ -65,18 +66,18 @@ public class ArqueriaManager : MonoBehaviour
             contLoss[i] = true;
             lossGame += 1;
             if (lossGame == 2)
-                players[i].GetComponentInChildren<InputManager>().playerData.playerScore += 10;
+                players[i].GetComponentInChildren<InputManager>().playerData.playerNewScore += 5;
             if (lossGame == 3)
-                players[i].GetComponentInChildren<InputManager>().playerData.playerScore += 20;
+                players[i].GetComponentInChildren<InputManager>().playerData.playerNewScore += 10;
             if (lossGame == 4)
             {
-                players[i].GetComponentInChildren<InputManager>().playerData.playerScore += 30;
+                players[i].GetComponentInChildren<InputManager>().playerData.playerNewScore += 15;
                 FindObjectOfType<GameManager>().minigameEnded = true;
             }
         }
         else if (lossGame == 3 && lossPlayer[i] == false && contLoss[i] == false)
         {
-            players[i].GetComponentInChildren<InputManager>().playerData.playerScore += 30;
+            players[i].GetComponentInChildren<InputManager>().playerData.playerNewScore += 15;
             contLoss[i] = true;
             FindObjectOfType<GameManager>().minigameEnded = true;
         }
@@ -131,6 +132,15 @@ public class ArqueriaManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             players[i].transform.position = spawnPlayers[i].position;
+            if (players[i].GetComponentInChildren<InputManager>() != null)
+            {
+                players[i].GetComponentInChildren<SpriteRenderer>().material = players[i].GetComponentInChildren<InputManager>().playerData.material;
+                if (!players[i].GetComponentInChildren<InputManager>().playerData.specialColor)
+                    players[i].GetComponentInChildren<SpriteRenderer>().material.SetColor("_OutlineColor", players[i].GetComponentInChildren<InputManager>().playerData.color);
+                life1[i].material = players[i].GetComponentInChildren<SpriteRenderer>().material;
+                life2[i].material = players[i].GetComponentInChildren<SpriteRenderer>().material;
+                life3[i].material = players[i].GetComponentInChildren<SpriteRenderer>().material;
+            }
         }
     }
 

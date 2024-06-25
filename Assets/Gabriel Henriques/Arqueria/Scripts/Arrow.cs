@@ -15,6 +15,7 @@ public class Arrow : MonoBehaviour
     [SerializeField] private Vector2 diretion;
 
     private int force;
+
     // Start is called before the first frame update
     void Start() 
     {
@@ -102,9 +103,8 @@ public class Arrow : MonoBehaviour
             collision.GetComponentInParent<Arrow>().StopAllCoroutines();
             collision.GetComponentInParent<Rigidbody2D>().velocity = Vector2.zero;
             collision.GetComponentInParent<Rigidbody2D>().gravityScale = 3f;
-
         }
-        
+
         if (collision.gameObject.CompareTag("HitBox"))
         {
             if(player != null && collision.gameObject.GetComponentInParent<PlayerID>().ID != player.ID && collision.gameObject.GetComponentInParent<ArqueriaCombat>().Shield == false)
@@ -138,7 +138,6 @@ public class Arrow : MonoBehaviour
                     transform.parent = arqueriaCombat.transform;
                     transform.position = arqueriaCombat.transform.position + pos;
                     gameObject.SetActive(false);
-
                     arqueriaCombat.Arrows[i] = gameObject;
                     break;
                 }

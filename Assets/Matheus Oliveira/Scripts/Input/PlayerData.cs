@@ -9,7 +9,11 @@ public class PlayerData : ScriptableObject
 {
     public string playerName;
     public Sprite playerSprite;
+    public Color color;
+    public Material material;
+    public bool specialColor = false;
     public RuntimeAnimatorController animatorController;
     public int playerScore = 0;
+    public int playerNewScore = 0;
     public int playerScoreIndex = 0; // posi��o no placar
 }

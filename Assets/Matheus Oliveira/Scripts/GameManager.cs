@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 using TMPro;
 using UnityEngine.UI;
+using System.Drawing;
 
 public class GameManager : MonoBehaviour
 {
@@ -45,6 +46,8 @@ public class GameManager : MonoBehaviour
     private bool play = false;
 
     private bool trueArrow = false;
+
+    [SerializeField] private Material material;
 
     private void Awake()
     {
@@ -144,15 +147,27 @@ public class GameManager : MonoBehaviour
                 {
                     case 1:
                         controllers[i].transform.position = RoomManager.instance.transform.Find("1").position;
+                        controllers[i].GetComponentInChildren<SpriteRenderer>().material = controllers[i].GetComponentInChildren<InputManager>().playerData.material;
+                        if (!controllers[i].GetComponentInChildren<InputManager>().playerData.specialColor)
+                            controllers[i].GetComponentInChildren<SpriteRenderer>().material.SetColor("_OutlineColor", controllers[i].GetComponentInChildren<InputManager>().playerData.color);
                         break;
                     case 2:
                         controllers[i].transform.position = RoomManager.instance.transform.Find("2").position;
+                        controllers[i].GetComponentInChildren<SpriteRenderer>().material = controllers[i].GetComponentInChildren<InputManager>().playerData.material;
+                        if (!controllers[i].GetComponentInChildren<InputManager>().playerData.specialColor)
+                            controllers[i].GetComponentInChildren<SpriteRenderer>().material.SetColor("_OutlineColor", controllers[i].GetComponentInChildren<InputManager>().playerData.color);
                         break;
                     case 3:
                         controllers[i].transform.position = RoomManager.instance.transform.Find("3").position;
+                        controllers[i].GetComponentInChildren<SpriteRenderer>().material = controllers[i].GetComponentInChildren<InputManager>().playerData.material;
+                        if (!controllers[i].GetComponentInChildren<InputManager>().playerData.specialColor)
+                            controllers[i].GetComponentInChildren<SpriteRenderer>().material.SetColor("_OutlineColor", controllers[i].GetComponentInChildren<InputManager>().playerData.color);
                         break;
                     case 4:
                         controllers[i].transform.position = RoomManager.instance.transform.Find("4").position;
+                        controllers[i].GetComponentInChildren<SpriteRenderer>().material = controllers[i].GetComponentInChildren<InputManager>().playerData.material;
+                        if (!controllers[i].GetComponentInChildren<InputManager>().playerData.specialColor)
+                            controllers[i].GetComponentInChildren<SpriteRenderer>().material.SetColor("_OutlineColor", controllers[i].GetComponentInChildren<InputManager>().playerData.color);
                         break;
                     default:
                         Debug.Log("ISSO � PRA SER IMPOSSIVEL");
@@ -207,6 +222,7 @@ public class GameManager : MonoBehaviour
             inputManagers[i].GetComponent<InputManager>().playerData.animatorController = null;
             inputManagers[i].GetComponent<InputManager>().playerData.playerSprite = null;
             inputManagers[i].GetComponent<InputManager>().playerData.playerScore = 0;
+            inputManagers[i].GetComponent<InputManager>().playerData.playerNewScore = 0;
             inputManagers[i].GetComponent<InputManager>().playerData.playerScoreIndex = 0;
         }
 
@@ -223,6 +239,13 @@ public class GameManager : MonoBehaviour
         gameFinished = false;
     }
 
+    public void ScoreUpdate()
+    {
+        scoreboard = inputManagers;
+        scoreboard.Sort((p1, p2) => p1.GetComponent<InputManager>().playerData.playerScore.CompareTo(p2.GetComponent<InputManager>().playerData.playerScore));
+        scoreboard.Reverse();
+    }
+
     IEnumerator MinigameEndSequence()
     {
         rounds++;
@@ -232,16 +255,51 @@ public class GameManager : MonoBehaviour
         // achar um jeito melhor de fazer isso, pois no momento, ap�s comparar 2 valores iguais, eles trocam de lugar
         scoreboard.Sort((p1, p2) => p1.GetComponent<InputManager>().playerData.playerScore.CompareTo(p2.GetComponent<InputManager>().playerData.playerScore));
         scoreboard.Reverse();
+        scoreboardPanel.GetComponentInParent<Canvas>().worldCamera = FindObjectOfType<Camera>();
+
         for (int i = 0; i < inputManagers.Count; i++)
         {
             scoreboard[i].GetComponent<InputManager>().playerData.playerScoreIndex = scoreboard.IndexOf(scoreboard[i]);
+            UiPlayers[i].GetComponentInChildren<SpriteRenderer>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
+            UiPlayers[i].GetComponentInChildren<SpriteRenderer>().material = scoreboard[i].GetComponent<InputManager>().playerData.material;
+            if (!scoreboard[i].GetComponent<InputManager>().playerData.specialColor)
+                UiPlayers[i].GetComponentInChildren<SpriteRenderer>().material.SetColor("_OutlineColor", scoreboard[i].GetComponent<InputManager>().playerData.color);
             UiPlayers[i].GetComponentInChildren<TMP_Text>().text = "Player " + scoreboard[i].GetComponent<InputManager>().playerID + " Score: " + scoreboard[i].GetComponent<InputManager>().playerData.playerScore;
-            UiPlayers[i].GetComponentInChildren<Image>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
+        }
+
+        yield return new WaitForSeconds(1.5f);
+
+        ScoreUpdate();
+
+        for (int i = 0; i < inputManagers.Count; i++)
+        {
+             scoreboard[i].GetComponent<InputManager>().playerData.playerScoreIndex = scoreboard.IndexOf(scoreboard[i]);
+             UiPlayers[i].GetComponentInChildren<SpriteRenderer>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
+             UiPlayers[i].GetComponentInChildren<SpriteRenderer>().material = scoreboard[i].GetComponent<InputManager>().playerData.material;
+             if (!scoreboard[i].GetComponent<InputManager>().playerData.specialColor)
+                UiPlayers[i].GetComponentInChildren<SpriteRenderer>().material.SetColor("_OutlineColor", scoreboard[i].GetComponent<InputManager>().playerData.color);
+             UiPlayers[i].GetComponentInChildren<TMP_Text>().text = "Player " + scoreboard[i].GetComponent<InputManager>().playerID + " Score: " + scoreboard[i].GetComponent<InputManager>().playerData.playerScore + "<color=green> + " + scoreboard[i].GetComponent<InputManager>().playerData.playerNewScore;
+             scoreboard[i].GetComponent<InputManager>().playerData.playerScore += scoreboard[i].GetComponent<InputManager>().playerData.playerNewScore;
+        }
+
+        yield return new WaitForSeconds(1.5f);
+
+        ScoreUpdate();
+
+        for (int i = 0; i < inputManagers.Count; i++)
+        {
+             scoreboard[i].GetComponent<InputManager>().playerData.playerScoreIndex = scoreboard.IndexOf(scoreboard[i]);
+             UiPlayers[i].GetComponentInChildren<SpriteRenderer>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
+             UiPlayers[i].GetComponentInChildren<SpriteRenderer>().material = scoreboard[i].GetComponent<InputManager>().playerData.material;
+             if (!scoreboard[i].GetComponent<InputManager>().playerData.specialColor)
+                UiPlayers[i].GetComponentInChildren<SpriteRenderer>().material.SetColor("_OutlineColor", scoreboard[i].GetComponent<InputManager>().playerData.color);
+             UiPlayers[i].GetComponentInChildren<TMP_Text>().text = "Player " + scoreboard[i].GetComponent<InputManager>().playerID + " Score: " + scoreboard[i].GetComponent<InputManager>().playerData.playerScore;
+             scoreboard[i].GetComponent<InputManager>().playerData.playerNewScore = 0;
         }
 
         controllers.Clear();
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
 
         foreach (GameObject inputs in inputManagers)
         {

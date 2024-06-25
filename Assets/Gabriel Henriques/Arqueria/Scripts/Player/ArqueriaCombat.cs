@@ -30,7 +30,6 @@ public class ArqueriaCombat : MonoBehaviour
     [SerializeField] private GameObject[] scoreUp;
     [SerializeField] private GameObject[] scoreUp_2;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -103,7 +102,6 @@ public class ArqueriaCombat : MonoBehaviour
 
         if (inputManager != null && inputManager.moveDir != Vector2.zero)
             laterDirection = inputManager.moveDir;
-
     }
 
     public void ArrowAim()
@@ -186,7 +184,7 @@ public class ArqueriaCombat : MonoBehaviour
 
     public void ScoreUp_2()
     {
-        inputManager.playerData.playerScore += 10;
+        inputManager.playerData.playerNewScore += 10;
         for (int i = 0; i < 5; i++)
         {
             if (scoreUp_2[i].activeSelf == false)
@@ -201,7 +199,7 @@ public class ArqueriaCombat : MonoBehaviour
 
     public void ScoreUp()
     {
-        inputManager.playerData.playerScore += 5;
+        inputManager.playerData.playerNewScore += 5;
         for(int i = 0; i < 5; i++) 
         {
             if (scoreUp[i].activeSelf == false)

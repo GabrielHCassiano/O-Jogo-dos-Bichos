@@ -27,6 +27,12 @@ public class PescariaManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             players[i].transform.position = spawnPlayers[i].position;
+            if (players[i].GetComponentInChildren<InputManager>() != null)
+            {
+                players[i].GetComponentInChildren<SpriteRenderer>().material = players[i].GetComponentInChildren<InputManager>().playerData.material;
+                if (!players[i].GetComponentInChildren<InputManager>().playerData.specialColor)
+                    players[i].GetComponentInChildren<SpriteRenderer>().material.SetColor("_OutlineColor", players[i].GetComponentInChildren<InputManager>().playerData.color);
+            }
         }
     }
 }

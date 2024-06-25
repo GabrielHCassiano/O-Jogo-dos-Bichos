@@ -36,6 +36,8 @@ public class QueimadaManager : MonoBehaviour
 
     [SerializeField] private Sprite[] spriteLife;
 
+    [SerializeField] private Material material;
+
     [SerializeField] private Slider[] force;
     [SerializeField] private bool[] lossPlayer;
     private bool[] contLoss = new bool[5];
@@ -176,6 +178,15 @@ public class QueimadaManager : MonoBehaviour
                 player[i].AddComponent<PlayerQueimadaControl>();
                 playerID = player[i].GetComponent<PlayerID>();
                 player[i].transform.position = spawnPos[playerID.ID - 1].position;
+                if (player[i].GetComponentInChildren<InputManager>() != null)
+                {
+                    player[i].GetComponentInChildren<SpriteRenderer>().material = player[i].GetComponentInChildren<InputManager>().playerData.material;
+                    if (!player[i].GetComponentInChildren<InputManager>().playerData.specialColor)
+                        player[i].GetComponentInChildren<SpriteRenderer>().material.SetColor("_OutlineColor", player[i].GetComponentInChildren<InputManager>().playerData.color);
+                    life1[i].material = player[i].GetComponentInChildren<SpriteRenderer>().material;
+                    life2[i].material = player[i].GetComponentInChildren<SpriteRenderer>().material;
+                    life3[i].material = player[i].GetComponentInChildren<SpriteRenderer>().material;
+                }
                 player[i].GetComponent<GetAndAttackControl>().ArrowValue = Instantiate(arrow);
                 player[i].GetComponent<GetAndAttackControl>().specialValue = Instantiate(special);
                 player[i].GetComponent<GetAndAttackControl>().luvaValue = Instantiate(luva);

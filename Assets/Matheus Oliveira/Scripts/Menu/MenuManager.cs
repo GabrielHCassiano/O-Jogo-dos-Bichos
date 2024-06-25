@@ -46,7 +46,7 @@ public class MenuManager : MonoBehaviour
 
         foreach (MenuPlayerUImanager player in players)
         {
-            if (!player.confirmed)
+            if (!player.ConfirmedColor)
             {
                 play = false;
                 break;
@@ -80,13 +80,13 @@ public class MenuManager : MonoBehaviour
         }
 
         if (Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha1) == true)
-            players[0].confirmed = true;
+            players[0].ConfirmedColor = true;
         if (Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha2) == true)
-            players[1].confirmed = true;
+            players[1].ConfirmedColor = true;
         if (Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha3) == true)
-            players[2].confirmed = true;
+            players[2].ConfirmedColor = true;
         if (Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha4) == true)
-            players[3].confirmed = true;
+            players[3].ConfirmedColor = true;
     }
 
     void InputManager()

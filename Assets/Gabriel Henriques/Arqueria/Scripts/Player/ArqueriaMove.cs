@@ -172,6 +172,8 @@ public class ArqueriaMove : MonoBehaviour
         {
             yield return new WaitForSeconds(0.05f);
             ghosting[i].sprite = sprite.sprite;
+            ghosting[i].material = sprite.material;
+            ghosting[i].material.SetColor("_OutlineColor", inputManager.playerData.color);
             ghosting[i].transform.localScale = new Vector3(playerDirection, transform.localScale.y, transform.localScale.z);
             ghosting[i].gameObject.SetActive(true);
             ghosting[i].transform.parent = null;

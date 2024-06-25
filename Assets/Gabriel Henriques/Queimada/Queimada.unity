@@ -21397,6 +21397,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 58497a499ffac5a499184c6b2366326f, type: 3}
   - {fileID: 21300000, guid: e83126a869025594b947a290b0b9f6a9, type: 3}
   - {fileID: 21300000, guid: 7341e1c426739e140a7a01e66816e342, type: 3}
+  material: {fileID: 2100000, guid: 324f04d1d9dbc62439131a1d2fc95872, type: 2}
   force:
   - {fileID: 1437739992}
   - {fileID: 2114557255}
