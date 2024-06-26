@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.U2D;
 
 public class GhostingDash : MonoBehaviour
@@ -29,12 +30,24 @@ public class GhostingDash : MonoBehaviour
         for (int i = 0; i < ghosting.Length; i++)
         {
             yield return new WaitForSeconds(0.05f);
-            ghosting[i].sprite = GetComponentInChildren<SpriteRenderer>().sprite;
-            ghosting[i].material = GetComponentInChildren<SpriteRenderer>().material;
-            ghosting[i].material.SetColor("_OutlineColor", GetComponentInChildren<InputManager>().playerData.color);
-            ghosting[i].transform.localScale = new Vector3(GetComponentInChildren<SpriteRenderer>().transform.localScale.x, transform.localScale.y, transform.localScale.z);
-            ghosting[i].gameObject.SetActive(true);
-            ghosting[i].transform.parent = null;
+            if (SceneManager.GetActiveScene().name == "Pescaria")
+            {
+                ghosting[i].sprite = controller.GetComponent<Pescando>().SpriteRenderer.sprite;
+                ghosting[i].material = controller.GetComponent<Pescando>().SpriteRenderer.material;
+                ghosting[i].material.SetColor("_OutlineColor", GetComponentInChildren<InputManager>().playerData.color);
+                ghosting[i].transform.localScale = new Vector3(controller.GetComponent<Pescando>().SpriteRenderer.transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                ghosting[i].gameObject.SetActive(true);
+                ghosting[i].transform.parent = null;
+            }
+            else
+            {
+                ghosting[i].sprite = GetComponentInChildren<SpriteRenderer>().sprite;
+                ghosting[i].material = GetComponentInChildren<SpriteRenderer>().material;
+                ghosting[i].material.SetColor("_OutlineColor", GetComponentInChildren<InputManager>().playerData.color);
+                ghosting[i].transform.localScale = new Vector3(GetComponentInChildren<SpriteRenderer>().transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                ghosting[i].gameObject.SetActive(true);
+                ghosting[i].transform.parent = null;
+            }
         }
         ResetGhosting();
     }

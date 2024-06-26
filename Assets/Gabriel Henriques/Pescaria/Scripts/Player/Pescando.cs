@@ -41,8 +41,14 @@ public class Pescando : MonoBehaviour
     void Update()
     {
         System();
-        LoseLogic();
         PescandoLogic();
+        LoseLogic();
+    }
+
+    public SpriteRenderer SpriteRenderer
+    {
+        get { return spriteRenderer; }
+        set { spriteRenderer = value; }
     }
 
     public Vector3 LaterDirection
@@ -93,9 +99,18 @@ public class Pescando : MonoBehaviour
 
         if (lose)
         {
-            gameObject.SetActive(false);
+            StartCoroutine(DeathCooldown());
         }
     }
+
+    public IEnumerator DeathCooldown()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (GetComponentInChildren<InputManager>() != null)
+            GetComponentInChildren<InputManager>().transform.parent = null;
+        gameObject.SetActive(false);
+    }
+
     public void PescandoLogic()
     {
         if(canAttack == true)
@@ -109,8 +124,12 @@ public class Pescando : MonoBehaviour
             arrowPos.transform.right = new Vector2(laterDirection.x, laterDirection.y);
             arrowPos.SetActive(true);
         }
-        if (inputManager != null && inputManager.squarePressed == false && inAttack == true)
+        if (inputManager != null && inputManager.squarePressed == false && inAttack == true && GetComponent<TopDownController>().doDash == false)
         {
+            GetComponent<TopDownController>().canDash = false;
+            GetComponent<TopDownController>().doDash = false;
+            GetComponent<TopDownController>().StopAllCoroutines();
+            inputManager.xPressed = false;
             canAttack = false;
             arrowPos.SetActive(false);
             anzol.SetActive(true);
@@ -154,7 +173,6 @@ public class Pescando : MonoBehaviour
 
     public IEnumerator LoseCooldown()
     {
-        print("oi");
         inLose = true;
         yield return new WaitForSeconds(0.5f);
         spriteRenderer.flipX = true;
@@ -181,9 +199,14 @@ public class Pescando : MonoBehaviour
                 transform.parent = collision.transform;
                 transform.position = collision.transform.position - new Vector3(0, 1, 0);
                 transform.rotation = Quaternion.Euler(0, 0, 0);
-                if (inAttack)
+                if (inAttack && anzol.GetComponentInChildren<LineRenderer>().GetComponentInChildren<Pescando>() != null)
                 {
                     anzol.GetComponentInChildren<Pescando>().transform.parent = null;
+                    anzol.GetComponent<Anzol>().StopAllCoroutines();
+                    anzol.GetComponent<Anzol>().Reset();
+                }
+                else if(inAttack)
+                {
                     anzol.GetComponent<Anzol>().StopAllCoroutines();
                     anzol.GetComponent<Anzol>().Reset();
                 }
@@ -198,9 +221,14 @@ public class Pescando : MonoBehaviour
                 transform.parent = collision.transform;
                 transform.position = collision.transform.position - new Vector3(0, 1, 0);
                 transform.rotation = Quaternion.Euler(0, 0, 0);
-                if (inAttack)
+                if (inAttack && anzol.GetComponentInChildren<LineRenderer>().GetComponentInChildren<Pescando>() != null)
                 {
                     anzol.GetComponentInChildren<Pescando>().transform.parent = null;
+                    anzol.GetComponent<Anzol>().StopAllCoroutines();
+                    anzol.GetComponent<Anzol>().Reset();
+                }
+                else if (inAttack)
+                {
                     anzol.GetComponent<Anzol>().StopAllCoroutines();
                     anzol.GetComponent<Anzol>().Reset();
                 }
@@ -218,9 +246,14 @@ public class Pescando : MonoBehaviour
                 transform.parent = collision.transform;
                 transform.position = collision.transform.position - new Vector3(0, 1, 0);
                 transform.rotation = Quaternion.Euler(0, 0, 0);
-                if (inAttack)
+                if (inAttack && anzol.GetComponentInChildren<LineRenderer>().GetComponentInChildren<Pescando>() != null)
                 {
                     anzol.GetComponentInChildren<Pescando>().transform.parent = null;
+                    anzol.GetComponent<Anzol>().StopAllCoroutines();
+                    anzol.GetComponent<Anzol>().Reset();
+                }
+                else if (inAttack)
+                {
                     anzol.GetComponent<Anzol>().StopAllCoroutines();
                     anzol.GetComponent<Anzol>().Reset();
                 }
@@ -235,9 +268,14 @@ public class Pescando : MonoBehaviour
                 transform.parent = collision.transform;
                 transform.position = collision.transform.position - new Vector3(0, 1, 0);
                 transform.rotation = Quaternion.Euler(0, 0, 0);
-                if (inAttack)
+                if (inAttack && anzol.GetComponentInChildren<LineRenderer>().GetComponentInChildren<Pescando>() != null)
                 {
                     anzol.GetComponentInChildren<Pescando>().transform.parent = null;
+                    anzol.GetComponent<Anzol>().StopAllCoroutines();
+                    anzol.GetComponent<Anzol>().Reset();
+                }
+                else if (inAttack)
+                {
                     anzol.GetComponent<Anzol>().StopAllCoroutines();
                     anzol.GetComponent<Anzol>().Reset();
                 }

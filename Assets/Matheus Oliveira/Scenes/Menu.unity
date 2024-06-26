@@ -84075,6 +84075,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8416889231118475, guid: 564cc2a992fa3994f8a879e2c6068fc2, type: 3}
+      propertyPath: m_margin.z
+      value: -449.2981
+      objectReference: {fileID: 0}
     - target: {fileID: 265185861704806870, guid: 564cc2a992fa3994f8a879e2c6068fc2, type: 3}
       propertyPath: m_Name
       value: -GameManager-
@@ -84134,6 +84138,10 @@ PrefabInstance:
     - target: {fileID: 4789564861032171103, guid: 564cc2a992fa3994f8a879e2c6068fc2, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -350
+      objectReference: {fileID: 0}
+    - target: {fileID: 5743037533238859321, guid: 564cc2a992fa3994f8a879e2c6068fc2, type: 3}
+      propertyPath: m_margin.z
+      value: -381.2226
       objectReference: {fileID: 0}
     - target: {fileID: 6151990826357121593, guid: 564cc2a992fa3994f8a879e2c6068fc2, type: 3}
       propertyPath: m_Camera
@@ -84258,6 +84266,14 @@ PrefabInstance:
     - target: {fileID: 7650433004135192115, guid: 564cc2a992fa3994f8a879e2c6068fc2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7653919746918992877, guid: 564cc2a992fa3994f8a879e2c6068fc2, type: 3}
+      propertyPath: m_margin.z
+      value: -304.09567
+      objectReference: {fileID: 0}
+    - target: {fileID: 7716828823255177908, guid: 564cc2a992fa3994f8a879e2c6068fc2, type: 3}
+      propertyPath: m_margin.z
+      value: -449.29816
       objectReference: {fileID: 0}
     - target: {fileID: 7975376264488667830, guid: 564cc2a992fa3994f8a879e2c6068fc2, type: 3}
       propertyPath: m_IsActive

@@ -89,12 +89,19 @@ public class Anzol : MonoBehaviour
 
     public void AnzolLogic()
     {
-        //print(time);
-
         lineRenderer.SetPosition(0, player.transform.position + pos);
         lineRenderer.SetPosition(1, transform.position);
 
         time += Time.deltaTime;
+
+        player.GetComponentInChildren<InputManager>().xPressed = false;
+
+        if (inBack && canBack)
+        {
+            StopAllCoroutines();
+            distance = (distance * diference) - ((distance - time) * diference);
+            StartCoroutine(AnzolBack());
+        }
 
         if (canAttack == true)
         {
@@ -103,13 +110,6 @@ public class Anzol : MonoBehaviour
             sprite.transform.up = diretion;
             //transform.parent = null;
             StartCoroutine(AnzolCooldown());
-        }
-
-        if (inBack && canBack)
-        {
-            StopAllCoroutines();
-            distance = (distance * diference) - ((distance - time) * diference);
-            StartCoroutine(AnzolBack());
         }
         //else
         //  arqueriaCombat = GetComponentInParent<ArqueriaCombat>();
@@ -124,6 +124,7 @@ public class Anzol : MonoBehaviour
     {
         canAttack = false;
         pescando.GetComponent<TopDownController>().canMove = false;
+        pescando.GetComponent<TopDownController>().canDash = false;
         pescando.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         rb.velocity = (diretion * force);
         yield return new WaitForSeconds(distance);
@@ -135,8 +136,11 @@ public class Anzol : MonoBehaviour
 
     public void Reset()
     {
+        canBack = true;
+        inBack = false;
         pescando.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         pescando.GetComponent<TopDownController>().canMove = true;
+        pescando.GetComponent<TopDownController>().canDash = true;
         pescando.CanAttack = true;
         canAttack = true;
         pescando.ResetInAttack();
@@ -149,11 +153,10 @@ public class Anzol : MonoBehaviour
         canBack = false;
         canAttack = false;
         pescando.GetComponent<TopDownController>().canMove = false;
+        pescando.GetComponent<TopDownController>().canDash = false;
         pescando.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         rb.velocity = ((diretion * -1) * force / diference);
         yield return new WaitForSeconds((distance));
         Reset();
-        canBack = true;
-        inBack = false;
     }
 }

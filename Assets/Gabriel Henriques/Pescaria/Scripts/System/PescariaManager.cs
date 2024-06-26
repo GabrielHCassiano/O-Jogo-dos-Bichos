@@ -8,6 +8,7 @@ public class PescariaManager : MonoBehaviour
     private GameObject[] players;
     [SerializeField] private Transform[] spawnPlayers;
 
+    private InputManager[] inputPlayers = new InputManager[5];
     [SerializeField] private bool[] lossPlayer;
     private bool endgame = false;
 
@@ -76,31 +77,32 @@ public class PescariaManager : MonoBehaviour
 
     public void WinLogic(int i)
     {
+
         if (lossPlayer[0] && lossPlayer[2] && !endgame)
         {
             endgame = true;
             FindObjectOfType<GameManager>().minigameEnded = true;
-            if (players[0].GetComponentInChildren<InputManager>() != null)
-                players[0].GetComponentInChildren<InputManager>().playerData.playerNewScore += 10;
-            if (players[2].GetComponentInChildren<InputManager>() != null)
-                players[2].GetComponentInChildren<InputManager>().playerData.playerNewScore += 10;
-            if (players[1].GetComponentInChildren<InputManager>() != null)
-                players[1].GetComponentInChildren<InputManager>().playerData.playerNewScore += 30;
-            if (players[3].GetComponentInChildren<InputManager>() != null)
-                players[3].GetComponentInChildren<InputManager>().playerData.playerNewScore += 30;
+            if (inputPlayers[0] != null)
+                inputPlayers[0].playerData.playerNewScore += 10;
+            if (inputPlayers[2] != null)
+                inputPlayers[2].playerData.playerNewScore += 10;
+            if (inputPlayers[1] != null)
+                inputPlayers[1].playerData.playerNewScore += 30;
+            if (inputPlayers[3] != null)
+                inputPlayers[3].playerData.playerNewScore += 30;
         }
         else if (lossPlayer[1] && lossPlayer[3] && !endgame)
         {
             endgame = true;
             FindObjectOfType<GameManager>().minigameEnded = true;
-            if (players[1].GetComponentInChildren<InputManager>() != null)
-                players[1].GetComponentInChildren<InputManager>().playerData.playerNewScore += 10;
-            if (players[3].GetComponentInChildren<InputManager>() != null)
-                players[3].GetComponentInChildren<InputManager>().playerData.playerNewScore += 10;
-            if (players[0].GetComponentInChildren<InputManager>() != null)
-                players[0].GetComponentInChildren<InputManager>().playerData.playerNewScore += 30;
-            if (players[2].GetComponentInChildren<InputManager>() != null)
-                players[2].GetComponentInChildren<InputManager>().playerData.playerNewScore += 30;
+            if (inputPlayers[1] != null)
+                inputPlayers[1].playerData.playerNewScore += 10;
+            if (inputPlayers[3] != null)
+                inputPlayers[3].playerData.playerNewScore += 10;
+            if (inputPlayers[0] != null)
+                inputPlayers[0].playerData.playerNewScore += 30;
+            if (inputPlayers[2] != null)
+                inputPlayers[2].playerData.playerNewScore += 30;
 
         }
     }
@@ -115,10 +117,11 @@ public class PescariaManager : MonoBehaviour
             players[i].transform.position = spawnPlayers[i].position;
             if (players[i].GetComponentInChildren<InputManager>() != null)
             {
-                players[i].GetComponentInChildren<SpriteRenderer>().material = players[i].GetComponentInChildren<InputManager>().playerData.material;
+                inputPlayers[i] = players[i].GetComponentInChildren<InputManager>();
+                players[i].GetComponent<Pescando>().SpriteRenderer.material = players[i].GetComponentInChildren<InputManager>().playerData.material;
                 if (!players[i].GetComponentInChildren<InputManager>().playerData.specialColor)
-                    players[i].GetComponentInChildren<SpriteRenderer>().material.SetColor("_OutlineColor", players[i].GetComponentInChildren<InputManager>().playerData.color);
-                life[i].material = players[i].GetComponentInChildren<SpriteRenderer>().material;
+                    players[i].GetComponent<Pescando>().SpriteRenderer.material.SetColor("_OutlineColor", players[i].GetComponentInChildren<InputManager>().playerData.color);
+                life[i].material = players[i].GetComponent<Pescando>().SpriteRenderer.material;
             }
         }
     }
