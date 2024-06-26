@@ -649,7 +649,7 @@ public class MenuPlayerUImanager : MonoBehaviour
 
     public bool SecrectRainbowColor()
     {
-        if (secretCode == "UB DF X ")
+        if (secretCode == "B F B F X ")
         {
             for (int i = 0; i < 4; i++)
             {
@@ -687,7 +687,7 @@ public class MenuPlayerUImanager : MonoBehaviour
 
     public bool SecrectBlackWhiteColor()
     {
-        if (secretCode == "UF DB X ")
+        if (secretCode == "D DF F F F X ")
         {
             for (int i = 0; i < 4; i++)
             {

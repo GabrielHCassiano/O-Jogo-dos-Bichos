@@ -1,11 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PescariaManager : MonoBehaviour
 {
     private GameObject[] players;
     [SerializeField] private Transform[] spawnPlayers;
+
+    [SerializeField] private bool[] lossPlayer;
+    private bool endgame = false;
+
+    [SerializeField] private Image[] life;
+    private bool[] lifeUI = new bool[5];
+
+    [SerializeField] private Image[] attackUI;
+    [SerializeField] private Image[] dashUI;
+
+    [SerializeField] private Sprite[] spriteX;
+    [SerializeField] private Sprite[] spriteD;
 
     // Start is called before the first frame update
     void Start()
@@ -16,7 +29,80 @@ public class PescariaManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        DebugLoss();
+        ManagerUI();
+    }
+
+    public void DebugLoss()
+    {
+        if (players != null)
+        {
+            if (Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha1) == true && players[0] != null)
+                players[0].GetComponent<Pescando>().Lose = true;
+            if (Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha2) == true && players[1] != null)
+                players[1].GetComponent<Pescando>().Lose = true;
+            if (Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha3) == true && players[2] != null)
+                players[2].GetComponent<Pescando>().Lose = true;
+            if (Input.GetKey(KeyCode.LeftShift) == true && Input.GetKey(KeyCode.Alpha4) == true && players[3] != null)
+                players[3].GetComponent<Pescando>().Lose = true;
+        }
+    }
+
+    public void ManagerUI()
+    {
+        if (players != null)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                SpriteButton(i);
+                LifeUI(i);
+                lossPlayer[i] = players[i].GetComponent<Pescando>().Lose;
+                WinLogic(i);
+            }
+        }
+    }
+
+    public void LifeUI(int i)
+    {
+        if (lifeUI[i] == false && players[i].GetComponentInChildren<InputManager>() != null)
+        {
+            life[i].sprite = players[i].GetComponentInChildren<InputManager>().playerData.playerSprite;
+            lifeUI[i] = true;
+        }
+
+        if(players[i].GetComponent<Pescando>().Lose)
+            life[i].gameObject.SetActive(false);
+    }
+
+    public void WinLogic(int i)
+    {
+        if (lossPlayer[0] && lossPlayer[2] && !endgame)
+        {
+            endgame = true;
+            FindObjectOfType<GameManager>().minigameEnded = true;
+            if (players[0].GetComponentInChildren<InputManager>() != null)
+                players[0].GetComponentInChildren<InputManager>().playerData.playerNewScore += 10;
+            if (players[2].GetComponentInChildren<InputManager>() != null)
+                players[2].GetComponentInChildren<InputManager>().playerData.playerNewScore += 10;
+            if (players[1].GetComponentInChildren<InputManager>() != null)
+                players[1].GetComponentInChildren<InputManager>().playerData.playerNewScore += 30;
+            if (players[3].GetComponentInChildren<InputManager>() != null)
+                players[3].GetComponentInChildren<InputManager>().playerData.playerNewScore += 30;
+        }
+        else if (lossPlayer[1] && lossPlayer[3] && !endgame)
+        {
+            endgame = true;
+            FindObjectOfType<GameManager>().minigameEnded = true;
+            if (players[1].GetComponentInChildren<InputManager>() != null)
+                players[1].GetComponentInChildren<InputManager>().playerData.playerNewScore += 10;
+            if (players[3].GetComponentInChildren<InputManager>() != null)
+                players[3].GetComponentInChildren<InputManager>().playerData.playerNewScore += 10;
+            if (players[0].GetComponentInChildren<InputManager>() != null)
+                players[0].GetComponentInChildren<InputManager>().playerData.playerNewScore += 30;
+            if (players[2].GetComponentInChildren<InputManager>() != null)
+                players[2].GetComponentInChildren<InputManager>().playerData.playerNewScore += 30;
+
+        }
     }
 
     public IEnumerator StartCooldown()
@@ -32,6 +118,44 @@ public class PescariaManager : MonoBehaviour
                 players[i].GetComponentInChildren<SpriteRenderer>().material = players[i].GetComponentInChildren<InputManager>().playerData.material;
                 if (!players[i].GetComponentInChildren<InputManager>().playerData.specialColor)
                     players[i].GetComponentInChildren<SpriteRenderer>().material.SetColor("_OutlineColor", players[i].GetComponentInChildren<InputManager>().playerData.color);
+                life[i].material = players[i].GetComponentInChildren<SpriteRenderer>().material;
+            }
+        }
+    }
+
+    public void SpriteButton(int i)
+    {
+        if (players[i].GetComponentInChildren<InputManager>() != null)
+        {
+            if (players[i].GetComponentInChildren<InputManager>().inputName == "Keyboard Left")
+            {
+                attackUI[i].sprite = spriteD[0];
+                dashUI[i].sprite = spriteX[0];
+            }
+            if (players[i].GetComponentInChildren<InputManager>().inputName == "Playstation")
+            {
+                attackUI[i].sprite = spriteD[1];
+                dashUI[i].sprite = spriteX[1];
+            }
+            if (players[i].GetComponentInChildren<InputManager>().inputName == "Xbox")
+            {
+                attackUI[i].sprite = spriteD[2];
+                dashUI[i].sprite = spriteX[2];
+            }
+            if (players[i].GetComponentInChildren<InputManager>().inputName == "Nintendo")
+            {
+                attackUI[i].sprite = spriteD[3];
+                dashUI[i].sprite = spriteX[3];
+            }
+            if (players[i].GetComponentInChildren<InputManager>().inputName == "Generic")
+            {
+                attackUI[i].sprite = spriteD[4];
+                dashUI[i].sprite = spriteX[4];
+            }
+            if (players[i].GetComponentInChildren<InputManager>().inputName == "Keyboard Right")
+            {
+                attackUI[i].sprite = spriteD[5];
+                dashUI[i].sprite = spriteX[5];
             }
         }
     }

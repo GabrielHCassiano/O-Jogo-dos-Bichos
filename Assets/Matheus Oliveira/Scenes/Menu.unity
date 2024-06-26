@@ -84211,6 +84211,14 @@ PrefabInstance:
       propertyPath: canColors.Array.data[9]
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7472195865215180781, guid: 564cc2a992fa3994f8a879e2c6068fc2, type: 3}
+      propertyPath: availableMinigames.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7472195865215180781, guid: 564cc2a992fa3994f8a879e2c6068fc2, type: 3}
+      propertyPath: availableMinigames.Array.data[2]
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7650433004135192115, guid: 564cc2a992fa3994f8a879e2c6068fc2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -1,19 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using Unity.VisualScripting;
 using UnityEngine;
+using static KeyboardSplitter;
 
 public class Pescando : MonoBehaviour
 {
     private InputManager inputManager;
+    private PlayerID playerID;
+
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     [SerializeField] private GameObject arrowPos;
     [SerializeField] private GameObject anzol;
-    private bool inAttack1;
-    private bool inAttack2;
-    private bool inAttack3;
-    private bool inAttack4;
+    private bool inAttack;
 
     private bool canAttack = true;
+
+    private Anzol enemyAnzol;
+
+    private bool inStun;
+    private bool inRio;
+
+    private bool lose;
+    private bool inLose = false;
 
     private Vector2 laterDirection;
 
@@ -21,6 +32,7 @@ public class Pescando : MonoBehaviour
     void Start()
     {
         inputManager = GetComponentInChildren<InputManager>();
+        playerID = GetComponent<PlayerID>();
 
         laterDirection.x = 1;
     }
@@ -29,6 +41,7 @@ public class Pescando : MonoBehaviour
     void Update()
     {
         System();
+        LoseLogic();
         PescandoLogic();
     }
 
@@ -44,28 +57,16 @@ public class Pescando : MonoBehaviour
         set { canAttack = value; }
     }
 
-    public bool InAttack1
+    public bool InAttack
     {
-        get { return inAttack1; }
-        set { inAttack1 = value; }
+        get { return inAttack; }
+        set { inAttack = value; }
     }
 
-    public bool InAttack2
-    {
-        get { return inAttack2; }
-        set { inAttack2 = value; }
-    }
-
-    public bool InAttack3
-    {
-        get { return inAttack3; }
-        set { inAttack3 = value; }
-    }
-
-    public bool InAttack4
-    {
-        get { return inAttack4; }
-        set { inAttack4 = value; }
+    public bool Lose
+    { 
+        get { return lose; } 
+        set { lose = value; } 
     }
 
     public void System()
@@ -75,104 +76,172 @@ public class Pescando : MonoBehaviour
         else
             return;
 
-        GetComponent<TopDownController>().canDash = false;
-
         if (inputManager != null && inputManager.moveDir != Vector2.zero)
             laterDirection = inputManager.moveDir;
     }
 
 
+    public void LoseLogic()
+    {
+        
+        if (!inRio)
+        {
+            StopAllCoroutines();
+            spriteRenderer.flipX = false;
+            GetComponent<Animator>().SetBool("InWater", false);
+        }
+
+        if (lose)
+        {
+            gameObject.SetActive(false);
+        }
+    }
     public void PescandoLogic()
     {
-        if (inputManager != null && inputManager.xPressed == true && !inAttack2 && !inAttack3 && !inAttack4 && canAttack == true)
-        {
-            inAttack1 = true;
-            arrowPos.transform.right = new Vector2(laterDirection.x, laterDirection.y);
+        if(canAttack == true)
+            anzol.GetComponent<Anzol>().TimeAnzol = 0;
 
+        if (inputManager != null && inputManager.squarePressed == true && canAttack == true)
+        {
+            inAttack = true;
+            arrowPos.transform.localScale = new Vector3(GetComponent<TopDownController>().transform.localScale.x, 1, 1);
+
+            arrowPos.transform.right = new Vector2(laterDirection.x, laterDirection.y);
             arrowPos.SetActive(true);
         }
-        if (inputManager != null && inputManager.xPressed == false && inAttack1 == true)
-        {
-            canAttack = false;
-            arrowPos.SetActive(false);
-            anzol.SetActive(true);
-            anzol.GetComponent<Anzol>().Force = 80;
-            anzol.GetComponent<Anzol>().Diference = 6;
-            anzol.GetComponent<Anzol>().Distance = 0.12f;
-        }
-
-        if (inputManager != null && inputManager.circlePressed == true && !inAttack1 && !inAttack3 && !inAttack4 && canAttack == true)
-        {
-            inAttack2 = true;
-            arrowPos.transform.right = new Vector2(laterDirection.x, laterDirection.y);
-
-            arrowPos.SetActive(true);
-        }
-        if (inputManager != null && inputManager.circlePressed == false && inAttack2 == true)
+        if (inputManager != null && inputManager.squarePressed == false && inAttack == true)
         {
             canAttack = false;
             arrowPos.SetActive(false);
             anzol.SetActive(true);
             anzol.GetComponent<Anzol>().Force = 40;
-            anzol.GetComponent<Anzol>().Diference = 2;
-            anzol.GetComponent<Anzol>().Distance = 0.25f;
+            anzol.GetComponent<Anzol>().Diference = 8;
+            anzol.GetComponent<Anzol>().Distance = 0.4f;
         }
-
-        if (inputManager != null && inputManager.squarePressed == true && !inAttack1 && !inAttack2 && !inAttack4 && canAttack == true)
-        {
-            inAttack3 = true;
-            arrowPos.transform.right = new Vector2(laterDirection.x, laterDirection.y);
-
-            arrowPos.SetActive(true);
-        }
-        if (inputManager != null && inputManager.squarePressed == false && inAttack3 == true)
-        {
-            canAttack = false;
-            arrowPos.SetActive(false);
-            anzol.SetActive(true);
-            anzol.GetComponent<Anzol>().Force = 80;
-            anzol.GetComponent<Anzol>().Diference = 4f;
-            anzol.GetComponent<Anzol>().Distance = 0.3f;
-        }
-
-        if (inputManager != null && inputManager.trianglePressed == true && !inAttack1 && !inAttack2 && !inAttack3 && canAttack == true)
-        {
-            inAttack4 = true;
-            arrowPos.transform.right = new Vector2(laterDirection.x, laterDirection.y);
-
-            arrowPos.SetActive(true);
-        }
-        if (inputManager != null && inputManager.trianglePressed == false && inAttack4 == true)
-        {
-            canAttack = false;
-            arrowPos.SetActive(false);
-            anzol.SetActive(true);
-            anzol.GetComponent<Anzol>().Force = 40;
-            anzol.GetComponent<Anzol>().Diference = 1;
-            anzol.GetComponent<Anzol>().Distance = 0.6f;
-        }
-
-
     }
 
     public void ResetInAttack()
     {
-        inAttack1 = false;
-        inAttack2 = false;
-        inAttack3 = false;
-        inAttack4 = false;
+        inAttack = false;
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Rio") && inStun)
+        {
+            inRio = true;
+            inStun = false;
+            transform.parent = null;
+            GetComponent<TopDownController>().canMove = false;
+            GetComponent<Animator>().SetBool("InWater", true);
+            StartCoroutine(LoseCooldown());
+            enemyAnzol.StopAllCoroutines();
+            enemyAnzol.Reset();
+            CanAttack = false;
+        }
+
+        if (collision.CompareTag("Exit") && inRio)
+        {
+            inRio = false;
+            inStun = false;
+            transform.parent = null;
+            GetComponent<TopDownController>().canMove = true;
+            enemyAnzol.StopAllCoroutines();
+            enemyAnzol.Reset();
+            CanAttack = true;
+        }
+    }
+
+    public IEnumerator LoseCooldown()
+    {
+        print("oi");
+        inLose = true;
+        yield return new WaitForSeconds(0.5f);
+        spriteRenderer.flipX = true;
+        yield return new WaitForSeconds(0.5f);
+        spriteRenderer.flipX = false;
+        yield return new WaitForSeconds(0.5f);
+        spriteRenderer.flipX = true;
+        yield return new WaitForSeconds(0.5f);
+        spriteRenderer.flipX = false;
+        lose = true;
     }
 
     public void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Arrow"))
+        if (collision.GetComponentInParent<Anzol>() != null && (collision.GetComponentInParent<Anzol>().Player.ID == 1 || collision.GetComponentInParent<Anzol>().Player.ID == 3))
         {
-            transform.parent = collision.transform;
-        }
+            if (collision.CompareTag("Arrow") && collision.gameObject.GetComponentInParent<Anzol>().gameObject != anzol.gameObject && !inRio && (playerID.ID == 2 || playerID.ID == 4))
+            {
+                enemyAnzol = collision.gameObject.GetComponentInParent<Anzol>();
 
-        if (collision.CompareTag("Rio"))
+                collision.gameObject.GetComponentInParent<Anzol>().InBack = true;
+
+                inStun = true;
+                transform.parent = collision.transform;
+                transform.position = collision.transform.position - new Vector3(0, 1, 0);
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                if (inAttack)
+                {
+                    anzol.GetComponentInChildren<Pescando>().transform.parent = null;
+                    anzol.GetComponent<Anzol>().StopAllCoroutines();
+                    anzol.GetComponent<Anzol>().Reset();
+                }
+            }
+            if (collision.CompareTag("Arrow") && collision.gameObject.GetComponentInParent<Anzol>().gameObject != anzol.gameObject && inRio && (playerID.ID == 1 || playerID.ID == 3))
+            {
+                enemyAnzol = collision.gameObject.GetComponentInParent<Anzol>();
+
+                collision.gameObject.GetComponentInParent<Anzol>().InBack = true;
+
+                inStun = true;
+                transform.parent = collision.transform;
+                transform.position = collision.transform.position - new Vector3(0, 1, 0);
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                if (inAttack)
+                {
+                    anzol.GetComponentInChildren<Pescando>().transform.parent = null;
+                    anzol.GetComponent<Anzol>().StopAllCoroutines();
+                    anzol.GetComponent<Anzol>().Reset();
+                }
+            }
+        }
+        if (collision.GetComponentInParent<Anzol>() != null && (collision.GetComponentInParent<Anzol>().Player.ID == 2 || collision.GetComponentInParent<Anzol>().Player.ID == 4))
         {
-            transform.parent = null;
+            if (collision.CompareTag("Arrow") && collision.gameObject.GetComponentInParent<Anzol>().gameObject != anzol.gameObject && !inRio && (playerID.ID == 1 || playerID.ID == 3))
+            {
+                enemyAnzol = collision.gameObject.GetComponentInParent<Anzol>();
+
+                collision.gameObject.GetComponentInParent<Anzol>().InBack = true;
+
+                inStun = true;
+                transform.parent = collision.transform;
+                transform.position = collision.transform.position - new Vector3(0, 1, 0);
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                if (inAttack)
+                {
+                    anzol.GetComponentInChildren<Pescando>().transform.parent = null;
+                    anzol.GetComponent<Anzol>().StopAllCoroutines();
+                    anzol.GetComponent<Anzol>().Reset();
+                }
+            }
+            if (collision.CompareTag("Arrow") && collision.gameObject.GetComponentInParent<Anzol>().gameObject != anzol.gameObject && inRio && (playerID.ID == 2 || playerID.ID == 4))
+            {
+                enemyAnzol = collision.gameObject.GetComponentInParent<Anzol>();
+
+                collision.gameObject.GetComponentInParent<Anzol>().InBack = true;
+
+                inStun = true;
+                transform.parent = collision.transform;
+                transform.position = collision.transform.position - new Vector3(0, 1, 0);
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                if (inAttack)
+                {
+                    anzol.GetComponentInChildren<Pescando>().transform.parent = null;
+                    anzol.GetComponent<Anzol>().StopAllCoroutines();
+                    anzol.GetComponent<Anzol>().Reset();
+                }
+            }
         }
     }
 }

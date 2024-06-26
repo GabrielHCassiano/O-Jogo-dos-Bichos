@@ -89,6 +89,11 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < inputManagers.Count ;i++)
             {
                 inputManagers[i].GetComponent<InputManager>().canInput = false;
+                inputManagers[i].GetComponent<InputManager>().xPressed = false;
+                inputManagers[i].GetComponent<InputManager>().circlePressed = false;
+                inputManagers[i].GetComponent<InputManager>().squarePressed = false;
+                inputManagers[i].GetComponent<InputManager>().trianglePressed = false;
+                inputManagers[i].GetComponent<InputManager>().rtPressed = false;
             }
         }
         else

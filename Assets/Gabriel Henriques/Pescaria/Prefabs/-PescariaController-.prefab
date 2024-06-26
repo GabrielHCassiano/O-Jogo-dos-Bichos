@@ -5553,6 +5553,7 @@ GameObject:
   - component: {fileID: 9020494314813942759}
   - component: {fileID: 6614432669194557059}
   - component: {fileID: 7748380612600200854}
+  - component: {fileID: 5205593248026956060}
   m_Layer: 3
   m_Name: -PescariaController-
   m_TagString: Player
@@ -5606,11 +5607,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d13e212a5970f0498c7b58c84ae3ec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  dashCooldown: 0
+  moveSpeed: 4
+  dashCooldown: 0.5
   currentDashCooldown: 0
-  dashSpeed: 0
-  dashDuration: 0
+  dashSpeed: 14
+  dashDuration: 0.25
   canMove: 1
   lastFramePressedDash: 0
   canDash: 0
@@ -5629,6 +5630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07169d7d86af0e044ab94b3f12f54b7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 2401242469541483111}
   arrowPos: {fileID: 6997444035196187516}
   anzol: {fileID: 5872021091357839611}
 --- !u!114 &6680010395682385593
@@ -5712,9 +5714,9 @@ BoxCollider2D:
   m_Offset: {x: 0.04281771, y: 0.04255855}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 3, y: 3}
-    newSize: {x: 3, y: 3}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2, y: 2}
+    newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -5743,6 +5745,58 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!212 &5205593248026956060
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3617645149592965802}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &4758138186229664291
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,8 +19,11 @@ public class Anzol : MonoBehaviour
     private int force = 10;
     private float diference = 2;
     private float distance = 1;
+    private float time;
 
     private bool canAttack = true;
+    private bool canBack = true;
+    private bool inBack;
 
     private LineRenderer lineRenderer;
 
@@ -34,6 +37,7 @@ public class Anzol : MonoBehaviour
         lineRenderer = GetComponentInChildren<LineRenderer>();
 
         transform.position = player.transform.position + pos;
+
     }
 
     // Update is called once per frame
@@ -54,6 +58,18 @@ public class Anzol : MonoBehaviour
         set { force = value; }
     }
 
+    public bool CanBack
+    {
+        get { return canBack; }
+        set { canBack = value; }
+    }
+
+    public bool InBack
+    {
+        get { return inBack; }
+        set { inBack = value; }
+    }
+
     public float Diference
     {
         get { return diference; }
@@ -65,11 +81,20 @@ public class Anzol : MonoBehaviour
         set { distance = value; }
     }
 
+    public float TimeAnzol
+    { 
+        get { return time; } 
+        set {  time = value; } 
+    }
+
     public void AnzolLogic()
     {
+        //print(time);
 
         lineRenderer.SetPosition(0, player.transform.position + pos);
         lineRenderer.SetPosition(1, transform.position);
+
+        time += Time.deltaTime;
 
         if (canAttack == true)
         {
@@ -78,6 +103,13 @@ public class Anzol : MonoBehaviour
             sprite.transform.up = diretion;
             //transform.parent = null;
             StartCoroutine(AnzolCooldown());
+        }
+
+        if (inBack && canBack)
+        {
+            StopAllCoroutines();
+            distance = (distance * diference) - ((distance - time) * diference);
+            StartCoroutine(AnzolBack());
         }
         //else
         //  arqueriaCombat = GetComponentInParent<ArqueriaCombat>();
@@ -98,11 +130,30 @@ public class Anzol : MonoBehaviour
         rb.velocity = Vector2.zero;
         rb.velocity = ((diretion * -1) * force/diference);
         yield return new WaitForSeconds(distance * diference);
+        Reset();
+    }
+
+    public void Reset()
+    {
+        pescando.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         pescando.GetComponent<TopDownController>().canMove = true;
         pescando.CanAttack = true;
         canAttack = true;
         pescando.ResetInAttack();
         transform.position = player.transform.position + pos;
         gameObject.SetActive(false);
+    }
+
+    public IEnumerator AnzolBack()
+    {
+        canBack = false;
+        canAttack = false;
+        pescando.GetComponent<TopDownController>().canMove = false;
+        pescando.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        rb.velocity = ((diretion * -1) * force / diference);
+        yield return new WaitForSeconds((distance));
+        Reset();
+        canBack = true;
+        inBack = false;
     }
 }
