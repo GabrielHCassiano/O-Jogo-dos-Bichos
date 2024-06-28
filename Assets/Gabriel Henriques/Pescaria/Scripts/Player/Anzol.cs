@@ -25,6 +25,8 @@ public class Anzol : MonoBehaviour
     private bool canBack = true;
     private bool inBack;
 
+    private GameObject inGet;
+
     private LineRenderer lineRenderer;
 
     // Start is called before the first frame update
@@ -81,6 +83,11 @@ public class Anzol : MonoBehaviour
         set { distance = value; }
     }
 
+    public GameObject InGet
+    {
+        get { return inGet;  }
+        set { inGet = value; }
+    }
     public float TimeAnzol
     { 
         get { return time; } 
@@ -146,6 +153,7 @@ public class Anzol : MonoBehaviour
         pescando.ResetInAttack();
         transform.position = player.transform.position + pos;
         gameObject.SetActive(false);
+        inGet = null;
     }
 
     public IEnumerator AnzolBack()

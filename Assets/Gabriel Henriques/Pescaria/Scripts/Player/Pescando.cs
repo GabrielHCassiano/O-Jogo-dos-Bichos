@@ -153,6 +153,7 @@ public class Pescando : MonoBehaviour
             transform.parent = null;
             GetComponent<TopDownController>().canMove = false;
             GetComponent<Animator>().SetBool("InWater", true);
+            enemyAnzol.InGet = null;
             StartCoroutine(LoseCooldown());
             enemyAnzol.StopAllCoroutines();
             enemyAnzol.Reset();
@@ -165,6 +166,7 @@ public class Pescando : MonoBehaviour
             inStun = false;
             transform.parent = null;
             GetComponent<TopDownController>().canMove = true;
+            enemyAnzol.InGet = null;
             enemyAnzol.StopAllCoroutines();
             enemyAnzol.Reset();
             CanAttack = true;
@@ -189,11 +191,15 @@ public class Pescando : MonoBehaviour
     {
         if (collision.GetComponentInParent<Anzol>() != null && (collision.GetComponentInParent<Anzol>().Player.ID == 1 || collision.GetComponentInParent<Anzol>().Player.ID == 3))
         {
-            if (collision.CompareTag("Arrow") && collision.gameObject.GetComponentInParent<Anzol>().gameObject != anzol.gameObject && !inRio && (playerID.ID == 2 || playerID.ID == 4))
+            if (collision.CompareTag("Arrow") && collision.gameObject.GetComponentInParent<Anzol>().gameObject != anzol.gameObject && inRio && (playerID.ID == 1 || playerID.ID == 3) && (collision.gameObject.GetComponentInParent<Anzol>().InGet == null || collision.gameObject.GetComponentInParent<Anzol>().InGet == this.gameObject))
             {
+                print("case - 4");
+
                 enemyAnzol = collision.gameObject.GetComponentInParent<Anzol>();
 
                 collision.gameObject.GetComponentInParent<Anzol>().InBack = true;
+
+                enemyAnzol.InGet = this.gameObject;
 
                 inStun = true;
                 transform.parent = collision.transform;
@@ -201,46 +207,64 @@ public class Pescando : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, 0, 0);
                 if (inAttack && anzol.GetComponentInChildren<LineRenderer>().GetComponentInChildren<Pescando>() != null)
                 {
+                    print("case - 5");
+
+                    anzol.GetComponentInChildren<Pescando>().transform.parent = null;
+                    anzol.GetComponent<Anzol>().StopAllCoroutines();
+                    anzol.GetComponent<Anzol>().Reset();
+                }
+                else if (inAttack)
+                {
+                    print("case - 6");
+
+                    anzol.GetComponent<Anzol>().StopAllCoroutines();
+                    anzol.GetComponent<Anzol>().Reset();
+                }
+            }
+            if (collision.CompareTag("Arrow") && collision.gameObject.GetComponentInParent<Anzol>().gameObject != anzol.gameObject && !inRio && (playerID.ID == 2 || playerID.ID == 4) && (collision.gameObject.GetComponentInParent<Anzol>().InGet == null || collision.gameObject.GetComponentInParent<Anzol>().InGet == this.gameObject))
+            {
+                print("case - 1");
+                enemyAnzol = collision.gameObject.GetComponentInParent<Anzol>();
+
+                collision.gameObject.GetComponentInParent<Anzol>().InBack = true;
+
+                enemyAnzol.InGet = this.gameObject;
+
+                inAttack = false;
+                arrowPos.SetActive(false);
+
+                inStun = true;
+                transform.parent = collision.transform;
+                transform.position = collision.transform.position - new Vector3(0, 1, 0);
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                if (inAttack && anzol.GetComponentInChildren<LineRenderer>().GetComponentInChildren<Pescando>() != null)
+                {
+                    print("case - 2");
+
                     anzol.GetComponentInChildren<Pescando>().transform.parent = null;
                     anzol.GetComponent<Anzol>().StopAllCoroutines();
                     anzol.GetComponent<Anzol>().Reset();
                 }
                 else if(inAttack)
                 {
-                    anzol.GetComponent<Anzol>().StopAllCoroutines();
-                    anzol.GetComponent<Anzol>().Reset();
-                }
-            }
-            if (collision.CompareTag("Arrow") && collision.gameObject.GetComponentInParent<Anzol>().gameObject != anzol.gameObject && inRio && (playerID.ID == 1 || playerID.ID == 3))
-            {
-                enemyAnzol = collision.gameObject.GetComponentInParent<Anzol>();
+                    print("case - 3");
 
-                collision.gameObject.GetComponentInParent<Anzol>().InBack = true;
-
-                inStun = true;
-                transform.parent = collision.transform;
-                transform.position = collision.transform.position - new Vector3(0, 1, 0);
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-                if (inAttack && anzol.GetComponentInChildren<LineRenderer>().GetComponentInChildren<Pescando>() != null)
-                {
-                    anzol.GetComponentInChildren<Pescando>().transform.parent = null;
-                    anzol.GetComponent<Anzol>().StopAllCoroutines();
-                    anzol.GetComponent<Anzol>().Reset();
-                }
-                else if (inAttack)
-                {
                     anzol.GetComponent<Anzol>().StopAllCoroutines();
                     anzol.GetComponent<Anzol>().Reset();
                 }
             }
         }
-        if (collision.GetComponentInParent<Anzol>() != null && (collision.GetComponentInParent<Anzol>().Player.ID == 2 || collision.GetComponentInParent<Anzol>().Player.ID == 4))
+        if (collision.GetComponentInParent<Anzol>() != null && (collision.GetComponentInParent<Anzol>().Player.ID == 2 || collision.GetComponentInParent<Anzol>().Player.ID == 4) && (collision.gameObject.GetComponentInParent<Anzol>().InGet == null || collision.gameObject.GetComponentInParent<Anzol>().InGet == this.gameObject))
         {
-            if (collision.CompareTag("Arrow") && collision.gameObject.GetComponentInParent<Anzol>().gameObject != anzol.gameObject && !inRio && (playerID.ID == 1 || playerID.ID == 3))
+            if (collision.CompareTag("Arrow") && collision.gameObject.GetComponentInParent<Anzol>().gameObject != anzol.gameObject && inRio && (playerID.ID == 2 || playerID.ID == 4))
             {
+                print("case - 4b");
+
                 enemyAnzol = collision.gameObject.GetComponentInParent<Anzol>();
 
                 collision.gameObject.GetComponentInParent<Anzol>().InBack = true;
+
+                enemyAnzol.InGet = this.gameObject;
 
                 inStun = true;
                 transform.parent = collision.transform;
@@ -248,21 +272,32 @@ public class Pescando : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, 0, 0);
                 if (inAttack && anzol.GetComponentInChildren<LineRenderer>().GetComponentInChildren<Pescando>() != null)
                 {
+                    print("case - 5b");
+
                     anzol.GetComponentInChildren<Pescando>().transform.parent = null;
                     anzol.GetComponent<Anzol>().StopAllCoroutines();
                     anzol.GetComponent<Anzol>().Reset();
                 }
                 else if (inAttack)
                 {
+                    print("case - 6b");
+
                     anzol.GetComponent<Anzol>().StopAllCoroutines();
                     anzol.GetComponent<Anzol>().Reset();
                 }
             }
-            if (collision.CompareTag("Arrow") && collision.gameObject.GetComponentInParent<Anzol>().gameObject != anzol.gameObject && inRio && (playerID.ID == 2 || playerID.ID == 4))
+            if (collision.CompareTag("Arrow") && collision.gameObject.GetComponentInParent<Anzol>().gameObject != anzol.gameObject && !inRio && (playerID.ID == 1 || playerID.ID == 3) && (collision.gameObject.GetComponentInParent<Anzol>().InGet == null || collision.gameObject.GetComponentInParent<Anzol>().InGet == this.gameObject))
             {
+                print("case - 1b");
+
                 enemyAnzol = collision.gameObject.GetComponentInParent<Anzol>();
 
                 collision.gameObject.GetComponentInParent<Anzol>().InBack = true;
+
+                enemyAnzol.InGet = this.gameObject;
+
+                inAttack = false;
+                arrowPos.SetActive(false);
 
                 inStun = true;
                 transform.parent = collision.transform;
@@ -270,12 +305,16 @@ public class Pescando : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, 0, 0);
                 if (inAttack && anzol.GetComponentInChildren<LineRenderer>().GetComponentInChildren<Pescando>() != null)
                 {
+                    print("case - 2b");
+
                     anzol.GetComponentInChildren<Pescando>().transform.parent = null;
                     anzol.GetComponent<Anzol>().StopAllCoroutines();
                     anzol.GetComponent<Anzol>().Reset();
                 }
                 else if (inAttack)
                 {
+                    print("case - 3b");
+
                     anzol.GetComponent<Anzol>().StopAllCoroutines();
                     anzol.GetComponent<Anzol>().Reset();
                 }
