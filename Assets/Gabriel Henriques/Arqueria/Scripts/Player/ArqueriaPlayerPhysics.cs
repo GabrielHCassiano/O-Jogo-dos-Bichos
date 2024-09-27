@@ -39,17 +39,13 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //rb = GetComponent<Rigidbody2D>();
         laterDirection.x = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        print(InGround());
-        //TestMove();
         CheckCollision();
-        //PlayerGravity();
     }
 
     public void FixedUpdate()
@@ -127,12 +123,8 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
 
     public void CheckCollision()
     {
-        //print("Ceiling " + InCeiling());
-        //print("Ground " + InGround());
-
         if (InWall() == true)
         {
-            //ColliderMove();
         }
         else colliderWall.x = transform.position.x;
 
@@ -158,16 +150,9 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
 
         if (InGround() == true)
         {
-            //ColliderJump();
         }
         else
             colliderGround.y = transform.position.y;
-
-
-        if (InCeiling())
-        {
-            //HitCeiling();
-        }
 
 
     }
@@ -183,8 +168,6 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
                 velocity.x = Mathf.SmoothDamp(velocity.x, maxSpeed * direction.x, ref currentVelocity.x, maxSpeed / acceleration);
             if (direction.x == 0 && velocity.x != 0)
             {
-                //velocity.x = Mathf.Lerp(velocity.x, 0, deceleration);
-                //velocity.x = 0
                 velocity.x -= (deceleration * laterDirection.x);
                 if (velocity.x - deceleration < 0 && laterDirection.x > 0)
                 {
@@ -194,7 +177,6 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
                 {
                     velocity.x = 0;
                 }
-                //velocity.x = Mathf.SmoothDamp(velocity.x, maxSpeed * direction.x, ref currentVelocity.x, maxSpeed / deceleration);
             }
 
             rb.velocity = new Vector2(velocity.x, rb.velocity.y);
@@ -203,22 +185,16 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
 
     public void PlayerJump()
     {
-        //StartCoroutine(CooldownJump());
         rb.velocity = new Vector2(rb.velocity.x, forceJump);
-        //velocity.y = forceJump;
     }
 
     public void WallJump(float direction)
     {
-        //StartCoroutine(CooldownJump());
-
         GetComponent<ArqueriaMove>().ResetDash();
 
         rb.velocity = Vector2.zero;
         velocity.x = 0;
         rb.velocity = new Vector2(direction * 26, 12);
-        //GetComponent<ArqueriaMove>().PlayerDirection = GetComponentInChildren<SpriteRenderer>().transform.localScale.x * -1;
-        //velocity.y = forceJumps
     }
 
     public IEnumerator CooldownJump()
@@ -232,8 +208,6 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
     {
         GetComponent<ArqueriaMove>().ResetDash();
         velocity.y = Mathf.Min(0, velocity.y);
-            //Vector2 colliderGround = Physics2D.ClosestPoint(transform.position, results[0].collider) + Vector2.down * 0.5f;
-            //transform.position = new Vector3(transform.position.x, colliderGround.y, 0);
     }
 
     public void ColliderJump()

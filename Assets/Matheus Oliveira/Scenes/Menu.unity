@@ -1638,7 +1638,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 262230683}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.EventSystems.EventSystem, UnityEngine.UI
         m_MethodName: SetSelectedGameObject
         m_Mode: 2
@@ -2211,7 +2211,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 262230683}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.EventSystems.EventSystem, UnityEngine.UI
         m_MethodName: SetSelectedGameObject
         m_Mode: 2
@@ -7932,7 +7932,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 262230681}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -84085,7 +84085,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 265185861704806870, guid: 564cc2a992fa3994f8a879e2c6068fc2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 927242828126868030, guid: 564cc2a992fa3994f8a879e2c6068fc2, type: 3}
       propertyPath: m_AnchorMax.y
@@ -84221,11 +84221,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7472195865215180781, guid: 564cc2a992fa3994f8a879e2c6068fc2, type: 3}
       propertyPath: availableMinigames.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7472195865215180781, guid: 564cc2a992fa3994f8a879e2c6068fc2, type: 3}
       propertyPath: availableMinigames.Array.data[2]
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7650433004135192115, guid: 564cc2a992fa3994f8a879e2c6068fc2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -94852,7 +94852,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 262230683}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.EventSystems.EventSystem, UnityEngine.UI
         m_MethodName: SetSelectedGameObject
         m_Mode: 2
@@ -112009,6 +112009,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1912674424}
+  - {fileID: 262230684}
   - {fileID: 1746165137}
   - {fileID: 105179363}
-  - {fileID: 262230684}

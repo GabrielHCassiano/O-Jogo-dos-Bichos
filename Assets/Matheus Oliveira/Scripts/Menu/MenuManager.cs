@@ -11,7 +11,7 @@ public class MenuManager : MonoBehaviour
 
     [Header("Options")]
     public InputManager inputManager;
-    [SerializeField] bool started = false;
+    [SerializeField] public bool started = false;
     [Space]
     [SerializeField] List<MenuPlayerUImanager> players;
 

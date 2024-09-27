@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Matheus Oliveira/Scenes/Start.unity
+    guid: 18f9dfd5519c98342806bdd59bb65c5f
+  - enabled: 1
     path: Assets/Matheus Oliveira/Scenes/Menu.unity
     guid: 4fef386f0e42b764e801241e6a58834d
   - enabled: 1

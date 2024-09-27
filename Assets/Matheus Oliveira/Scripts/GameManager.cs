@@ -61,6 +61,8 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         Random.InitState((int)System.DateTime.Now.Ticks);
+
+        SceneManager.LoadScene(1);
     }
 
     private void OnEnable()
@@ -127,7 +129,7 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (SceneManager.GetActiveScene().name == "Menu")
+        if (SceneManager.GetActiveScene().name == "Menu" || SceneManager.GetActiveScene().name == "Start")
             return;
 
         minigameEnded = false;
@@ -214,7 +216,7 @@ public class GameManager : MonoBehaviour
     {
         rounds = 0;
         minigameEnded = false;
-        yield return new WaitForSeconds(8f);
+        yield return new WaitForSeconds(5f);
 
         foreach (var scene in playedMinigames)
         {
@@ -233,15 +235,26 @@ public class GameManager : MonoBehaviour
 
         controllers.Clear();
 
-        /*foreach (GameObject inputs in inputManagers)
+        foreach (GameObject inputs in inputManagers)
         {
             inputs.transform.parent = transform;
-        }*/
+        }
 
-        inputManagers.Clear();
+        //inputManagers.Clear();
 
         SceneManager.LoadScene("Menu");
+
+        //StartCoroutine(MinigameStartRoutine());
         gameFinished = false;
+        StartCoroutine(MenuCooldown());
+
+    }
+
+    IEnumerator MenuCooldown()
+    {
+        yield return new WaitForSeconds(0.1f);
+        FindObjectOfType<MenuManager>().started = true;
+        FindObjectOfType<MenuManager>().Play();
     }
 
     public void ScoreUpdate()
