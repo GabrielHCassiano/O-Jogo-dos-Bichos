@@ -72,6 +72,7 @@ public class ArqueriaManager : MonoBehaviour
             if (lossGame == 4)
             {
                 players[i].GetComponentInChildren<InputManager>().playerData.playerNewScore += 15;
+                FindObjectOfType<GameManager>().PlayerWin = "Player " + (i + 1) + " Ganhou!";
                 FindObjectOfType<GameManager>().minigameEnded = true;
             }
         }
@@ -79,6 +80,7 @@ public class ArqueriaManager : MonoBehaviour
         {
             players[i].GetComponentInChildren<InputManager>().playerData.playerNewScore += 15;
             contLoss[i] = true;
+            FindObjectOfType<GameManager>().PlayerWin = "Player " + (i + 1) + " Ganhou!";
             FindObjectOfType<GameManager>().minigameEnded = true;
         }
     }

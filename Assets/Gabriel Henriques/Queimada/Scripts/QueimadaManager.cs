@@ -110,6 +110,7 @@ public class QueimadaManager : MonoBehaviour
             if (lossGame == 4)
             {
                 player[i].GetComponent<GetAndAttackControl>().ScoreValue += 30;
+                FindObjectOfType<GameManager>().PlayerWin = "Player " + (i + 1) + " Ganhou!";
                 FindObjectOfType<GameManager>().minigameEnded = true;
             }
         }
@@ -117,6 +118,7 @@ public class QueimadaManager : MonoBehaviour
         {
             player[i].GetComponent<GetAndAttackControl>().ScoreValue += 30;
             contLoss[i] = true;
+            FindObjectOfType<GameManager>().PlayerWin = "Player " + (i + 1) + " Ganhou!";
             FindObjectOfType<GameManager>().minigameEnded = true;
         }
     }

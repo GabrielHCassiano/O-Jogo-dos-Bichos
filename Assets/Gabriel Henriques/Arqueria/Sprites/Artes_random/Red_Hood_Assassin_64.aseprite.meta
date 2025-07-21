@@ -77,6 +77,7 @@ ScriptedImporter:
     defaultPivotSpace: 0
     defaultPivotAlignment: 9
     customPivotPosition: {x: 0.3, y: 0}
+    mosaicPadding: 4
     spritePadding: 0
     generateModelPrefab: 1
     generateAnimationClips: 1
@@ -89,6 +90,7 @@ ScriptedImporter:
     defaultPivotSpace: 0
     defaultPivotAlignment: 9
     customPivotPosition: {x: 0.3, y: 0}
+    mosaicPadding: 4
     spritePadding: 0
     generateModelPrefab: 1
     generateAnimationClips: 1
@@ -448,128 +450,144 @@ ScriptedImporter:
     layerType: 0
     blendMode: 0
     cells:
-    - name: Red_Hood_Assassin_64_Frame_0
+    - name: Frame_0
       frameIndex: 0
+      additiveSortOrder: 0
       cellRect:
         x: 4
         y: 0
         width: 49
         height: 56
       spriteId: dc957ff49e759634a87a7c6d93d9560b
-    - name: Red_Hood_Assassin_64_Frame_1
+    - name: Frame_1
       frameIndex: 1
+      additiveSortOrder: 0
       cellRect:
         x: 4
         y: 0
         width: 49
         height: 56
       spriteId: e68f182c081ddd643b8fdedc0589088b
-    - name: Red_Hood_Assassin_64_Frame_2
+    - name: Frame_2
       frameIndex: 2
+      additiveSortOrder: 0
       cellRect:
         x: 4
         y: 0
         width: 49
         height: 55
       spriteId: af2f244c7a71f0943ad0651e05c9113d
-    - name: Red_Hood_Assassin_64_Frame_3
+    - name: Frame_3
       frameIndex: 3
+      additiveSortOrder: 0
       cellRect:
         x: 4
         y: 0
         width: 49
         height: 55
       spriteId: d678d99a7b3b21b4690e191a40bdc6ec
-    - name: Red_Hood_Assassin_64_Frame_4
+    - name: Frame_4
       frameIndex: 4
+      additiveSortOrder: 0
       cellRect:
         x: 4
         y: 0
         width: 49
         height: 55
       spriteId: 4e9d0484d52761346a46829e466185a8
-    - name: Red_Hood_Assassin_64_Frame_5
+    - name: Frame_5
       frameIndex: 5
+      additiveSortOrder: 0
       cellRect:
         x: 4
         y: 0
         width: 49
         height: 56
       spriteId: 473992c68c14cbb4e8a9db56e803d6db
-    - name: Red_Hood_Assassin_64_Frame_6
+    - name: Frame_6
       frameIndex: 6
+      additiveSortOrder: 0
       cellRect:
         x: 4
         y: 0
         width: 49
         height: 56
       spriteId: 758c76a9555a98748915e1a6252fad8e
-    - name: Red_Hood_Assassin_64_Frame_7
+    - name: Frame_7
       frameIndex: 7
+      additiveSortOrder: 0
       cellRect:
         x: 35
         y: 0
         width: 32
         height: 57
       spriteId: 297e309bd40497545a250a0898c8a455
-    - name: Red_Hood_Assassin_64_Frame_8
+    - name: Frame_8
       frameIndex: 8
+      additiveSortOrder: 0
       cellRect:
         x: 46
         y: 0
         width: 42
         height: 52
       spriteId: e7d0275a8c84db443a617b761a5d02eb
-    - name: Red_Hood_Assassin_64_Frame_9
+    - name: Frame_9
       frameIndex: 9
+      additiveSortOrder: 0
       cellRect:
         x: 51
         y: 0
         width: 70
         height: 48
       spriteId: b282aa8d6ae50d7458a951a5f7417006
-    - name: Red_Hood_Assassin_64_Frame_10
+    - name: Frame_10
       frameIndex: 10
+      additiveSortOrder: 0
       cellRect:
         x: 50
         y: 0
         width: 68
         height: 48
       spriteId: f71bb82931d22cd4b9aa50b1a367ec5d
-    - name: Red_Hood_Assassin_64_Frame_11
+    - name: Frame_11
       frameIndex: 11
+      additiveSortOrder: 0
       cellRect:
         x: 49
         y: 0
         width: 68
         height: 48
       spriteId: c0d80878066604642b6ec5d1d1802dd5
-    - name: Red_Hood_Assassin_64_Frame_12
+    - name: Frame_12
       frameIndex: 12
+      additiveSortOrder: 0
       cellRect:
         x: 37
         y: 0
         width: 56
         height: 51
       spriteId: e2636619753af5844937fa1395c607ad
-    - name: Red_Hood_Assassin_64_Frame_13
+    - name: Frame_13
       frameIndex: 13
+      additiveSortOrder: 0
       cellRect:
         x: 28
         y: 0
         width: 57
         height: 55
       spriteId: 2704fd2cdb8f61b44bb342b2712a6f6e
-    - name: Red_Hood_Assassin_64_Frame_14
+    - name: Frame_14
       frameIndex: 14
+      additiveSortOrder: 0
       cellRect:
         x: 11
         y: 0
         width: 47
         height: 55
       spriteId: 08e9073161498ff4e9251ae0d1a2f0be
-    - name: Red_Hood_Assassin_64_Frame_15
+    - name: Frame_15
       frameIndex: 15
+      additiveSortOrder: 0
       cellRect:
         x: 3
         y: 0
@@ -627,6 +645,7 @@ ScriptedImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     androidETC2FallbackOverride: 0
+  generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 128, y: 96}

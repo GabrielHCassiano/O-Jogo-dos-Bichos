@@ -389,13 +389,13 @@ public class MenuPlayerUImanager : MonoBehaviour
         if (inputManager.moveDir.x == -1 && inputManager.moveDir.x != lastXinput && !confirmedMap)
         {
             if (mapIndex <= 0)
-                mapIndex = 3;
+                mapIndex = 2;
             else
                 mapIndex--;
         }
         else if (inputManager.moveDir.x == 1 && inputManager.moveDir.x != lastXinput && !confirmedMap)
         {
-            if (mapIndex >= 3)
+            if (mapIndex >= 2)
                 mapIndex = 0;
             else
                 mapIndex++;

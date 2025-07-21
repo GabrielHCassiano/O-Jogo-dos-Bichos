@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
 
     private string map;
     private bool play = false;
+    private string playerWin;
 
     private bool trueArrow = false;
 
@@ -59,6 +60,8 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
 
         DontDestroyOnLoad(gameObject);
+
+        Application.targetFrameRate = 60;
 
         Random.InitState((int)System.DateTime.Now.Ticks);
 
@@ -267,6 +270,12 @@ public class GameManager : MonoBehaviour
     IEnumerator MinigameEndSequence()
     {
         rounds++;
+
+        forcedGamePause = true;
+        startText.text = playerWin;
+        yield return new WaitForSeconds(3);
+        startText.text = "";
+
         scoreboardPanel.SetActive(true);
         scoreboard = inputManagers;
 
@@ -389,6 +398,12 @@ public class GameManager : MonoBehaviour
     {
         get { return play; }
         set { play = value; }
+    }
+
+    public string PlayerWin
+    {
+        get { return playerWin; }
+        set { playerWin = value; }
     }
 
     public bool TrueArrow
