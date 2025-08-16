@@ -1,13 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
 
 public class ArqueriaManager : MonoBehaviour
 {
 
     private GameObject[] players;
-    [SerializeField] private Transform[] spawnPlayers;
+    [SerializeField] private Transform[] spawnPlayers1;
+    [SerializeField] private Transform[] spawnPlayers2;
+    [SerializeField] private Transform[] spawnPlayers3;
+
+    [SerializeField] private GameObject[] map;
+
+
+    [SerializeField] private GameObject[] spritesUI;
 
     [SerializeField] private Image[] attackUI;
     [SerializeField] private Image[] jumpUI;
@@ -31,6 +40,10 @@ public class ArqueriaManager : MonoBehaviour
     [SerializeField] private int lossGame = 0;
     [SerializeField] private bool winGame;
 
+    [SerializeField] private TextMeshProUGUI timeText;
+    private float timeValue = 99;
+    private bool timeOver = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +53,7 @@ public class ArqueriaManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        TimeLogic();
         DebugLoss();
         ManagerUI();
     }
@@ -59,9 +73,74 @@ public class ArqueriaManager : MonoBehaviour
         }
     }
 
+    public void TimeLogic()
+    {
+        int time = (int)timeValue;
+
+        timeText.text = time.ToString();
+
+        if (time > 0 && GameManager.instance.forcedGamePause == false)
+        {
+            timeValue -= 1 * Time.deltaTime;
+        }
+        else if (time == 0 && timeOver == false)
+        {
+            timeOver = true;
+
+            for (int i = 0; i < GameManager.instance.PlayerCount; i++)
+            {
+                if (lossGame <= 2 && lossPlayer[i] == false && contLoss[i] == false && players[i].GetComponentInChildren<InputManager>() != null)
+                {
+                    players[i].GetComponentInChildren<InputManager>().playerData.playerNewScore += 10;
+                    players[i].GetComponent<ArqueriaPlayerPhysics>().CanMove = false;
+                    players[i].GetComponent<ArqueriaPlayerPhysics>().Rigidbody2D.velocity = Vector2.zero;
+                    players[i].GetComponent<ArqueriaMove>().CanJump = false;
+                    players[i].GetComponent<ArqueriaMove>().CanDash = false;
+                    players[i].GetComponent<ArqueriaCombat>().CanAttack = false;
+                }
+                else if (lossGame > 2 && lossPlayer[i] == false && contLoss[i] == false && players[i].GetComponentInChildren<InputManager>() != null)
+                {
+                    players[i].GetComponentInChildren<InputManager>().playerData.playerNewScore += 15;
+                    players[i].GetComponent<ArqueriaPlayerPhysics>().CanMove = false;
+                    players[i].GetComponent<ArqueriaPlayerPhysics>().Rigidbody2D.velocity = Vector2.zero;
+                    players[i].GetComponent<ArqueriaMove>().CanJump = false;
+                    players[i].GetComponent<ArqueriaMove>().CanDash = false;
+                    players[i].GetComponent<ArqueriaCombat>().CanAttack = false;
+                }
+            }
+
+            FindObjectOfType<GameManager>().PlayerWin = "Tempo Acabou!";
+            FindObjectOfType<GameManager>().minigameEnded = true;
+        }
+    }
+
     public void WinLogic(int i)
     {
-        if (lossPlayer[i] == true && contLoss[i] == false)
+        if (lossPlayer[i] == true && contLoss[i] == false && timeOver == false && GameManager.instance.PlayerCount == 2)
+        {
+            contLoss[i] = true;
+            lossGame += 1;
+            if (lossGame == 2)
+            {
+                players[i].GetComponentInChildren<InputManager>().playerData.playerNewScore += 5;
+                FindObjectOfType<GameManager>().PlayerWin = "Player " + (i + 1) + " Ganhou!";
+                FindObjectOfType<GameManager>().minigameEnded = true;
+            }
+        }
+        if (lossPlayer[i] == true && contLoss[i] == false && timeOver == false && GameManager.instance.PlayerCount == 3)
+        {
+            contLoss[i] = true;
+            lossGame += 1;
+            if (lossGame == 2)
+                players[i].GetComponentInChildren<InputManager>().playerData.playerNewScore += 5;
+            if (lossGame == 3)
+            {
+                players[i].GetComponentInChildren<InputManager>().playerData.playerNewScore += 10;
+                FindObjectOfType<GameManager>().PlayerWin = "Player " + (i + 1) + " Ganhou!";
+                FindObjectOfType<GameManager>().minigameEnded = true;
+            }
+        }
+        if (lossPlayer[i] == true && contLoss[i] == false && timeOver == false && GameManager.instance.PlayerCount == 4)
         {
             contLoss[i] = true;
             lossGame += 1;
@@ -76,7 +155,21 @@ public class ArqueriaManager : MonoBehaviour
                 FindObjectOfType<GameManager>().minigameEnded = true;
             }
         }
-        else if (lossGame == 3 && lossPlayer[i] == false && contLoss[i] == false)
+        else if (lossGame == 1 && lossPlayer[i] == false && contLoss[i] == false && GameManager.instance.PlayerCount == 2 && timeOver == false)
+        {
+            players[i].GetComponentInChildren<InputManager>().playerData.playerNewScore += 5;
+            contLoss[i] = true;
+            FindObjectOfType<GameManager>().PlayerWin = "Player " + (i + 1) + " Ganhou!";
+            FindObjectOfType<GameManager>().minigameEnded = true;
+        }
+        else if (lossGame == 2 && lossPlayer[i] == false && contLoss[i] == false && GameManager.instance.PlayerCount == 3 && timeOver == false)
+        {
+            players[i].GetComponentInChildren<InputManager>().playerData.playerNewScore += 10;
+            contLoss[i] = true;
+            FindObjectOfType<GameManager>().PlayerWin = "Player " + (i + 1) + " Ganhou!";
+            FindObjectOfType<GameManager>().minigameEnded = true;
+        }
+        else if (lossGame == 3 && lossPlayer[i] == false && contLoss[i] == false && GameManager.instance.PlayerCount == 4 && timeOver == false)
         {
             players[i].GetComponentInChildren<InputManager>().playerData.playerNewScore += 15;
             contLoss[i] = true;
@@ -89,7 +182,7 @@ public class ArqueriaManager : MonoBehaviour
     {
         if (players != null)
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < GameManager.instance.PlayerCount; i++)
             {
                 SpriteButton(i);
                 LifeUI(i);
@@ -131,9 +224,22 @@ public class ArqueriaManager : MonoBehaviour
         yield return new WaitForSeconds(0.01f);
         players = GameObject.FindGameObjectsWithTag("Player");
 
-        for (int i = 0; i < 4; i++)
+        Random.InitState((int)System.DateTime.Now.Ticks);
+        int select = Random.Range(1, 4);
+
+        MapRandom(select);
+
+        for (int i = 0; i < GameManager.instance.playerCount; i++)
         {
-            players[i].transform.position = spawnPlayers[i].position;
+            spritesUI[i].SetActive(true);
+
+            if (select == 1)
+                players[i].transform.position = spawnPlayers1[i].position;
+            else if (select == 2)
+                players[i].transform.position = spawnPlayers2[i].position;
+            else
+                players[i].transform.position = spawnPlayers3[i].position;
+
             if (players[i].GetComponentInChildren<InputManager>() != null)
             {
                 players[i].GetComponentInChildren<SpriteRenderer>().material = players[i].GetComponentInChildren<InputManager>().playerData.material;
@@ -188,4 +294,28 @@ public class ArqueriaManager : MonoBehaviour
             }
         }
     }
+
+    private void MapRandom(int select)
+    {
+        switch (select)
+        {
+            case 1:
+                map[0].SetActive(true);
+                FindObjectOfType<Camera>().orthographicSize = 10.5f;
+                FindObjectOfType<Camera>().transform.position = new Vector3(0f, 0.4f, -10);
+                break;
+            case 2:
+                map[1].SetActive(true);
+                FindObjectOfType<Camera>().orthographicSize = 10.5f;
+                FindObjectOfType<Camera>().transform.position = new Vector3(0f, 0.4f, -10);    
+                break;
+            case 3:
+                map[2].SetActive(true);
+                FindObjectOfType<Camera>().orthographicSize = 13f;
+                FindObjectOfType<Camera>().transform.position = new Vector3(0f, 0f, -10);
+                break;
+        }
+    }
+
+
 }

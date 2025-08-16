@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,9 +23,11 @@ public class MenuManager : MonoBehaviour
     [SerializeField] TMP_Text returnText;
 
     public int currentMenu = 0;
-    bool play;
+    bool[] play = new bool[4];
 
     float returnConfirmTime = 0;
+
+    public int countPlayer = 0;
 
     private void Awake()
     {
@@ -34,7 +37,7 @@ public class MenuManager : MonoBehaviour
         foreach (MenuPlayerUImanager player in players)
         {
             player.confirmed = false;
-            play = false;
+            //play = false;
         }
     }
 
@@ -42,18 +45,23 @@ public class MenuManager : MonoBehaviour
     {
         InputManager();
 
-        play = true;
+        //play = true;
 
-        foreach (MenuPlayerUImanager player in players)
+        for(int i = 0; i < 4; i++)
         {
-            if (!player.ConfirmedColor)
+            if (!players[i].ConfirmedColor && play[i])
             {
-                play = false;
-                break;
+                play[i] = false;
+                countPlayer -= 1;
+            }
+            else if (players[i].ConfirmedColor && !play[i])
+            {
+                play[i] = true;
+                countPlayer += 1;
             }
         }
 
-        if(play && GameManager.instance.Play)
+        if(countPlayer >= 2 && GameManager.instance.inputManagers.Count == countPlayer && GameManager.instance.Play)
         {
             foreach (GameObject inputs in GameManager.instance.inputManagers)
             {
@@ -132,6 +140,9 @@ public class MenuManager : MonoBehaviour
                     for (int i = 0; i < 4; i++)
                         FindObjectsOfType<MenuPlayerUImanager>()[i].DelayStartTime = 0.4f;
                     SwitchToMenu(1);
+                    //Destroy(FindAnyObjectByType<GameManager>().gameObject);
+                    //SceneManager.LoadScene("Start");
+                    //Destroy(inputManager);
                 }
             }
             else

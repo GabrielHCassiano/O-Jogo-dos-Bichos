@@ -81,6 +81,12 @@ public class ArqueriaCombat : MonoBehaviour
         set { shield = value; }
     }
 
+    public bool CanAttack
+    {
+        get { return canAttack; }
+        set { canAttack = value; }
+    }
+
     public Vector3 LaterDirection
     {
         get { return laterDirection; }

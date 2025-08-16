@@ -24,6 +24,7 @@ public class InputManager : MonoBehaviour
     public bool circlePressed = false;
     public bool xPressed = false;
     public bool rtPressed = false;
+    public bool secretPressed = false;
     [Space]
     public bool anyPressed = false;
     [Space]
@@ -163,6 +164,11 @@ public class InputManager : MonoBehaviour
     public void OnRT(InputAction.CallbackContext context)
     {
         rtPressed = context.action.triggered;
+    }
+
+    public void OnSecret(InputAction.CallbackContext context)
+    {
+        secretPressed = context.action.triggered;
     }
 
     public void OnRegained(PlayerInput input)

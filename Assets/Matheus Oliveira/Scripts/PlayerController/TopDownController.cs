@@ -145,7 +145,9 @@ public class TopDownController : MonoBehaviour
             return;
         if (SceneManager.GetActiveScene().name == "FinishScene")
         {
-            if (inputManager.playerData.playerScoreIndex >= 3)
+            if ((inputManager.playerData.playerScoreIndex >= 1 && GameManager.instance.playerCount == 2) 
+                || (inputManager.playerData.playerScoreIndex >= 2 && GameManager.instance.playerCount == 3) 
+                || (inputManager.playerData.playerScoreIndex >= 3 && GameManager.instance.playerCount == 4))
                 animator.SetBool("lose", true);
             else
                 animator.SetBool("win", true);

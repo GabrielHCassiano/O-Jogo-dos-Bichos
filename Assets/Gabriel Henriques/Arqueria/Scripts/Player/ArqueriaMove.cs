@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -14,6 +15,8 @@ public class ArqueriaMove : MonoBehaviour
 
     private bool inWallJump;
 
+    private bool canJump = true;
+
     private bool canDash = true;
     private bool doDash = false;
     private bool inDash = false;
@@ -26,6 +29,9 @@ public class ArqueriaMove : MonoBehaviour
     [Header("CoyoteTime")]
     private float coyoteTime = 0.2f;
     private float coyoteTimeCounter;
+
+    private float coyoteWallTime = 0.2f;
+    private float coyoteWallTimeCounter;
 
     private Animator animator;
     [SerializeField] private ParticleSystem dustParticle;
@@ -73,6 +79,18 @@ public class ArqueriaMove : MonoBehaviour
         set { playerDirection = value; }
     }
 
+    public bool CanJump
+    {
+        get { return canJump; }
+        set { canJump = value; }
+    }
+
+    public bool CanDash
+    {
+        get { return canDash; }
+        set { canDash = value; }
+    }
+
     public void FlipLogic()
     {
         if (inputManager != null && inputManager.moveDir.x > 0)
@@ -91,10 +109,23 @@ public class ArqueriaMove : MonoBehaviour
 
     public void JumpLogic()
     {
-        if (playerPhysical.InWall() && inputManager != null && inputManager.xPressed == true && inWallJump == false)
+        if (playerPhysical.InWall())
         {
+            coyoteWallTimeCounter = coyoteWallTime;
+        }
+        else
+            coyoteWallTimeCounter -= Time.deltaTime;
+
+        if (inputManager != null && inputManager.xPressed == true && inWallJump == false && canJump && coyoteWallTimeCounter > 0)
+        {
+            inputManager.xPressed = false;
             StartCoroutine(CooldownWallJump());
         }
+
+        /*if (playerPhysical.InWall() && inputManager != null && inputManager.xPressed == true && inWallJump == false && canJump && coyoteWallTimeCounter > 0)
+        {
+            StartCoroutine(CooldownWallJump());
+        }*/
 
         if (playerPhysical.InGround())
         {
@@ -103,8 +134,9 @@ public class ArqueriaMove : MonoBehaviour
         else
             coyoteTimeCounter -= Time.deltaTime;
 
-        if (inputManager != null && inputManager.xPressed == true && coyoteTimeCounter > 0)
+        if (inputManager != null && inputManager.xPressed == true && canJump && coyoteTimeCounter > 0)
         {
+            inputManager.xPressed = false;
             playerPhysical.PlayerJump();
         }
        
@@ -112,6 +144,7 @@ public class ArqueriaMove : MonoBehaviour
 
     public IEnumerator CooldownWallJump()
     {
+        coyoteWallTimeCounter = 0;
         inWallJump = true;
         playerPhysical.Gravity = 0;
         playerPhysical.WallJump(playerPhysical.LaterDirection.x * -1);

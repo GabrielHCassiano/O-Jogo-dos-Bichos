@@ -54,6 +54,7 @@ MonoBehaviour:
   circlePressed: 0
   xPressed: 0
   rtPressed: 0
+  secretPressed: 0
   anyPressed: 0
   playerData: {fileID: 0}
   inputName: 
@@ -258,6 +259,23 @@ MonoBehaviour:
     m_ActionId: 9ef1f68e-3f0a-4d78-bf08-8aaa1a2759cd
     m_ActionName: TopDownPlayer/RT[/Keyboard/l,/DragonRise Inc.   Generic   USB 
       Joystick  /button8]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3803025952945305702}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: OnSecret
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: cca48264-880c-4edf-9962-e8eb084096a8
+    m_ActionName: TopDownPlayer/Secret[/Microntek              USB Joystick         
+      /button10,/Keyboard/enter]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: TopDownPlayer

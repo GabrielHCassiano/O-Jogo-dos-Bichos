@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
         // Garantindo que o GameManager n�o ser� deletado em transi��o de cena
         // e que se tiver 2 GameManagers, um ser� deletado.
         if (instance == null)
@@ -60,8 +61,6 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
 
         DontDestroyOnLoad(gameObject);
-
-        Application.targetFrameRate = 60;
 
         Random.InitState((int)System.DateTime.Now.Ticks);
 
@@ -124,7 +123,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Alpha0))
         {
             Destroy(FindAnyObjectByType<GameManager>().gameObject);
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene("Start");
         }
 
         CheckScores();
@@ -137,7 +136,7 @@ public class GameManager : MonoBehaviour
 
         minigameEnded = false;
 
-        for (int i = 1; i <= 4; i++)
+        for (int i = 1; i <= playerCount; i++)
         {
             var player = Instantiate(RoomManager.instance.playerControllerPrefab);
             player.GetComponent<PlayerID>().ID = i;
@@ -286,6 +285,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < inputManagers.Count; i++)
         {
+            UiPlayers[i].SetActive(true);
             scoreboard[i].GetComponent<InputManager>().playerData.playerScoreIndex = scoreboard.IndexOf(scoreboard[i]);
             UiPlayers[i].GetComponentInChildren<SpriteRenderer>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
             UiPlayers[i].GetComponentInChildren<SpriteRenderer>().material = scoreboard[i].GetComponent<InputManager>().playerData.material;
@@ -300,13 +300,13 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < inputManagers.Count; i++)
         {
-             scoreboard[i].GetComponent<InputManager>().playerData.playerScoreIndex = scoreboard.IndexOf(scoreboard[i]);
-             UiPlayers[i].GetComponentInChildren<SpriteRenderer>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
-             UiPlayers[i].GetComponentInChildren<SpriteRenderer>().material = scoreboard[i].GetComponent<InputManager>().playerData.material;
-             if (!scoreboard[i].GetComponent<InputManager>().playerData.specialColor)
+            scoreboard[i].GetComponent<InputManager>().playerData.playerScoreIndex = scoreboard.IndexOf(scoreboard[i]);
+            UiPlayers[i].GetComponentInChildren<SpriteRenderer>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
+            UiPlayers[i].GetComponentInChildren<SpriteRenderer>().material = scoreboard[i].GetComponent<InputManager>().playerData.material;
+            if (!scoreboard[i].GetComponent<InputManager>().playerData.specialColor)
                 UiPlayers[i].GetComponentInChildren<SpriteRenderer>().material.SetColor("_OutlineColor", scoreboard[i].GetComponent<InputManager>().playerData.color);
-             UiPlayers[i].GetComponentInChildren<TMP_Text>().text = "Player " + scoreboard[i].GetComponent<InputManager>().playerID + " Score: " + scoreboard[i].GetComponent<InputManager>().playerData.playerScore + "<color=green> + " + scoreboard[i].GetComponent<InputManager>().playerData.playerNewScore;
-             scoreboard[i].GetComponent<InputManager>().playerData.playerScore += scoreboard[i].GetComponent<InputManager>().playerData.playerNewScore;
+            UiPlayers[i].GetComponentInChildren<TMP_Text>().text = "Player " + scoreboard[i].GetComponent<InputManager>().playerID + " Score: " + scoreboard[i].GetComponent<InputManager>().playerData.playerScore + "<color=green> + " + scoreboard[i].GetComponent<InputManager>().playerData.playerNewScore;
+            scoreboard[i].GetComponent<InputManager>().playerData.playerScore += scoreboard[i].GetComponent<InputManager>().playerData.playerNewScore;
         }
 
         yield return new WaitForSeconds(1.5f);
@@ -315,13 +315,13 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < inputManagers.Count; i++)
         {
-             scoreboard[i].GetComponent<InputManager>().playerData.playerScoreIndex = scoreboard.IndexOf(scoreboard[i]);
-             UiPlayers[i].GetComponentInChildren<SpriteRenderer>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
-             UiPlayers[i].GetComponentInChildren<SpriteRenderer>().material = scoreboard[i].GetComponent<InputManager>().playerData.material;
-             if (!scoreboard[i].GetComponent<InputManager>().playerData.specialColor)
+            scoreboard[i].GetComponent<InputManager>().playerData.playerScoreIndex = scoreboard.IndexOf(scoreboard[i]);
+            UiPlayers[i].GetComponentInChildren<SpriteRenderer>().sprite = scoreboard[i].GetComponent<InputManager>().playerData.playerSprite;
+            UiPlayers[i].GetComponentInChildren<SpriteRenderer>().material = scoreboard[i].GetComponent<InputManager>().playerData.material;
+            if (!scoreboard[i].GetComponent<InputManager>().playerData.specialColor)
                 UiPlayers[i].GetComponentInChildren<SpriteRenderer>().material.SetColor("_OutlineColor", scoreboard[i].GetComponent<InputManager>().playerData.color);
-             UiPlayers[i].GetComponentInChildren<TMP_Text>().text = "Player " + scoreboard[i].GetComponent<InputManager>().playerID + " Score: " + scoreboard[i].GetComponent<InputManager>().playerData.playerScore;
-             scoreboard[i].GetComponent<InputManager>().playerData.playerNewScore = 0;
+            UiPlayers[i].GetComponentInChildren<TMP_Text>().text = "Player " + scoreboard[i].GetComponent<InputManager>().playerID + " Score: " + scoreboard[i].GetComponent<InputManager>().playerData.playerScore;
+            scoreboard[i].GetComponent<InputManager>().playerData.playerNewScore = 0;
         }
 
         controllers.Clear();
@@ -410,6 +410,12 @@ public class GameManager : MonoBehaviour
     { 
         get { return trueArrow;  } 
         set { trueArrow = value; }
+    }
+
+    public int PlayerCount
+    {
+        get { return playerCount; }
+        set { playerCount = value; }
     }
 
 }

@@ -39,6 +39,9 @@ public class GetAndAttackControl : MonoBehaviour
     private Knockback knockback;
     private bool knock;
 
+    private bool canAttack = true;
+    private bool canGetball = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,13 +59,16 @@ public class GetAndAttackControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        DirectionMove();
-        DropBall();
-        GetBallLogic();
-        SpecialAttack();
-        AttackLogic();
-        AttackTime();
-        ContLogic();
+        if (canAttack)
+        {
+            DirectionMove();
+            DropBall();
+            GetBallLogic();
+            SpecialAttack();
+            AttackLogic();
+            AttackTime();
+            ContLogic();
+        }
     }
 
     private void FixedUpdate()
@@ -161,6 +167,18 @@ public class GetAndAttackControl : MonoBehaviour
         set { inGetBall = value; }
     }
 
+    public bool CanAttack
+    {
+        get { return canAttack; }
+        set { canAttack = value; }
+    }
+
+    public bool CanGetball
+    {
+        get { return canGetball; }
+        set { canGetball = value; }
+    }
+
     public void DirectionMove()
     {
         if (inputManager != null && inputManager.moveDir != Vector2.zero && arrow != null)
@@ -244,7 +262,7 @@ public class GetAndAttackControl : MonoBehaviour
             ball.GetComponent<BallControl>().playerValue.GetComponentInParent<GetAndAttackControl>().cont = 0;
 
 
-        if (inputManager != null && inputManager.circlePressed == true && inputGetBall == false && getBall == false)
+        if (inputManager != null && inputManager.circlePressed == true && inputGetBall == false && getBall == false && canGetball)
         {
             inputGetBall = true;
             if (inGetBall == false)
@@ -258,9 +276,13 @@ public class GetAndAttackControl : MonoBehaviour
 
     IEnumerator GetBallCooldown()
     {
+        canGetball = false;
         inGetBall = true;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
         inGetBall = false;
+        yield return new WaitForSeconds(1f);
+        canGetball = true;
+
     }
 
     public void AttackLogic()
@@ -338,10 +360,10 @@ public class GetAndAttackControl : MonoBehaviour
         {
             isLow = false;
         }
-        if (force > 0 && isLow == false)
+        /*if (force > 0 && isLow == false)
         {
             force -= 200f * Time.deltaTime;
-        }
+        }*/
         if (force <= 0)
         {
             isLow = true;

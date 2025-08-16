@@ -15,6 +15,7 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
     [SerializeField] private Transform checkCeiling;
     [SerializeField] private Transform checkGround;
     [SerializeField] private Transform checkWall;
+
     [SerializeField] private ContactFilter2D filterGround;
     [SerializeField] private ContactFilter2D filterWall;
     private Vector2 colliderGround;
@@ -128,20 +129,20 @@ public class ArqueriaPlayerPhysics : MonoBehaviour
         }
         else colliderWall.x = transform.position.x;
 
-        if (InWall() == true && InGround() == false && rb.gravityScale < 2.5f)
+        if (InWall() == true && InGround() == false && rb.gravityScale < gravityScale)
         {
             rb.gravityScale += 0.05f;
-            if (rb.gravityScale + 0.05f >= 2.5f)
+            if (rb.gravityScale + 0.05f >= gravityScale)
             {
-                rb.gravityScale = 2.5f;
+                rb.gravityScale = gravityScale;
             }
         }
         else
         {
-            rb.gravityScale = 2.5f;
+            rb.gravityScale = gravityScale;
         }
 
-        if (InWall() == true && InGround() == false && rb.gravityScale == 2.5f)
+        if (InWall() == true && InGround() == false && rb.gravityScale == gravityScale)
         {
             rb.gravityScale = 0f;
         }

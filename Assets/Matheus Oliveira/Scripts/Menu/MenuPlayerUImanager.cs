@@ -78,6 +78,8 @@ public class MenuPlayerUImanager : MonoBehaviour
     private bool secretColorBlackWhite = false;
     private bool specialColor = false;
 
+    private bool secretMode = false;
+
     private void Start()
     {
         playerID = Convert.ToInt32(name);
@@ -128,6 +130,26 @@ public class MenuPlayerUImanager : MonoBehaviour
         }
         else
         {
+            /*if (playerID == 3 && GameManager.instance.playerCount == 2)
+            {
+                inputManager.playerID = 2;
+
+                hasPlayer.gameObject.SetActive(false);
+                noPlayer.gameObject.SetActive(true);
+                ResetChar();
+                inputManager = null;
+            }*/
+
+            if (inputManager.squarePressed && inputManager.rtPressed && playerID != 1)
+            {
+                hasPlayer.gameObject.SetActive(false);
+                noPlayer.gameObject.SetActive(true);
+                ResetChar();
+                GameManager.instance.playerCount--;
+                GameManager.instance.inputManagers.Remove(inputManager.gameObject);
+                Destroy(inputManager.gameObject);
+            }
+
             if (inputManager.controllerConnected)
             {
                 noPlayer.gameObject.SetActive(false);
@@ -140,6 +162,33 @@ public class MenuPlayerUImanager : MonoBehaviour
                 hasPlayer.gameObject.SetActive(false);
             }
         }
+    }
+
+
+    public void ResetChar()
+    {
+        playerSpriteIndex = 0;
+        //colorIndex = 0;
+
+        playerSprite.material = materialMain;
+        playerSprite.material.SetColor("_OutlineColor", playerColors[colorIndex]);
+        colorImage.material = materialDefalt;
+        colorImage.texture = defaltTexture;
+        colorImage.color = playerColors[colorIndex];
+        specialColor = false;
+
+        confirmedColor = false;
+        startColor = false;
+        secretChar = false;
+        canX = false;
+        canO = false;
+        secretColorRainbow = false;
+        secretColorBlackWhite = false;
+        secretColorBrasil = false;
+        secretMode = false;
+        confirmed = false;
+
+        confirmedColorUI.SetActive(confirmedColor);
     }
 
     void Control()
@@ -546,42 +595,48 @@ public class MenuPlayerUImanager : MonoBehaviour
     }
     public void SecrectCode()
     {
-        if (inputManager.xPressed == true && canX == false)
+        if (inputManager.secretPressed)
+        {
+            inputManager.secretPressed = false;
+            secretMode = !secretMode;
+        }
+
+        if (inputManager.xPressed == true && secretMode && canX == false)
         {
             StopAllCoroutines();
             secretCode += "X ";
             canX = true;
         }
 
-        if (inputManager.circlePressed == true && canO == false)
+        if (inputManager.circlePressed == true && secretMode && canO == false)
         {
             StopAllCoroutines();
             secretCode += "() ";
             canO = true;
         }
 
-        if (inputManager.moveDir.x > 0 && inputManager.moveDir.y < 0 && key != "DF ")
+        if (inputManager.moveDir.x > 0 && inputManager.moveDir.y < 0 && secretMode && key != "DF ")
         {
             StopAllCoroutines();
             key = "DF ";
             inputManager.moveDir = Vector2.zero;
             secretCode += key;
         }
-        if (inputManager.moveDir.x > 0 && inputManager.moveDir.y > 0 && key != "UF ")
+        if (inputManager.moveDir.x > 0 && inputManager.moveDir.y > 0 && secretMode && key != "UF ")
         {
             StopAllCoroutines();
             key = "UF ";
             inputManager.moveDir = Vector2.zero;
             secretCode += key;
         }
-        if (inputManager.moveDir.x < 0 && inputManager.moveDir.y < 0 && key != "DB ")
+        if (inputManager.moveDir.x < 0 && inputManager.moveDir.y < 0 && secretMode && key != "DB ")
         {
             StopAllCoroutines();
             key = "DB ";
             inputManager.moveDir = Vector2.zero;
             secretCode += key;
         }
-        if (inputManager.moveDir.x < 0 && inputManager.moveDir.y > 0 && key != "UB ")
+        if (inputManager.moveDir.x < 0 && inputManager.moveDir.y > 0 && secretMode &&  key != "UB ")
         {
             StopAllCoroutines();
             key = "UB ";
@@ -589,28 +644,28 @@ public class MenuPlayerUImanager : MonoBehaviour
             secretCode += key;
         }
 
-        if (inputManager.moveDir.x < 0 && inputManager.moveDir.y == 0 && key != "B ")
+        if (inputManager.moveDir.x < 0 && inputManager.moveDir.y == 0 && secretMode && key != "B ")
         {
             StopAllCoroutines();
             key = "B ";
             inputManager.moveDir = Vector2.zero;
             secretCode += key;
         }
-        if (inputManager.moveDir.x > 0 && inputManager.moveDir.y == 0 && key != "F ")
+        if (inputManager.moveDir.x > 0 && inputManager.moveDir.y == 0 && secretMode && key != "F ")
         {
             StopAllCoroutines();
             key = "F ";
             inputManager.moveDir = Vector2.zero;
             secretCode += key;
         }
-        if (inputManager.moveDir.y < 0 && inputManager.moveDir.x == 0 && key != "D ")
+        if (inputManager.moveDir.y < 0 && inputManager.moveDir.x == 0 && secretMode && key != "D ")
         {
             StopAllCoroutines();
             key = "D ";
             inputManager.moveDir = Vector2.zero;
             secretCode += key;
         }
-        if (inputManager.moveDir.y > 0 && inputManager.moveDir.x == 0 && key != "U ")
+        if (inputManager.moveDir.y > 0 && inputManager.moveDir.x == 0 && secretMode && key != "U ")
         {
             StopAllCoroutines();
             key = "U ";

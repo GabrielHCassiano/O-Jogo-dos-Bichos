@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,8 @@ public class QueimadaManager : MonoBehaviour
     [SerializeField] private Transform[] spawnPos;
     private GameObject[] player;
     private PlayerID playerID;
+
+    [SerializeField] private GameObject[] spritesUI;
 
     [SerializeField] private SpriteRenderer mapaMain;
     [SerializeField] private Sprite[] mapaSprite;
@@ -53,6 +56,10 @@ public class QueimadaManager : MonoBehaviour
 
     [SerializeField] private int lossGame = 0;
     [SerializeField] private bool winGame;
+
+    [SerializeField] private TextMeshProUGUI timeText;
+    private float timeValue = 99;
+    private bool timeOver = false;
     // Start is called before the first frame update
 
 
@@ -66,6 +73,7 @@ public class QueimadaManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        TimeLogic();
         DebugLoss();
         ManagerUI();
         AreasPlayer();
@@ -88,18 +96,124 @@ public class QueimadaManager : MonoBehaviour
 
     public void AreasPlayer()
     {
-        for (int i = 0; i < 4; i++)
+        if (GameManager.instance.PlayerCount == 2)
         {
-            areas[i].SetBool("Player1", lossPlayer[0]);
-            areas[i].SetBool("Player2", lossPlayer[1]);
-            areas[i].SetBool("Player3", lossPlayer[2]);
-            areas[i].SetBool("Player4", lossPlayer[3]);
+            for (int i = 0; i < 4; i++)
+            {
+                areas[i].SetBool("Player1", lossPlayer[0]);
+                areas[i].SetBool("Player2", lossPlayer[1]);
+                areas[i].SetBool("Player3", lossPlayer[2]);
+                areas[i].SetBool("Player4", lossPlayer[3]);
+            }
+
+            lossPlayer[2] = true;
+            lossPlayer[3] = true;
+        }
+
+        if (GameManager.instance.PlayerCount == 3)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                areas[i].SetBool("Player1", lossPlayer[0]);
+                areas[i].SetBool("Player2", lossPlayer[1]);
+                areas[i].SetBool("Player3", lossPlayer[2]);
+                areas[i].SetBool("Player4", lossPlayer[3]);
+            }
+
+            lossPlayer[3] = true;
+        }
+
+        if (GameManager.instance.PlayerCount == 4)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                areas[i].SetBool("Player1", lossPlayer[0]);
+                areas[i].SetBool("Player2", lossPlayer[1]);
+                areas[i].SetBool("Player3", lossPlayer[2]);
+                areas[i].SetBool("Player4", lossPlayer[3]);
+            }
+        }
+
+        /*
+        if (Input.GetKey(KeyCode.LeftControl) == true && Input.GetKey(KeyCode.Alpha1) == true && player[0] != null)
+            lossPlayer[0] = false;
+        if (Input.GetKey(KeyCode.LeftControl) == true && Input.GetKey(KeyCode.Alpha2) == true && player[1] != null)
+            lossPlayer[1] = false;
+        if (Input.GetKey(KeyCode.LeftControl) == true && Input.GetKey(KeyCode.Alpha3) == true && player[2] != null)
+            lossPlayer[2] = false;
+        if (Input.GetKey(KeyCode.LeftControl) == true && Input.GetKey(KeyCode.Alpha4) == true && player[3] != null)
+            lossPlayer[3] = false;
+        */  
+    }
+
+    public void TimeLogic()
+    {
+        int time = (int)timeValue;
+
+        timeText.text = time.ToString();
+
+        if (time > 0 && GameManager.instance.forcedGamePause == false)
+        {
+            timeValue -= 1 * Time.deltaTime;
+        }
+        else if (time == 0 && timeOver == false)
+        {
+            timeOver = true;
+
+            for (int i = 0; i < GameManager.instance.PlayerCount; i++)
+            {
+                if (lossGame < 2 && lossPlayer[i] == false && contLoss[i] == false && player[i].GetComponentInChildren<InputManager>() != null)
+                {
+                    player[i].GetComponent<GetAndAttackControl>().ScoreValue += 10;
+                    player[i].GetComponent<TopDownController>().canMove = false;
+                    player[i].GetComponent<TopDownController>().moveSpeed = 0;
+                    player[i].GetComponent<TopDownController>().canDash = false;
+                    player[i].GetComponent<GetAndAttackControl>().CanAttack = false;
+
+
+                }
+                else if (lossGame > 2 && lossPlayer[i] == false && contLoss[i] == false && player[i].GetComponentInChildren<InputManager>() != null) 
+                {
+                    player[i].GetComponent<GetAndAttackControl>().ScoreValue += 20;
+                    player[i].GetComponent<TopDownController>().canMove = false;
+                    player[i].GetComponent<TopDownController>().moveSpeed = 0;
+                    player[i].GetComponent<TopDownController>().canDash = false;
+                    player[i].GetComponent<GetAndAttackControl>().CanAttack = false;
+                }
+            }
+
+            FindObjectOfType<GameManager>().PlayerWin = "Tempo Acabou!";
+            FindObjectOfType<GameManager>().minigameEnded = true;
         }
     }
 
     public void WinLogic(int i)
     {
-        if (lossPlayer[i] == true && contLoss[i] == false)
+        if (lossPlayer[i] == true && contLoss[i] == false && timeOver == false && GameManager.instance.PlayerCount == 2)
+        {
+            contLoss[i] = true;
+            lossGame += 1;
+            if (lossGame == 2)
+            {
+                player[i].GetComponent<GetAndAttackControl>().ScoreValue += 10;
+                FindObjectOfType<GameManager>().PlayerWin = "Player " + (i + 1) + " Ganhou!";
+                FindObjectOfType<GameManager>().minigameEnded = true;
+            }
+        }
+        if (lossPlayer[i] == true && contLoss[i] == false && timeOver == false && GameManager.instance.PlayerCount == 3)
+        {
+            contLoss[i] = true;
+            lossGame += 1;
+            if (lossGame == 2)
+                player[i].GetComponent<GetAndAttackControl>().ScoreValue += 10;
+            if (lossGame == 3)
+            {
+                player[i].GetComponent<GetAndAttackControl>().ScoreValue += 20;
+                FindObjectOfType<GameManager>().PlayerWin = "Player " + (i + 1) + " Ganhou!";
+                FindObjectOfType<GameManager>().minigameEnded = true;
+            }
+        }
+        if (lossPlayer[i] == true && contLoss[i] == false && timeOver == false && GameManager.instance.PlayerCount == 4)
         {
             contLoss[i] = true;
             lossGame += 1;
@@ -114,7 +228,21 @@ public class QueimadaManager : MonoBehaviour
                 FindObjectOfType<GameManager>().minigameEnded = true;
             }
         }
-            else if (lossGame == 3 && lossPlayer[i] == false && contLoss[i] == false)
+        else if (lossGame == 1 && lossPlayer[i] == false && contLoss[i] == false && GameManager.instance.PlayerCount == 2 && timeOver == false)
+        {
+            player[i].GetComponent<GetAndAttackControl>().ScoreValue += 10;
+            contLoss[i] = true;
+            FindObjectOfType<GameManager>().PlayerWin = "Player " + (i + 1) + " Ganhou!";
+            FindObjectOfType<GameManager>().minigameEnded = true;
+        }
+        else if (lossGame == 2 && lossPlayer[i] == false && contLoss[i] == false && GameManager.instance.PlayerCount == 3 && timeOver == false)
+        {
+            player[i].GetComponent<GetAndAttackControl>().ScoreValue += 20;
+            contLoss[i] = true;
+            FindObjectOfType<GameManager>().PlayerWin = "Player " + (i + 1) + " Ganhou!";
+            FindObjectOfType<GameManager>().minigameEnded = true;
+        }
+        else if (lossGame == 3 && lossPlayer[i] == false && contLoss[i] == false && GameManager.instance.PlayerCount == 4 && timeOver == false)
         {
             player[i].GetComponent<GetAndAttackControl>().ScoreValue += 30;
             contLoss[i] = true;
@@ -127,13 +255,13 @@ public class QueimadaManager : MonoBehaviour
     {
         if (player != null)
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < GameManager.instance.PlayerCount; i++)
             {
                 LifeUI(i);
                 force[i].value = player[i].GetComponent<GetAndAttackControl>().forceValue / 100;
                 lossPlayer[i] = player[i].GetComponent<StatusPlayer>().loseValue;
                 inDash[i].isOn = player[i].GetComponent<TopDownController>().canDash;
-                getBall[i].isOn = !player[i].GetComponent<GetAndAttackControl>().inGetBallValue;
+                getBall[i].isOn = player[i].GetComponent<GetAndAttackControl>().CanGetball;
                 WinLogic(i);
                 SpriteButton(i);
             }
@@ -171,12 +299,12 @@ public class QueimadaManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.01f);
         player = GameObject.FindGameObjectsWithTag("Player");
-        Random.InitState((int)System.DateTime.Now.Ticks);
         MapRandom();
         if (player != null)
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < GameManager.instance.PlayerCount; i++)
             {
+                spritesUI[i].SetActive(true);
                 player[i].AddComponent<PlayerQueimadaControl>();
                 playerID = player[i].GetComponent<PlayerID>();
                 player[i].transform.position = spawnPos[playerID.ID - 1].position;
@@ -198,6 +326,7 @@ public class QueimadaManager : MonoBehaviour
 
     private void MapRandom()
     {
+        Random.InitState((int)System.DateTime.Now.Ticks);
         int select = Random.Range(1, 4);
         //int select = FindObjectOfType<GameManager>().rounds+1;
         Color color;
