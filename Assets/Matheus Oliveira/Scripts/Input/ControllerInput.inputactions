@@ -887,7 +887,7 @@
                 {
                     "name": "",
                     "id": "d67a63f2-407e-4ba4-a2cb-beb45a6c050f",
-                    "path": "<HID::Microntek              USB Joystick          >/button10",
+                    "path": "<HID:: USB Gamepad          >/button10",
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick2",

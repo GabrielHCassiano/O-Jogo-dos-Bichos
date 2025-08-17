@@ -149,6 +149,10 @@ public class GameManager : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name == "FinishScene")
         {
+            UiPlayers[0].SetActive(false);
+            UiPlayers[1].SetActive(false);
+            UiPlayers[2].SetActive(false);
+            UiPlayers[3].SetActive(false);
             for (int i = 0; i < inputManagers.Count; i++)
             {
                 print(controllers[i].GetComponentInChildren<InputManager>().playerData.playerScoreIndex + 1);

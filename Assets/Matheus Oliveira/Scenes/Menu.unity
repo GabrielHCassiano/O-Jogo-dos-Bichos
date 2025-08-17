@@ -2749,7 +2749,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "(Vers\xE3o 0.4)"
+  m_text: "(Vers\xE3o 0.4.1)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2e42f880c8c587e4d99f749e955e7654, type: 2}
   m_sharedMaterial: {fileID: 6013880719665703521, guid: 2e42f880c8c587e4d99f749e955e7654, type: 2}
